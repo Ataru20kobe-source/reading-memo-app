@@ -198,7 +198,9 @@ function draftCard(d) {
   var upd = d._updatedAt
     ? new Date(d._updatedAt).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
     : '';
-  var fn = JSON.stringify(d._file);
+  var fn    = "'" + d._file.replace(/'/g, "\\'") + "'";
+  var sha   = "'" + (d._sha  || '').replace(/'/g, "\\'") + "'";
+  var title = "'" + (d.title || '').replace(/'/g, "\\'") + "'";
   return '<div class="draft-card" onclick="openDraft(' + fn + ')">'
     + '<div class="card-bar ' + (nv ? 'novel' : 'general') + '"></div>'
     + '<div class="card-body">'
@@ -213,13 +215,16 @@ function draftCard(d) {
     + '</div></div>'
     + '<div class="card-actions" onclick="event.stopPropagation()">'
     + '<button class="card-btn edit" onclick="openDraft(' + fn + ')">&#x270E;</button>'
-    + '<button class="card-btn" onclick="confirmDel(' + fn + ',' + JSON.stringify(d._sha || '') + ',' + JSON.stringify(d.title || '') + ')">&#x2715;</button>'
+    + '<button class="card-btn" onclick="confirmDel(' + fn + ',' + sha + ',' + title + ')">&#x2715;</button>'
     + '</div></div>';
 }
  
 function doneCard(f) {
-  var name = f.name.replace(/\.md$/, '');
-  return '<div class="draft-card" onclick="openPreview(' + JSON.stringify(f.name) + ',' + JSON.stringify(name) + ')">'
+  var name     = f.name.replace(/\.md$/, '');
+  var fnStr    = "'" + f.name.replace(/'/g, "\\'") + "'";
+  var nameStr  = "'" + name.replace(/'/g, "\\'") + "'";
+  var shaStr   = "'" + (f.sha || '').replace(/'/g, "\\'") + "'";
+  return '<div class="draft-card" onclick="openPreview(' + fnStr + ',' + nameStr + ')">'
     + '<div class="card-bar done"></div>'
     + '<div class="card-body">'
     + '<div class="card-top">'
@@ -227,8 +232,8 @@ function doneCard(f) {
     + '<div class="card-badge done">' + t('saved-label') + '</div>'
     + '</div></div>'
     + '<div class="card-actions" onclick="event.stopPropagation()">'
-    + '<button class="card-btn view" onclick="openPreview(' + JSON.stringify(f.name) + ',' + JSON.stringify(name) + ')">&#x1F441;</button>'
-    + '<button class="card-btn" onclick="confirmDelDone(' + JSON.stringify(f.name) + ',' + JSON.stringify(f.sha) + ',' + JSON.stringify(name) + ')">&#x2715;</button>'
+    + '<button class="card-btn view" onclick="openPreview(' + fnStr + ',' + nameStr + ')">&#x1F441;</button>'
+    + '<button class="card-btn" onclick="confirmDelDone(' + fnStr + ',' + shaStr + ',' + nameStr + ')">&#x2715;</button>'
     + '</div></div>';
 }
  
