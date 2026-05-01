@@ -3,455 +3,235 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>読書メモ → Obsidian</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d0c0a'/%3E%3Crect x='7' y='8' width='11' height='16' rx='1' fill='%23c8a96e'/%3E%3Crect x='14' y='8' width='11' height='16' rx='1' fill='%238a7045'/%3E%3Cline x1='14' y1='8' x2='14' y2='24' stroke='%230d0c0a' stroke-width='1'/%3E%3C/svg%3E">
+<title>&#35501;&#26360;&#12513;&#12514;</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d0c0a'/%3E%3Crect x='7' y='8' width='11' height='16' rx='1' fill='%23c8a96e'/%3E%3Crect x='14' y='8' width='11' height='16' rx='1' fill='%238a7045'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=DM+Mono:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- i18n: JS reads these data-* attributes so app.js stays ASCII-only -->
+<meta id="i18n"
+  data-app-title="&#35501;&#26360;&#12513;&#12514;"
+  data-app-sub="READING NOTES &#x2192; OBSIDIAN"
+  data-settings="&#x2699; &#35373;&#23450;"
+  data-new-memo="&#26032;&#12375;&#12356;&#12513;&#12514;&#12434;&#26360;&#12367;"
+  data-new-memo-hint="NEW MEMO"
+  data-drafts="&#19979;&#26360;&#12365;"
+  data-saved="Obsidian &#20986;&#21147;&#28168;&#12415;"
+  data-loading="&#35501;&#12415;&#36796;&#12415;&#20013;..."
+  data-no-drafts="&#19979;&#26360;&#12365;&#12399;&#12354;&#12426;&#12414;&#12379;&#12435;"
+  data-no-saved="&#12414;&#12384;Obsidian&#12408;&#12398;&#20986;&#21147;&#12399;&#12354;&#12426;&#12414;&#12379;&#12435;"
+  data-no-settings="&#8987; &#35373;&#23450;&#12363;&#12425;GitHub&#12488;&#12540;&#12463;&#12531;&#12392;&#12522;&#12509;&#12472;&#12488;&#12522;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
+  data-load-error="&#35501;&#36796;&#12456;&#12521;&#12540;: "
+  data-delete-error="&#21066;&#38500;&#12456;&#12521;&#12540;: "
+  data-save-error="&#20445;&#23384;&#12456;&#12521;&#12540;: "
+  data-saved-ok="&#8730; &#20445;&#23384;&#12375;&#12414;&#12375;&#12383;"
+  data-settings-saved="&#20445;&#23384;&#12375;&#12414;&#12375;&#12383;"
+  data-back="&#8592; &#19968;&#35239;&#12395;&#25147;&#12427;"
+  data-save-draft="&#19979;&#26360;&#12365;&#20445;&#23577;"
+  data-general-tab="&#19968;&#33324;&#26360;&#12539;&#23398;&#34899;&#12539;&#12499;&#12472;&#12493;&#12473;"
+  data-novel-tab="&#23567;&#35500;"
+  data-general-badge="&#19968;&#33324;&#26360;&#12539;&#23398;&#34899;&#12539;&#12499;&#12472;&#12493;&#12473;"
+  data-novel-badge="&#23567;&#35500;"
+  data-generate-general="Claude &#12391;&#28145;&#25842;&#12426;&#12375;&#12390;&#30906;&#35469;&#12377;&#12427;"
+  data-generate-novel="Claude &#12391;&#20998;&#26512;&#12375;&#12390;&#30906;&#35469;&#12377;&#12427;"
+  data-preview-label="PREVIEW &#8212; &#30452;&#25509;&#32232;&#38598;&#12391;&#12365;&#12414;&#12377;"
+  data-preview-hint="&#30906;&#35469;&#12539;&#20462;&#27491;&#12375;&#12390;&#12363;&#12425;Obsidian&#12408;"
+  data-regenerate="&#8635; &#20877;&#29983;&#25104;"
+  data-push="&#8593; Obsidian&#12395;&#20445;&#23569;"
+  data-dl=".md"
+  data-no-title="&#12479;&#12452;&#12488;&#12523;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
+  data-no-api-key="&#8987; &#35373;&#23450;&#12391;Anthropic API&#12461;&#12540;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
+  data-claude-loading="Claude&#12364;&#35501;&#12435;&#12391;&#12356;&#12414;&#12377;..."
+  data-claude-done="&#29983;&#25104;&#23436;&#20102; &#8212; &#12503;&#12524;&#12499;&#12517;&#12540;&#12434;&#30906;&#35469;&#12539;&#32232;&#38598;&#12375;&#12390;&#12363;&#12425;Obsidian&#12408;"
+  data-claude-error="&#12456;&#12521;&#12540;: "
+  data-no-token="&#8987; &#35373;&#23450;&#12391;GitHub&#12488;&#12540;&#12463;&#12531;&#12392;&#12522;&#12509;&#12472;&#12488;&#12522;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
+  data-no-md="&#20808;&#12395;Claude&#12391;&#29983;&#25104;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
+  data-checking-folder="&#12501;&#12457;&#12523;&#12480;&#12434;&#30906;&#35469;&#20013;..."
+  data-sending="Obsidian&#12395;&#36865;&#20449;&#20013;..."
+  data-push-ok="&#10003; BooksMemo/fromMyApp/ &#12395;&#20445;&#23569;&#12375;&#12414;&#12375;&#12383;"
+  data-push-error="&#12456;&#12521;&#12540;: "
+  data-folder-error="&#12501;&#12457;&#12523;&#12480;&#12364;Vault&#12395;&#35211;&#12388;&#12363;&#12426;&#12414;&#12379;&#12435;&#12290;Obsidian&#12391;&#20808;&#12395;&#20316;&#25104;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;&#12290;"
+  data-confirm-draft-title="&#19979;&#26360;&#12365;&#12434;&#21066;&#38500;"
+  data-confirm-draft-sub="&#12434;&#21066;&#38500;&#12375;&#12414;&#12377;&#12290;&#20803;&#12395;&#25147;&#12475;&#12414;&#12379;&#12435;&#12290;"
+  data-confirm-done-title="&#20986;&#21147;&#28168;&#12415;&#12513;&#12514;&#12434;&#21066;&#38500;"
+  data-confirm-done-sub="&#12434;Vault&#12363;&#12425;&#21066;&#38500;&#12375;&#12414;&#12377;&#12290;&#20803;&#12395;&#25147;&#12475;&#12414;&#12379;&#12435;&#12290;"
+  data-confirm-cancel="&#12461;&#12515;&#12531;&#12475;&#12523;"
+  data-confirm-delete="&#21066;&#38500;"
+  data-general-label="&#19968;&#33324;&#26360;"
+  data-novel-label="&#23567;&#35500;"
+  data-saved-label="&#20986;&#21147;&#28168;&#12415;"
+  data-no-author="&#8470;&#33879;&#32773;&#26410;&#35352;&#20837;"
+  data-no-title-card="&#65288;&#12479;&#12452;&#12488;&#12523;&#12394;&#12375;&#65289;"
+  data-updated="&#26356;&#26032; "
+  data-reload="&#x21BA;"
+  data-settings-title="&#35373;&#23450;"
+  data-settings-api-section="Claude API"
+  data-settings-gh-section="GitHub x Obsidian Vault"
+  data-settings-key-label="Anthropic API Key"
+  data-settings-key-hint="&#21462;&#24471;: "
+  data-settings-token-label="Personal Access Token"
+  data-settings-token-hint="Settings &#x2192; Developer settings &#x2192; Fine-grained tokens&#10;&#27435;&#38480;: Contents &#x2192; Read and write &#12398;&#12415;&#12391;OK"
+  data-settings-repo-label="Vault &#12522;&#12509;&#12472;&#12488;&#12522;&#65288;owner/repo&#65289;"
+  data-settings-branch-label="&#12502;&#12521;&#12531;&#12481;&#65288;&#12487;&#12501;&#12457;&#12523;&#12488;: main&#65289;"
+  data-settings-folder-hint="&#19979;&#26360;&#12365;&#20445;&#23577;&#20808;: BooksMemo/fromMyApp/drafts/&#10;Obsidian&#20986;&#21147;&#20808;: BooksMemo/fromMyApp/&#10;&#8251; &#20001;&#12501;&#12457;&#12523;&#12480;&#12364;Vault&#12395;&#5B58;&#22312;&#12375;&#12394;&#12356;&#22580;&#21512;&#12456;&#12521;&#12540;&#12395;&#12394;&#12426;&#12414;&#12377;"
+  data-settings-save="&#20445;&#23557;"
+  data-preview-dl="&#x2193; .md &#12480;&#12454;&#12531;&#12525;&#12540;&#12489;"
+></meta>
+
 <style>
 :root {
-  --bg:       #0d0c0a;
-  --surface:  #141210;
-  --surface2: #1c1916;
-  --surface3: #222018;
-  --border:   #2c2924;
-  --border2:  #3c3830;
-  --text:     #ece4d4;
-  --text-2:   #a09080;
-  --text-3:   #5a5248;
-  --gold:     #c8a96e;
-  --gold-dim: #8a7045;
-  --gold-pale:rgba(200,169,110,.09);
-  --gold-pale2:rgba(200,169,110,.05);
-  --blue:     #7eb8d8;
-  --blue-dim: #4a7890;
+  --bg:#0d0c0a; --surface:#141210; --surface2:#1c1916; --surface3:#222018;
+  --border:#2c2924; --border2:#3c3830;
+  --text:#ece4d4; --text-2:#a09080; --text-3:#5a5248;
+  --gold:#c8a96e; --gold-dim:#8a7045;
+  --gold-pale:rgba(200,169,110,.09); --gold-pale2:rgba(200,169,110,.05);
+  --novel:#a0b8c8; --novel-dim:#5a7888;
   --blue-pale:rgba(126,184,216,.08);
-  --novel:    #a0b8c8;
-  --novel-dim:#5a7888;
-  --red:      #c06050;
-  --green:    #6aaa80;
+  --red:#c06050; --green:#6aaa80;
   --s1:#c8a96e;--s2:#88b4c8;--s3:#b898c8;--s4:#88c8a0;--s5:#c89898;
   --n1:#88b4c8;--n2:#c8b488;--n3:#98c888;--n4:#c888b4;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px}
 body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'Noto Sans JP',sans-serif;
-  font-weight:300;
-  min-height:100vh;
-  line-height:1.75;
+  background:var(--bg);color:var(--text);
+  font-family:'Noto Sans JP',sans-serif;font-weight:300;
+  min-height:100vh;line-height:1.75;
   -webkit-font-smoothing:antialiased;
 }
-
-/* grain */
 body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  opacity:.45;
 }
-
 .screen{display:none;position:relative;z-index:1;min-height:100vh}
 .screen.active{display:block}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* ════════════════════════════════
-   LIBRARY
-════════════════════════════════ */
+/* LIBRARY */
 .lib-wrap{max-width:700px;margin:0 auto;padding:56px 24px 120px}
-
-.lib-header{
-  display:flex;align-items:flex-start;justify-content:space-between;
-  margin-bottom:44px;padding-bottom:24px;
-  border-bottom:1px solid var(--border);
-}
-.lib-title{
-  font-family:'Shippori Mincho',serif;
-  font-size:30px;font-weight:800;
-  letter-spacing:.04em;color:var(--text);
-  margin-bottom:4px;
-}
-.lib-sub{
-  font-family:'DM Mono',monospace;font-size:11px;
-  color:var(--text-3);letter-spacing:.22em;
-}
-.settings-btn{
-  background:none;border:1px solid var(--border2);
-  color:var(--text-3);
-  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;
-  padding:8px 16px;border-radius:6px;cursor:pointer;
-  transition:all .2s;white-space:nowrap;margin-top:4px;
-}
+.lib-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:44px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.lib-title{font-family:'Shippori Mincho',serif;font-size:30px;font-weight:800;letter-spacing:.04em;margin-bottom:4px}
+.lib-sub{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);letter-spacing:.22em}
+.settings-btn{background:none;border:1px solid var(--border2);color:var(--text-3);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;padding:8px 16px;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;margin-top:4px}
 .settings-btn:hover{border-color:var(--gold-dim);color:var(--gold)}
-
-/* new memo button */
-.new-btn{
-  display:flex;align-items:center;gap:14px;
-  padding:18px 24px;width:100%;margin-bottom:44px;
-  background:var(--gold-pale2);
-  border:1px solid var(--gold-dim);border-radius:8px;
-  color:var(--gold);cursor:pointer;transition:all .25s;
-}
+.new-btn{display:flex;align-items:center;gap:14px;padding:18px 24px;width:100%;margin-bottom:44px;background:var(--gold-pale2);border:1px solid var(--gold-dim);border-radius:8px;color:var(--gold);cursor:pointer;transition:all .25s}
 .new-btn:hover{background:var(--gold-pale);border-color:var(--gold)}
-.new-btn-icon{
-  width:36px;height:36px;border-radius:50%;
-  background:rgba(200,169,110,.12);
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;line-height:1;flex-shrink:0;color:var(--gold);
-}
-.new-btn-label{
-  font-family:'Shippori Mincho',serif;
-  font-size:17px;font-weight:600;letter-spacing:.08em;flex:1;
-}
-.new-btn-hint{
-  font-family:'DM Mono',monospace;font-size:10px;
-  color:var(--text-3);letter-spacing:.12em;
-}
-
-/* section headers */
+.new-btn-icon{width:36px;height:36px;border-radius:50%;background:rgba(200,169,110,.12);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.new-btn-label{font-family:'Shippori Mincho',serif;font-size:17px;font-weight:600;letter-spacing:.08em;flex:1}
+.new-btn-hint{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3);letter-spacing:.12em}
 .list-section{margin-bottom:44px}
-.list-section-hd{
-  display:flex;align-items:center;gap:12px;margin-bottom:16px;
-}
-.list-section-label{
-  font-family:'DM Mono',monospace;font-size:11px;
-  letter-spacing:.22em;color:var(--text-3);text-transform:uppercase;
-  white-space:nowrap;
-}
-.list-count{
-  font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);
-  background:var(--surface2);border:1px solid var(--border);
-  padding:2px 9px;border-radius:12px;
-}
+.list-section-hd{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.list-section-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--text-3);text-transform:uppercase;white-space:nowrap}
+.list-count{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);background:var(--surface2);border:1px solid var(--border);padding:2px 9px;border-radius:12px}
 .list-line{flex:1;height:1px;background:var(--border)}
-.list-refresh{
-  background:none;border:none;color:var(--text-3);
-  font-size:14px;cursor:pointer;padding:4px 6px;
-  transition:color .2s;border-radius:4px;
-}
+.list-refresh{background:none;border:none;color:var(--text-3);font-size:14px;cursor:pointer;padding:4px 6px;transition:color .2s;border-radius:4px}
 .list-refresh:hover{color:var(--gold)}
-
-.list-loading{
-  font-family:'DM Mono',monospace;font-size:13px;
-  color:var(--text-3);padding:24px 0;text-align:center;
-  animation:pulse 1.5s ease-in-out infinite;
-}
-.list-empty{
-  font-family:'DM Mono',monospace;font-size:13px;
-  color:var(--text-3);padding:28px 0;text-align:center;
-}
-.list-error{
-  font-size:13px;color:var(--red);
-  padding:16px;background:rgba(192,96,80,.06);
-  border:1px solid rgba(192,96,80,.2);border-radius:6px;line-height:1.6;
-}
-
-/* cards */
+.list-loading{font-family:'DM Mono',monospace;font-size:13px;color:var(--text-3);padding:24px 0;text-align:center;animation:pulse 1.5s ease-in-out infinite}
+.list-empty{font-family:'DM Mono',monospace;font-size:13px;color:var(--text-3);padding:28px 0;text-align:center}
+.list-error{font-size:13px;color:var(--red);padding:16px;background:rgba(192,96,80,.06);border:1px solid rgba(192,96,80,.2);border-radius:6px;line-height:1.6}
 .card-list{display:flex;flex-direction:column;gap:4px}
-
-.draft-card{
-  display:flex;align-items:stretch;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:8px;overflow:hidden;cursor:pointer;
-  transition:border-color .2s,background .2s;
-  animation:fadein .2s ease;
-}
+.draft-card{display:flex;align-items:stretch;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .2s,background .2s;animation:fadein .2s ease}
 .draft-card:hover{border-color:var(--border2);background:var(--surface2)}
-
 .card-bar{width:4px;flex-shrink:0}
 .card-bar.general{background:var(--gold)}
 .card-bar.novel{background:var(--novel)}
 .card-bar.done{background:var(--green)}
-
 .card-body{flex:1;padding:16px 18px;min-width:0}
 .card-top{display:flex;align-items:center;gap:10px;margin-bottom:5px;flex-wrap:wrap}
-.card-title{
-  font-family:'Shippori Mincho',serif;
-  font-size:16px;font-weight:600;
-  color:var(--text);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px;
-}
-.card-badge{
-  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;
-  white-space:nowrap;padding:2px 8px;border-radius:4px;flex-shrink:0;
-}
+.card-title{font-family:'Shippori Mincho',serif;font-size:16px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px}
+.card-badge{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;white-space:nowrap;padding:2px 8px;border-radius:4px;flex-shrink:0}
 .card-badge.general{color:var(--gold);background:rgba(200,169,110,.1);border:1px solid rgba(200,169,110,.25)}
 .card-badge.novel{color:var(--novel);background:rgba(160,184,200,.1);border:1px solid rgba(160,184,200,.25)}
 .card-badge.done{color:var(--green);background:rgba(106,170,128,.1);border:1px solid rgba(106,170,128,.25)}
-
-.card-meta{
-  font-family:'DM Mono',monospace;font-size:12px;
-  color:var(--text-3);display:flex;gap:12px;flex-wrap:wrap;
-}
+.card-meta{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-3);display:flex;gap:12px;flex-wrap:wrap}
 .card-author{color:var(--text-2)}
-
-.card-actions{
-  display:flex;align-items:center;
-  padding:0 12px;gap:4px;flex-shrink:0;
-}
-.card-btn{
-  background:none;border:none;color:var(--text-3);
-  font-size:15px;cursor:pointer;
-  padding:8px 9px;border-radius:6px;
-  transition:all .15s;
-}
+.card-actions{display:flex;align-items:center;padding:0 12px;gap:4px;flex-shrink:0}
+.card-btn{background:none;border:none;color:var(--text-3);font-size:15px;cursor:pointer;padding:8px 9px;border-radius:6px;transition:all .15s}
 .card-btn:hover{background:var(--surface3);color:var(--red)}
 .card-btn.view:hover{color:var(--green)}
 .card-btn.edit:hover{color:var(--gold)}
 
-/* ════════════════════════════════
-   MODALS
-════════════════════════════════ */
-.modal-overlay{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,.85);z-index:200;
-  align-items:flex-start;justify-content:center;
-  padding:24px;overflow-y:auto;
-}
+/* MODALS */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto}
 .modal-overlay.open{display:flex}
-
-.modal{
-  background:var(--surface);border:1px solid var(--border2);
-  border-radius:10px;width:100%;max-width:740px;
-  margin:auto;flex-shrink:0;
-}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:10px;width:100%;max-width:740px;margin:auto;flex-shrink:0}
 .modal-sm{max-width:520px}
-
-.modal-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:20px 24px;border-bottom:1px solid var(--border);gap:12px;
-}
-.modal-title{
-  font-family:'Shippori Mincho',serif;
-  font-size:17px;font-weight:600;letter-spacing:.05em;
-  flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
-.modal-close{
-  background:none;border:none;color:var(--text-3);
-  font-size:20px;cursor:pointer;padding:4px 8px;
-  border-radius:4px;transition:color .2s;flex-shrink:0;
-}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);gap:12px}
+.modal-title{font-family:'Shippori Mincho',serif;font-size:17px;font-weight:600;letter-spacing:.05em;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.modal-close{background:none;border:none;color:var(--text-3);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:4px;transition:color .2s;flex-shrink:0}
 .modal-close:hover{color:var(--text)}
-
-.modal-content{
-  padding:24px;
-  font-family:'DM Mono',monospace;font-size:12px;
-  line-height:1.85;color:var(--text-2);
-  white-space:pre-wrap;word-break:break-word;
-  max-height:70vh;overflow-y:auto;
-}
+.modal-content{padding:24px;font-family:'DM Mono',monospace;font-size:12px;line-height:1.85;color:var(--text-2);white-space:pre-wrap;word-break:break-word;max-height:70vh;overflow-y:auto}
 .modal-content::-webkit-scrollbar{width:4px}
 .modal-content::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-
-.modal-footer{
-  padding:14px 24px;border-top:1px solid var(--border);
-  display:flex;justify-content:flex-end;
-}
-.modal-dl{
-  padding:9px 20px;background:var(--green);color:var(--bg);
-  border:none;border-radius:6px;
-  font-family:'DM Mono',monospace;font-size:11px;
-  cursor:pointer;transition:opacity .2s;letter-spacing:.08em;
-}
+.modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
+.modal-dl{padding:9px 20px;background:var(--green);color:var(--bg);border:none;border-radius:6px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:opacity .2s;letter-spacing:.08em}
 .modal-dl:hover{opacity:.85}
-
-/* settings */
 .modal-body{padding:24px;display:flex;flex-direction:column;gap:16px}
-.modal-section-title{
-  font-family:'DM Mono',monospace;font-size:11px;
-  letter-spacing:.2em;color:var(--gold);text-transform:uppercase;
-  padding-bottom:10px;border-bottom:1px solid var(--border);margin-top:4px;
-}
-.modal-hint{
-  font-family:'DM Mono',monospace;font-size:11px;
-  color:var(--text-3);line-height:1.7;margin-top:-8px;
-}
+.modal-section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;padding-bottom:10px;border-bottom:1px solid var(--border);margin-top:4px}
+.modal-hint{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);line-height:1.7;margin-top:-8px;white-space:pre-line}
 .modal-hint a{color:var(--gold-dim);text-decoration:none}
 .modal-hint strong{color:var(--gold)}
-
-.save-settings-btn{
-  width:100%;padding:14px;
-  background:var(--gold);color:var(--bg);border:none;
-  border-radius:6px;
-  font-family:'Shippori Mincho',serif;font-size:15px;font-weight:600;
-  letter-spacing:.1em;cursor:pointer;transition:opacity .2s;margin-top:4px;
-}
+.save-settings-btn{width:100%;padding:14px;background:var(--gold);color:var(--bg);border:none;border-radius:6px;font-family:'Shippori Mincho',serif;font-size:15px;font-weight:600;letter-spacing:.1em;cursor:pointer;transition:opacity .2s;margin-top:4px}
 .save-settings-btn:hover{opacity:.88}
-
-.settings-st{
-  font-family:'DM Mono',monospace;font-size:12px;
-  text-align:center;min-height:18px;color:var(--text-3);
-}
+.settings-st{font-family:'DM Mono',monospace;font-size:12px;text-align:center;min-height:18px;color:var(--text-3)}
 .settings-st.ok{color:var(--green)}.settings-st.err{color:var(--red)}
-
-/* confirm */
-.confirm-overlay{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,.8);z-index:300;
-  align-items:center;justify-content:center;padding:24px;
-}
+.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;align-items:center;justify-content:center;padding:24px}
 .confirm-overlay.open{display:flex}
-.confirm-box{
-  background:var(--surface);border:1px solid var(--border2);
-  border-radius:10px;padding:32px 28px;
-  max-width:360px;width:100%;text-align:center;
-}
-.confirm-title{
-  font-family:'Shippori Mincho',serif;
-  font-size:18px;font-weight:600;margin-bottom:10px;
-}
-.confirm-sub{
-  font-family:'DM Mono',monospace;font-size:12px;
-  color:var(--text-2);margin-bottom:28px;line-height:1.65;
-}
+.confirm-box{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:32px 28px;max-width:360px;width:100%;text-align:center}
+.confirm-title{font-family:'Shippori Mincho',serif;font-size:18px;font-weight:600;margin-bottom:10px}
+.confirm-sub{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-2);margin-bottom:28px;line-height:1.65}
 .confirm-actions{display:flex;gap:12px;justify-content:center}
-.btn-cancel{
-  padding:10px 22px;background:transparent;
-  border:1px solid var(--border2);color:var(--text-2);
-  font-family:'DM Mono',monospace;font-size:12px;
-  cursor:pointer;border-radius:6px;transition:all .2s;
-}
+.btn-cancel{padding:10px 22px;background:transparent;border:1px solid var(--border2);color:var(--text-2);font-family:'Noto Sans JP',sans-serif;font-size:13px;cursor:pointer;border-radius:6px;transition:all .2s}
 .btn-cancel:hover{color:var(--text);border-color:var(--text-2)}
-.btn-danger{
-  padding:10px 22px;background:var(--red);color:#fff;
-  border:none;font-family:'DM Mono',monospace;font-size:12px;
-  cursor:pointer;border-radius:6px;transition:opacity .2s;
-}
+.btn-danger{padding:10px 22px;background:var(--red);color:#fff;border:none;font-family:'Noto Sans JP',sans-serif;font-size:13px;cursor:pointer;border-radius:6px;transition:opacity .2s}
 .btn-danger:hover{opacity:.85}
 
-/* ════════════════════════════════
-   EDITOR
-════════════════════════════════ */
+/* EDITOR */
 .editor-wrap{max-width:800px;margin:0 auto;padding:48px 24px 120px}
-
-.editor-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:32px;padding-bottom:20px;
-  border-bottom:1px solid var(--border);gap:16px;
-}
-.back-btn{
-  display:flex;align-items:center;gap:8px;
-  background:none;border:none;
-  color:var(--text-3);
-  font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;
-  cursor:pointer;padding:8px 12px;border-radius:6px;
-  transition:all .2s;white-space:nowrap;
-}
+.editor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border);gap:16px}
+.back-btn{display:flex;align-items:center;gap:8px;background:none;border:none;color:var(--text-3);font-family:'Noto Sans JP',sans-serif;font-size:13px;cursor:pointer;padding:8px 12px;border-radius:6px;transition:all .2s;white-space:nowrap}
 .back-btn:hover{color:var(--text-2);background:var(--surface2)}
-
 .editor-center{display:flex;flex-direction:column;align-items:center;gap:3px}
-.editor-heading{
-  font-family:'Shippori Mincho',serif;
-  font-size:18px;font-weight:800;letter-spacing:.06em;
-}
-.editor-badge{
-  font-family:'DM Mono',monospace;font-size:10px;
-  letter-spacing:.16em;color:var(--text-3);
-}
-
+.editor-heading{font-family:'Shippori Mincho',serif;font-size:18px;font-weight:800;letter-spacing:.06em}
+.editor-badge{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--text-3)}
 .draft-save-row{display:flex;align-items:center;gap:10px}
-.save-indicator{
-  font-family:'DM Mono',monospace;font-size:11px;
-  color:var(--green);opacity:0;transition:opacity .4s;white-space:nowrap;
-}
+.save-indicator{font-family:'Noto Sans JP',sans-serif;font-size:11px;color:var(--green);opacity:0;transition:opacity .4s;white-space:nowrap}
 .save-indicator.show{opacity:1}
-.draft-save-btn{
-  background:none;border:1px solid var(--border2);
-  color:var(--text-3);
-  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;
-  padding:8px 16px;border-radius:6px;cursor:pointer;
-  transition:all .2s;white-space:nowrap;
-}
+.draft-save-btn{background:none;border:1px solid var(--border2);color:var(--text-3);font-family:'Noto Sans JP',sans-serif;font-size:12px;padding:8px 16px;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap}
 .draft-save-btn:hover{border-color:var(--gold-dim);color:var(--gold)}
 .draft-save-btn:disabled{opacity:.4;cursor:not-allowed}
-
-/* tabs */
-.tab-bar{
-  display:flex;margin-bottom:36px;
-  border-bottom:1px solid var(--border);
-}
-.tab{
-  padding:12px 26px;
-  font-family:'Shippori Mincho',serif;font-size:15px;font-weight:600;
-  letter-spacing:.08em;color:var(--text-3);cursor:pointer;
-  border:none;border-bottom:2px solid transparent;
-  margin-bottom:-1px;background:none;transition:all .2s;
-}
+.tab-bar{display:flex;margin-bottom:36px;border-bottom:1px solid var(--border)}
+.tab{padding:12px 26px;font-family:'Shippori Mincho',serif;font-size:15px;font-weight:600;letter-spacing:.08em;color:var(--text-3);cursor:pointer;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;transition:all .2s}
 .tab:hover{color:var(--text-2)}
 .tab.active-general{color:var(--gold);border-bottom-color:var(--gold)}
 .tab.active-novel{color:var(--novel);border-bottom-color:var(--novel)}
-
 .panel{display:none}.panel.active{display:block}
-
-/* form fields */
 .row-2{display:grid;grid-template-columns:1fr 172px;gap:14px;margin-bottom:16px}
 .row-3{display:grid;grid-template-columns:1fr 1fr 172px;gap:14px;margin-bottom:16px}
 .field-group{display:flex;flex-direction:column;gap:7px}
-.field-label{
-  font-family:'DM Mono',monospace;font-size:11px;
-  letter-spacing:.18em;color:var(--text-3);text-transform:uppercase;
-}
-
+.field-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--text-3);text-transform:uppercase}
 input[type="text"],input[type="date"],textarea{
-  background:var(--surface2);
-  border:1px solid var(--border);
-  color:var(--text);
-  font-family:'Noto Sans JP',sans-serif;font-weight:300;
-  font-size:15px;padding:11px 15px;
-  border-radius:6px;outline:none;
-  transition:border-color .2s,background .2s;
-  width:100%;-webkit-appearance:none;
+  background:var(--surface2);border:1px solid var(--border);color:var(--text);
+  font-family:'Noto Sans JP',sans-serif;font-weight:300;font-size:15px;
+  padding:11px 15px;border-radius:6px;outline:none;
+  transition:border-color .2s,background .2s;width:100%;-webkit-appearance:none;
 }
-input:focus,textarea:focus{
-  border-color:var(--gold-dim);background:var(--surface3);
-}
-.novel-panel input:focus,.novel-panel textarea:focus{
-  border-color:var(--novel-dim);
-}
+input:focus,textarea:focus{border-color:var(--gold-dim);background:var(--surface3)}
+.novel-panel input:focus,.novel-panel textarea:focus{border-color:var(--novel-dim)}
 input[type="date"]{color-scheme:dark}
-
 .mb{margin-bottom:16px}.mb2{margin-bottom:28px}
-
-/* section cards */
 .sections{display:flex;flex-direction:column;gap:20px;margin-bottom:28px}
-
-.section-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:8px;overflow:hidden;
-}
-.section-header{
-  display:flex;align-items:center;gap:12px;
-  padding:14px 18px;
-  background:var(--surface2);border-bottom:1px solid var(--border);
-}
-.section-icon{
-  font-size:11px;font-weight:800;
-  width:14px;text-align:center;flex-shrink:0;
-}
-.section-title{
-  font-family:'Shippori Mincho',serif;
-  font-size:15px;font-weight:600;flex:1;color:var(--text);
-}
-.section-hint{
-  font-family:'DM Mono',monospace;font-size:11px;
-  color:var(--text-3);background:var(--surface3);
-  padding:2px 8px;border-radius:4px;
-}
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.section-header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface2);border-bottom:1px solid var(--border)}
+.section-icon{font-size:11px;font-weight:800;width:14px;text-align:center;flex-shrink:0}
+.section-title{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:600;flex:1;color:var(--text)}
+.section-hint{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);background:var(--surface3);padding:2px 8px;border-radius:4px}
 .section-body{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
-
 .sub-field{display:flex;flex-direction:column;gap:5px}
-.sub-label{
-  font-family:'DM Mono',monospace;font-size:11px;
-  color:var(--text-3);letter-spacing:.07em;
-}
-
+.sub-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);letter-spacing:.07em}
 textarea{resize:vertical;line-height:1.65;min-height:72px}
-textarea.tall{min-height:136px}
-textarea.short{min-height:56px}
-textarea.xtall{min-height:172px}
-
-/* section accent colors */
+textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min-height:172px}
 .s1 .section-icon{color:var(--s1)}.s1 .section-header{border-left:3px solid var(--s1)}
 .s2 .section-icon{color:var(--s2)}.s2 .section-header{border-left:3px solid var(--s2)}
 .s3 .section-icon{color:var(--s3)}.s3 .section-header{border-left:3px solid var(--s3)}
@@ -461,111 +241,38 @@ textarea.xtall{min-height:172px}
 .n2 .section-icon{color:var(--n2)}.n2 .section-header{border-left:3px solid var(--n2)}
 .n3 .section-icon{color:var(--n3)}.n3 .section-header{border-left:3px solid var(--n3)}
 .n4 .section-icon{color:var(--n4)}.n4 .section-header{border-left:3px solid var(--n4)}
-
-/* star rating */
 .star-row{display:flex;align-items:center;gap:3px;padding-top:6px}
-.star-btn{
-  background:none;border:none;font-size:22px;
-  cursor:pointer;color:var(--border2);
-  transition:color .15s,transform .1s;line-height:1;padding:2px 4px;
-}
+.star-btn{background:none;border:none;font-size:22px;cursor:pointer;color:var(--border2);transition:color .15s,transform .1s;line-height:1;padding:2px 4px}
 .star-btn.lit{color:var(--novel)}.star-btn:hover{transform:scale(1.2)}
-
 .tags-row{display:flex;flex-direction:column;gap:7px;margin-bottom:28px}
-
-/* generate button */
-.generate-btn{
-  width:100%;padding:16px;
-  background:var(--gold-pale2);
-  border:1px solid var(--gold-dim);border-radius:8px;
-  color:var(--gold);
-  font-family:'Shippori Mincho',serif;font-size:16px;font-weight:600;
-  letter-spacing:.12em;cursor:pointer;transition:all .2s;
-}
+.generate-btn{width:100%;padding:16px;background:var(--gold-pale2);border:1px solid var(--gold-dim);border-radius:8px;color:var(--gold);font-family:'Shippori Mincho',serif;font-size:16px;font-weight:600;letter-spacing:.12em;cursor:pointer;transition:all .2s}
 .generate-btn:hover:not(:disabled){background:var(--gold-pale);border-color:var(--gold)}
-.generate-btn.nv-btn{
-  background:var(--blue-pale);border-color:var(--novel-dim);color:var(--novel);
-}
+.generate-btn.nv-btn{background:var(--blue-pale);border-color:var(--novel-dim);color:var(--novel)}
 .generate-btn.nv-btn:hover:not(:disabled){border-color:var(--novel)}
 .generate-btn:disabled{opacity:.35;cursor:not-allowed}
-
-.gen-status{
-  font-family:'DM Mono',monospace;font-size:12px;
-  text-align:center;padding:12px 0 8px;min-height:28px;color:var(--text-3);
-}
+.gen-status{font-family:'DM Mono',monospace;font-size:12px;text-align:center;padding:12px 0 8px;min-height:28px;color:var(--text-3)}
 .gen-status.loading{color:var(--gold);animation:pulse 1.5s ease-in-out infinite}
 .gen-status.loading.nv{color:var(--novel)}
 .gen-status.error{color:var(--red)}.gen-status.ok{color:var(--green)}
-
-/* review panel */
-.review-panel{
-  display:none;border:1px solid var(--border);
-  border-radius:8px;overflow:hidden;margin-top:6px;
-}
+.review-panel{display:none;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:6px}
 .review-panel.visible{display:block;animation:fadein .25s ease}
-
-.review-header{
-  padding:14px 18px;
-  background:var(--surface2);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.review-label{
-  font-family:'DM Mono',monospace;font-size:11px;
-  letter-spacing:.14em;color:var(--text-2);
-}
-.review-hint{
-  font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3);
-}
-
-.review-editor{
-  width:100%;background:var(--bg);border:none;
-  border-bottom:1px solid var(--border);
-  color:var(--text-2);
-  font-family:'DM Mono',monospace;font-size:12px;line-height:1.85;
-  padding:20px 18px;resize:vertical;min-height:320px;outline:none;
-}
-
-.review-actions{
-  display:flex;gap:10px;padding:14px 16px;
-  flex-wrap:wrap;align-items:center;
-  background:var(--surface2);
-}
-.btn-regen{
-  flex:1;min-width:140px;padding:11px 16px;
-  background:transparent;border:1px solid var(--border2);
-  color:var(--text-2);
-  font-family:'Shippori Mincho',serif;font-size:14px;font-weight:600;
-  letter-spacing:.1em;cursor:pointer;border-radius:6px;transition:all .2s;
-}
+.review-header{padding:14px 18px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.review-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--text-2)}
+.review-hint{font-family:'Noto Sans JP',sans-serif;font-size:11px;color:var(--text-3)}
+.review-editor{width:100%;background:var(--bg);border:none;border-bottom:1px solid var(--border);color:var(--text-2);font-family:'DM Mono',monospace;font-size:12px;line-height:1.85;padding:20px 18px;resize:vertical;min-height:320px;outline:none}
+.review-actions{display:flex;gap:10px;padding:14px 16px;flex-wrap:wrap;align-items:center;background:var(--surface2)}
+.btn-regen{flex:1;min-width:140px;padding:11px 16px;background:transparent;border:1px solid var(--border2);color:var(--text-2);font-family:'Shippori Mincho',serif;font-size:14px;font-weight:600;letter-spacing:.1em;cursor:pointer;border-radius:6px;transition:all .2s}
 .btn-regen:hover:not(:disabled){border-color:var(--gold-dim);color:var(--gold)}
-
-.btn-push{
-  flex:2;min-width:190px;padding:11px 18px;
-  background:var(--gold);color:var(--bg);border:none;
-  font-family:'Shippori Mincho',serif;font-size:14px;font-weight:800;
-  letter-spacing:.1em;cursor:pointer;border-radius:6px;transition:opacity .2s;
-}
+.btn-push{flex:2;min-width:190px;padding:11px 18px;background:var(--gold);color:var(--bg);border:none;font-family:'Shippori Mincho',serif;font-size:14px;font-weight:800;letter-spacing:.1em;cursor:pointer;border-radius:6px;transition:opacity .2s}
 .btn-push.nv{background:var(--novel)}
 .btn-push:hover:not(:disabled){opacity:.88}
-
-.btn-dl{
-  padding:11px 14px;background:transparent;
-  border:1px solid var(--border2);color:var(--text-3);
-  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.08em;
-  cursor:pointer;border-radius:6px;transition:all .2s;white-space:nowrap;
-}
+.btn-dl{padding:11px 14px;background:transparent;border:1px solid var(--border2);color:var(--text-3);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.08em;cursor:pointer;border-radius:6px;transition:all .2s;white-space:nowrap}
 .btn-dl:hover{border-color:var(--border2);color:var(--text-2)}
 .btn-regen:disabled,.btn-push:disabled{opacity:.35;cursor:not-allowed}
-
-.push-feedback{
-  font-family:'DM Mono',monospace;font-size:11px;
-  padding:0 16px 12px;min-height:20px;color:var(--text-3);line-height:1.6;
-}
-.push-feedback.ok{color:var(--green)}
-.push-feedback.err{color:var(--red)}
+.push-feedback{font-family:'Noto Sans JP',sans-serif;font-size:12px;padding:8px 16px 12px;min-height:20px;color:var(--text-3);line-height:1.6}
+.push-feedback.ok{color:var(--green)}.push-feedback.err{color:var(--red)}
 .push-feedback.loading{color:var(--gold);animation:pulse 1.5s ease-in-out infinite}
 
-/* mobile */
 @media(max-width:560px){
   .row-3{grid-template-columns:1fr 1fr}
   .row-3 .field-group:last-child{grid-column:1/-1}
@@ -580,376 +287,320 @@ textarea.xtall{min-height:172px}
 </head>
 <body>
 
-<!-- ════ CONFIRM ════ -->
+<!-- CONFIRM -->
 <div class="confirm-overlay" id="confirmOverlay">
   <div class="confirm-box">
-    <div class="confirm-title" id="confirmTitle">確認</div>
+    <div class="confirm-title" id="confirmTitle"></div>
     <div class="confirm-sub" id="confirmSub"></div>
     <div class="confirm-actions">
-      <button class="btn-cancel" onclick="closeConfirm()">キャンセル</button>
-      <button class="btn-danger" id="confirmOk">削除</button>
+      <button class="btn-cancel" id="confirmCancelBtn" onclick="closeConfirm()"></button>
+      <button class="btn-danger" id="confirmOk"></button>
     </div>
   </div>
 </div>
 
-<!-- ════ PREVIEW MODAL ════ -->
+<!-- PREVIEW MODAL -->
 <div class="modal-overlay" id="previewOverlay" onclick="closePreviewOut(event)">
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title" id="previewTitle"></div>
-      <button class="modal-close" onclick="closePreview()">✕</button>
+      <button class="modal-close" onclick="closePreview()">&#x2715;</button>
     </div>
     <div class="modal-content" id="previewContent"></div>
     <div class="modal-footer">
-      <button class="modal-dl" onclick="dlPreview()">↓ .md ダウンロード</button>
+      <button class="modal-dl" id="previewDlBtn" onclick="dlPreview()"></button>
     </div>
   </div>
 </div>
 
-<!-- ════ SETTINGS MODAL ════ -->
+<!-- SETTINGS MODAL -->
 <div class="modal-overlay" id="settingsOverlay" onclick="closeSettingsOut(event)">
   <div class="modal modal-sm">
     <div class="modal-header">
-      <div class="modal-title">設定</div>
-      <button class="modal-close" onclick="closeSettings()">✕</button>
+      <div class="modal-title" id="settingsTitle"></div>
+      <button class="modal-close" onclick="closeSettings()">&#x2715;</button>
     </div>
     <div class="modal-body">
-      <div class="modal-section-title">Claude API</div>
+      <div class="modal-section-title" id="settingsApiSection"></div>
       <div class="field-group">
-        <div class="field-label">Anthropic API Key</div>
+        <div class="field-label" id="settingsKeyLabel"></div>
         <input type="text" id="cfg-key" placeholder="sk-ant-...">
       </div>
-      <div class="modal-hint">取得: <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a></div>
+      <div class="modal-hint" id="settingsKeyHint"></div>
 
-      <div class="modal-section-title">GitHub × Obsidian Vault</div>
+      <div class="modal-section-title" id="settingsGhSection"></div>
       <div class="field-group">
-        <div class="field-label">Personal Access Token</div>
+        <div class="field-label" id="settingsTokenLabel"></div>
         <input type="text" id="cfg-token" placeholder="ghp_...">
       </div>
-      <div class="modal-hint">Settings → Developer settings → Fine-grained tokens<br>権限: Contents → Read and write のみでOK</div>
+      <div class="modal-hint" id="settingsTokenHint"></div>
       <div class="field-group">
-        <div class="field-label">Vault リポジトリ（owner/repo）</div>
+        <div class="field-label" id="settingsRepoLabel"></div>
         <input type="text" id="cfg-repo" placeholder="yourname/obsidian-vault">
       </div>
       <div class="field-group">
-        <div class="field-label">ブランチ（デフォルト: main）</div>
+        <div class="field-label" id="settingsBranchLabel"></div>
         <input type="text" id="cfg-branch" placeholder="main">
       </div>
-      <div class="modal-hint">
-        下書き保存先: <strong>読書メモ/fromMyApp/drafts/</strong><br>
-        Obsidian出力先: <strong>読書メモ/fromMyApp/</strong><br>
-        ※ 両フォルダがVaultに存在しない場合エラーになります
-      </div>
-      <button class="save-settings-btn" onclick="saveSettings()">保存</button>
+      <div class="modal-hint" id="settingsFolderHint"></div>
+      <button class="save-settings-btn" id="settingsSaveBtn" onclick="saveSettings()"></button>
       <div class="settings-st" id="settingsSt"></div>
     </div>
   </div>
 </div>
 
-<!-- ════ LIBRARY ════ -->
+<!-- LIBRARY -->
 <div class="screen active" id="screen-library">
   <div class="lib-wrap">
     <div class="lib-header">
       <div>
-        <div class="lib-title">読書メモ</div>
-        <div class="lib-sub">READING NOTES → OBSIDIAN</div>
+        <div class="lib-title" id="libTitle"></div>
+        <div class="lib-sub" id="libSub"></div>
       </div>
-      <button class="settings-btn" onclick="openSettings()">⚙ 設定</button>
+      <button class="settings-btn" id="settingsOpenBtn" onclick="openSettings()"></button>
     </div>
 
     <button class="new-btn" onclick="newMemo()">
-      <div class="new-btn-icon">＋</div>
-      <div class="new-btn-label">新しいメモを書く</div>
-      <div class="new-btn-hint">NEW MEMO</div>
+      <div class="new-btn-icon">&#xFF0B;</div>
+      <div class="new-btn-label" id="newMemoLabel"></div>
+      <div class="new-btn-hint" id="newMemoHint"></div>
     </button>
 
     <div class="list-section">
       <div class="list-section-hd">
-        <div class="list-section-label">下書き</div>
-        <div class="list-count" id="draftCount">—</div>
+        <div class="list-section-label" id="draftsLabel"></div>
+        <div class="list-count" id="draftCount">&#x2014;</div>
         <div class="list-line"></div>
-        <button class="list-refresh" onclick="loadLibrary()" title="再読み込み">↺</button>
+        <button class="list-refresh" id="reloadBtn" onclick="loadLibrary()"></button>
       </div>
-      <div id="draftList"><div class="list-loading">読み込み中...</div></div>
+      <div id="draftList"><div class="list-loading" id="draftLoadingText"></div></div>
     </div>
 
     <div class="list-section">
       <div class="list-section-hd">
-        <div class="list-section-label">Obsidian 出力済み</div>
-        <div class="list-count" id="doneCount">—</div>
+        <div class="list-section-label" id="savedLabel"></div>
+        <div class="list-count" id="doneCount">&#x2014;</div>
         <div class="list-line"></div>
       </div>
-      <div id="doneList"><div class="list-loading">読み込み中...</div></div>
+      <div id="doneList"><div class="list-loading" id="doneLoadingText"></div></div>
     </div>
   </div>
 </div>
 
-<!-- ════ EDITOR ════ -->
+<!-- EDITOR -->
 <div class="screen" id="screen-editor">
   <div class="editor-wrap">
-
     <div class="editor-header">
-      <button class="back-btn" onclick="goLibrary()">← 一覧に戻る</button>
+      <button class="back-btn" id="backBtn" onclick="goLibrary()"></button>
       <div class="editor-center">
-        <div class="editor-heading">読書メモ</div>
-        <div class="editor-badge" id="editorBadge">一般書・学術・ビジネス</div>
+        <div class="editor-heading" id="editorHeading"></div>
+        <div class="editor-badge" id="editorBadge"></div>
       </div>
       <div class="draft-save-row">
-        <span class="save-indicator" id="saveInd">✓ 保存しました</span>
-        <button class="draft-save-btn" id="draftSaveBtn" onclick="saveDraft()">下書き保存</button>
+        <span class="save-indicator" id="saveInd"></span>
+        <button class="draft-save-btn" id="draftSaveBtn" onclick="saveDraft()"></button>
       </div>
     </div>
 
     <div class="tab-bar">
-      <button class="tab active-general" id="tab-general" onclick="switchTab('general')">一般書・学術・ビジネス</button>
-      <button class="tab" id="tab-novel" onclick="switchTab('novel')">小説</button>
+      <button class="tab active-general" id="tab-general" onclick="switchTab('general')"></button>
+      <button class="tab" id="tab-novel" onclick="switchTab('novel')"></button>
     </div>
 
-    <!-- 一般書 -->
+    <!-- GENERAL -->
     <div class="panel active" id="panel-general">
       <div class="row-2">
         <div class="field-group">
-          <div class="field-label">書籍タイトル</div>
-          <input type="text" id="bookTitle" placeholder="例：中動態の世界　意志と責任の考古学">
+          <div class="field-label">&#26360;&#31807;&#12479;&#12452;&#12488;&#12523;</div>
+          <input type="text" id="bookTitle" placeholder="&#20363;&#65306;&#20013;&#21205;&#24907;&#12398;&#19990;&#30028;">
         </div>
         <div class="field-group">
-          <div class="field-label">読んだ日</div>
+          <div class="field-label">&#35501;&#12435;&#12384;&#26085;</div>
           <input type="date" id="readDate">
         </div>
       </div>
       <div class="field-group mb2">
-        <div class="field-label">著者</div>
-        <input type="text" id="bookAuthor" placeholder="例：國分功一郎">
+        <div class="field-label">&#8470;&#8470; &#8204;&#33879;&#32773;</div>
+        <input type="text" id="bookAuthor" placeholder="&#20363;&#65306;&#22269;&#20998;&#21151;&#19968;&#37070;">
       </div>
 
       <div class="sections">
         <div class="section-card s1">
-          <div class="section-header">
-            <span class="section-icon">★</span>
-            <span class="section-title">フック</span>
-          </div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#12501;&#12483;&#12463;</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">なぜ手に取ったか（一文）</div>
-              <textarea class="short" id="hookWhy" placeholder="例：空手の「型」の感覚と言語化できない知のつながりが気になって"></textarea>
+              <div class="sub-label">&#12394;&#12380;&#25163;&#12395;&#21462;&#12387;&#12383;&#12363;&#65288;&#19968;&#25991;&#65289;</div>
+              <textarea class="short" id="hookWhy" placeholder="&#20363;&#65306;&#31354;&#25163;&#12398;&#12300;&#22411;&#12301;&#12398;&#24863;&#35226;&#12392;&#35328;&#35486;&#21270;&#12391;&#12365;&#12394;&#12356;&#30693;&#12398;&#12388;&#12394;&#12364;&#12426;&#12364;&#27671;&#12395;&#12394;&#12387;&#12390;"></textarea>
             </div>
             <div class="sub-field">
-              <div class="sub-label">どこで心が動いたか（ページや場面を一言）</div>
-              <textarea class="short" id="hookWhere" placeholder="例：p.42「する」でも「される」でもない第三の動詞形という概念"></textarea>
+              <div class="sub-label">&#12393;&#12371;&#12391;&#24515;&#12364;&#21205;&#12356;&#12383;&#12363;&#65288;&#12506;&#12540;&#12472;&#12420;&#22580;&#38754;&#12434;&#19968;&#35328;&#65289;</div>
+              <textarea class="short" id="hookWhere" placeholder="&#20363;&#65306;p.42&#12288;&#12300;&#12377;&#12427;&#12301;&#12391;&#12418;&#12300;&#12373;&#12428;&#12427;&#12301;&#12391;&#12418;&#12394;&#12356;&#31532;&#19977;&#12398;&#21205;&#35421;&#24418;&#12392;&#12356;&#12358;&#27010;&#24565;"></textarea>
             </div>
           </div>
         </div>
-
         <div class="section-card s2">
-          <div class="section-header">
-            <span class="section-icon">★</span>
-            <span class="section-title">妄想吐き出し</span>
-            <span class="section-hint">4分</span>
-          </div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#22884;&#24819;&#21596;&#12365;&#20986;&#12375;</span><span class="section-hint">4&#20998;</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">自由記述。SE経験、空手、なんでも。</div>
-              <textarea class="tall" id="imagination" placeholder="思ったこと、連想、違和感、共鳴、何でも"></textarea>
+              <div class="sub-label">&#33258;&#30001;&#35352;&#36848;&#12290;SE&#32147;&#39443;&#12289;&#31354;&#25163;&#12289;&#12394;&#12435;&#12391;&#12418;&#12290;</div>
+              <textarea class="tall" id="imagination" placeholder="&#24609;&#12387;&#12383;&#12371;&#12392;&#12289;&#36899;&#24819;&#12289;&#36949;&#21644;&#24863;&#12289;&#20849;&#40441;&#12289;&#20309;&#12391;&#12418;"></textarea>
             </div>
           </div>
         </div>
-
         <div class="section-card s3">
-          <div class="section-header">
-            <span class="section-icon">★</span>
-            <span class="section-title">ロジック</span>
-            <span class="section-hint">2分</span>
-          </div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#12525;&#12472;&#12483;&#12463;</span><span class="section-hint">2&#20998;</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">著者はXと言っている</div>
-              <textarea class="short" id="logicAuthor" placeholder="例：意志という概念は近代に構築されたものだ"></textarea>
+              <div class="sub-label">&#8470;&#8204;&#33879;&#8204;&#32773;&#12399;X&#12392;&#35328;&#12387;&#12390;&#12356;&#12427;</div>
+              <textarea class="short" id="logicAuthor" placeholder="&#20363;&#65306;&#24847;&#24535;&#12392;&#12356;&#12358;&#27010;&#24565;&#12399;&#36817;&#20195;&#12395;&#27083;&#31689;&#12373;&#12428;&#12383;&#12418;&#12398;&#12384;"></textarea>
             </div>
             <div class="sub-field">
-              <div class="sub-label">自分はそれを「〇〇と同じ構造」と読んだ</div>
-              <textarea class="short" id="logicSelf" placeholder="例：空手の稽古における「守破離」と同じ構造"></textarea>
+              <div class="sub-label">&#33258;&#20998;&#12399;&#12381;&#12428;&#12434;&#12300;&#12288;&#12288;&#12288;&#12392;&#21516;&#12376;&#27083;&#36896;&#12301;&#12392;&#35501;&#12435;&#12384;</div>
+              <textarea class="short" id="logicSelf" placeholder="&#20363;&#65306;&#31354;&#25163;&#12398;&#31295;&#31320;&#12395;&#12362;&#12369;&#12427;&#12300;&#23432;&#30772;&#31163;&#12301;&#12392;&#21516;&#12376;&#27083;&#36896;"></textarea>
             </div>
             <div class="sub-field">
-              <div class="sub-label">なぜそう読んだか（一文）</div>
-              <textarea class="short" id="logicWhy" placeholder="例：型を反復する段階では「する」意図が消えて動きが起こる感覚があるから"></textarea>
+              <div class="sub-label">&#12394;&#12380;&#12381;&#12358;&#35501;&#12435;&#12384;&#12363;&#65288;&#19968;&#25991;&#65289;</div>
+              <textarea class="short" id="logicWhy" placeholder="&#20363;&#65306;&#22411;&#12434;&#21453;&#35206;&#12377;&#12427;&#27573;&#38542;&#12391;&#12399;&#12300;&#12377;&#12427;&#12301;&#24847;&#22259;&#12364;&#28040;&#12360;&#12390;&#21205;&#12365;&#12364;&#36215;&#12371;&#12427;&#24863;&#35926;&#12364;&#12354;&#12427;&#12363;&#12425;"></textarea>
             </div>
           </div>
         </div>
-
         <div class="section-card s4">
-          <div class="section-header">
-            <span class="section-icon">★</span>
-            <span class="section-title">コンセプト</span>
-            <span class="section-hint">1分</span>
-          </div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#12467;&#12531;&#12475;&#12503;&#12488;</span><span class="section-hint">1&#20998;</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">「要するにこの本は、＿＿についての本だ」</div>
-              <textarea class="short" id="concept" placeholder="例：意志という幻想の歴史的構築と、それを手放した先にある責任の再定義についての本だ"></textarea>
+              <div class="sub-label">&#12300;&#35201;&#12377;&#12427;&#12395;&#12371;&#12398;&#26412;&#12399;&#12289;&#12288;&#12288;&#12288;&#12395;&#12388;&#12356;&#12390;&#12398;&#26412;&#12384;&#12301;</div>
+              <textarea class="short" id="concept" placeholder="&#20363;&#65306;&#24847;&#24535;&#12392;&#12356;&#12358;&#24187;&#24819;&#12398;&#27508;&#21490;&#30340;&#27083;&#31689;&#12392;&#12289;&#12381;&#12428;&#12434;&#25163;&#25918;&#12375;&#12383;&#20808;&#12395;&#12354;&#12427;&#36131;&#20219;&#12398;&#20877;&#23450;&#32681;&#12395;&#12388;&#12356;&#12390;&#12398;&#26412;&#12384;"></textarea>
             </div>
           </div>
         </div>
-
         <div class="section-card s5">
-          <div class="section-header">
-            <span class="section-icon">★</span>
-            <span class="section-title">子供への説明バージョン</span>
-          </div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#23376;&#20379;&#12408;&#12398;&#35500;&#26126;&#12496;&#12540;&#12472;&#12519;&#12531;</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">「つまりね、＿＿ってこと」（一文）</div>
-              <textarea class="short" id="childExplain" placeholder="例：自分でやろうと思わなくても、なんかやってた、ってことが実はすごく大事なんだよ"></textarea>
+              <div class="sub-label">&#12300;&#12388;&#12414;&#12426;&#12397;&#12289;&#12288;&#12288;&#12288;&#12387;&#12390;&#12371;&#12392;&#12301;&#65288;&#19968;&#25991;&#65289;</div>
+              <textarea class="short" id="childExplain" placeholder="&#20363;&#65306;&#33258;&#20998;&#12391;&#12420;&#12429;&#12358;&#12392;&#24605;&#12431;&#12394;&#12367;&#12390;&#12418;&#12289;&#12394;&#12435;&#12363;&#12420;&#12387;&#12390;&#12383;&#12289;&#12387;&#12390;&#12371;&#12392;&#12364;&#23455;&#12399;&#12377;&#12372;&#12367;&#22823;&#20107;&#12394;&#12435;&#12384;&#12424;"></textarea>
             </div>
           </div>
         </div>
       </div>
 
       <div class="tags-row">
-        <div class="field-label">タグ（カンマ区切り）</div>
-        <input type="text" id="tags" placeholder="例：哲学, 言語学, 中動態, 読書メモ">
+        <div class="field-label">&#12479;&#12464;&#65288;&#12459;&#12531;&#12510;&#21010;&#12426;&#65289;</div>
+        <input type="text" id="tags" placeholder="&#20363;&#65306;&#21746;&#23398;, &#35328;&#35486;&#23398;, &#20013;&#21205;&#24907;, &#35501;&#26360;&#12513;&#12514;">
       </div>
-
-      <button class="generate-btn" id="genBtnG" onclick="generate('general')">
-        Claude で深掘りして確認する
-      </button>
+      <button class="generate-btn" id="genBtnG" onclick="generate('general')"></button>
       <div class="gen-status" id="genStG"></div>
       <div class="review-panel" id="reviewPanelG">
         <div class="review-header">
-          <span class="review-label">PREVIEW — 直接編集できます</span>
-          <span class="review-hint">確認・修正してからObsidianへ</span>
+          <span class="review-label" id="reviewLabelG"></span>
+          <span class="review-hint" id="reviewHintG"></span>
         </div>
         <textarea class="review-editor" id="reviewG" spellcheck="false"></textarea>
         <div class="review-actions">
-          <button class="btn-regen" id="regenG" onclick="generate('general')">↺ 再生成</button>
-          <button class="btn-push" id="pushG" onclick="pushObsidian('general')">↑ Obsidianに保存</button>
-          <button class="btn-dl" onclick="dlMd('general')">↓ .md</button>
+          <button class="btn-regen" id="regenG" onclick="generate('general')"></button>
+          <button class="btn-push" id="pushG" onclick="pushObsidian('general')"></button>
+          <button class="btn-dl" onclick="dlMd('general')" id="dlBtnG"></button>
         </div>
         <div class="push-feedback" id="pfG"></div>
       </div>
     </div>
 
-    <!-- 小説 -->
+    <!-- NOVEL -->
     <div class="panel novel-panel" id="panel-novel">
       <div class="row-3">
         <div class="field-group">
-          <div class="field-label">作品タイトル</div>
-          <input type="text" id="novelTitle" placeholder="例：夜と霧">
+          <div class="field-label">&#20316;&#21697;&#12479;&#12452;&#12488;&#12523;</div>
+          <input type="text" id="novelTitle" placeholder="&#20363;&#65306;&#22812;&#12392;&#38721;">
         </div>
         <div class="field-group">
-          <div class="field-label">著者</div>
-          <input type="text" id="novelAuthor" placeholder="例：ヴィクトール・フランクル">
+          <div class="field-label">&#8470;&#8204;&#33879;&#8204;&#32773;</div>
+          <input type="text" id="novelAuthor" placeholder="&#20363;&#65306;&#12532;&#12451;&#12463;&#12488;&#12540;&#12523;&#12539;&#12501;&#12521;&#12531;&#12463;&#12523;">
         </div>
         <div class="field-group">
-          <div class="field-label">読んだ日</div>
+          <div class="field-label">&#35501;&#12435;&#12384;&#26085;</div>
           <input type="date" id="novelDate">
         </div>
       </div>
       <div class="row-2 mb2">
         <div class="field-group">
-          <div class="field-label">カテゴリ／ジャンル</div>
-          <input type="text" id="novelCategory" placeholder="例：純文学, SF, 海外古典">
+          <div class="field-label">&#12459;&#12486;&#12468;&#12522;&#8725;&#12472;&#12515;&#12531;&#12523;</div>
+          <input type="text" id="novelCategory" placeholder="&#20363;&#65306;&#32020;&#25991;&#23398;, SF, &#28023;&#22806;&#21476;&#20856;">
         </div>
         <div class="field-group">
-          <div class="field-label">評価</div>
+          <div class="field-label">&#35413;&#20516;</div>
           <div class="star-row" id="starRow">
-            <button class="star-btn" onclick="setRating(1)">★</button>
-            <button class="star-btn" onclick="setRating(2)">★</button>
-            <button class="star-btn" onclick="setRating(3)">★</button>
-            <button class="star-btn" onclick="setRating(4)">★</button>
-            <button class="star-btn" onclick="setRating(5)">★</button>
+            <button class="star-btn" onclick="setRating(1)">&#x2605;</button>
+            <button class="star-btn" onclick="setRating(2)">&#x2605;</button>
+            <button class="star-btn" onclick="setRating(3)">&#x2605;</button>
+            <button class="star-btn" onclick="setRating(4)">&#x2605;</button>
+            <button class="star-btn" onclick="setRating(5)">&#x2605;</button>
           </div>
         </div>
       </div>
 
       <div class="sections">
         <div class="section-card n1">
-          <div class="section-header">
-            <span class="section-icon">◆</span>
-            <span class="section-title">構造（書き手として）</span>
-          </div>
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">&#27083;&#36896;&#65288;&#26360;&#12365;&#25163;&#12392;&#12375;&#12390;&#65289;</span></div>
           <div class="section-body">
-            <div class="sub-field">
-              <div class="sub-label">語り・視点の設計</div>
-              <textarea class="short" id="novelNarration" placeholder="例：一人称・現在形。信頼できない語り手。記憶を辿るフレーム構造。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#35486;&#12426;&#12539;&#35222;&#28857;&#12398;&#35373;&#35336;</div>
+              <textarea class="short" id="novelNarration" placeholder="&#20363;&#65306;&#19968;&#20154;&#31, &#29694;&#22312;&#24418;&#12290;&#20449;&#38972;&#12391;&#12365;&#12394;&#35486;&#12426;&#25163;&#12290;&#35352;&#24564;&#12434;&#36741;&#12427;&#12501;&#12524;&#12540;&#12512;&#27083;&#36896;&#12290;"></textarea>
             </div>
-            <div class="sub-field">
-              <div class="sub-label">時間・構成の工夫</div>
-              <textarea class="short" id="novelStructure" placeholder="例：非線形。冒頭でオチを示し、経緯を回想する形式。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#26178;&#38291;&#12539;&#27083;&#25104;&#12398;&#24037;&#22253;</div>
+              <textarea class="short" id="novelStructure" placeholder="&#20363;&#65306;&#38750;&#32218;&#24418;&#12290;&#20897;&#22836;&#12391;&#12458;&#12481;&#12434;&#31034;&#12375;&#12289;&#32076;&#32066;&#12434;&#22238;&#24819;&#12377;&#12427;&#24418;&#24335;&#12290;"></textarea>
             </div>
-            <div class="sub-field">
-              <div class="sub-label">文体・リズム・句読点の使い方</div>
-              <textarea class="short" id="novelStyle" placeholder="例：短文連打で緊迫感。心理描写は長文化。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#25991;&#20307;&#12539;&#12522;&#12474;&#12512;&#12539;&#21477;&#35501;&#28857;&#12398;&#20351;&#12356;&#26041;</div>
+              <textarea class="short" id="novelStyle" placeholder="&#20363;&#65306;&#30701;&#25991;&#36899;&#25171;&#12391;&#32153;&#36343;&#24863;&#12290;&#24515;&#29702;&#25miota;&#36848;&#12399;&#38263;&#25991;&#21270;&#12290;"></textarea>
             </div>
-            <div class="sub-field">
-              <div class="sub-label">自分の書きものに盗める技法</div>
-              <textarea class="short" id="novelTechnique" placeholder="例：感情を行動で示す「見せる」技法。感情を直接書かない。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#33258;&#20998;&#12398;&#26360;&#12365;&#12418;&#12398;&#12395;&#30435;&#12417;&#308B;&#25216;&#27861;</div>
+              <textarea class="short" id="novelTechnique" placeholder="&#20363;&#65306;&#24863;&#24773;&#12434;&#34892;&#21205;&#12391;&#31034;&#12377;&#12300;&#35211;&#12379;&#12427;&#12301;&#25216;&#27861;&#12290;&#24863;&#24773;&#12434;&#30452;&#25509;&#26360;&#12363;&#12394;&#12356;&#12290;"></textarea>
             </div>
           </div>
         </div>
-
         <div class="section-card n2">
-          <div class="section-header">
-            <span class="section-icon">◆</span>
-            <span class="section-title">印象に残ったこと</span>
-          </div>
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">&#21360;&#35937;&#12395;&#27494;&#12387;&#12383;&#12371;&#12392;</span></div>
           <div class="section-body">
-            <div class="sub-field">
-              <div class="sub-label">心が動いた場面・描写</div>
-              <textarea class="tall" id="novelImpression" placeholder="例：p.112 主人公が父の形見の時計を川に捨てる場面。行為の説明なし。喪失感が後から来る。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#24515;&#12364;&#21205;&#12356;&#12383;&#22580;&#38754;&#12539;&#25miota;&#36848;</div>
+              <textarea class="tall" id="novelImpression" placeholder="&#20363;&#65306;p.112&#12288;&#20027;&#20154;&#20844;&#12364;&#29238;&#12398;&#24418;&#35211;&#12398;&#26178;&#35336;&#12434;&#24029;&#12395;&#25391;&#12427;&#22580;&#38754;&#12290;&#34892;&#28167;&#12398;&#35500;&#26126;&#12394;&#12375;&#12290;&#21954;&#12373;&#12364;&#24460;&#12363;&#12425;&#26469;&#12427;&#12290;"></textarea>
             </div>
-            <div class="sub-field">
-              <div class="sub-label">なぜ動いたか（自分の文脈で）</div>
-              <textarea class="short" id="novelWhyMoved" placeholder="例：「捨てる」という能動的行為に見えて、実は中動態的な瞬間に読めた。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#12394;&#12380;&#21205;&#12356;&#12383;&#12363;&#65288;&#33258;&#20998;&#12398;&#25miota;&#31649;&#12391;&#65289;</div>
+              <textarea class="short" id="novelWhyMoved" placeholder="&#20363;&#65306;&#12300;&#25391;&#12427;&#12301;&#12392;&#12356;&#12358;&#33021;&#21205;&#30340;&#34892;&#28167;&#12395;&#35211;&#12360;&#12390;&#12289;&#23455;&#12399;&#20013;&#21205;&#24907;&#30340;&#12394;&#&#12426;&#20853;&#12395;&#35501;&#12417;&#12383;&#12290;"></textarea>
             </div>
           </div>
         </div>
-
         <div class="section-card n3">
-          <div class="section-header">
-            <span class="section-icon">◆</span>
-            <span class="section-title">テーマと問い</span>
-          </div>
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">&#12486;&#12540;&#12510;&#12392;&#21839;&#12356;</span></div>
           <div class="section-body">
-            <div class="sub-field">
-              <div class="sub-label">この作品が問いかけていること</div>
-              <textarea class="short" id="novelTheme" placeholder="例：極限状態における「意味を見出す意志」とは何か。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#12053;&#12398;&#20316;&#21697;&#12364;&#21839;&#12356;&#12363;&#12369;&#12390;&#12356;&#12427;&#12371;&#12392;</div>
+              <textarea class="short" id="novelTheme" placeholder="&#20363;&#65306;&#26997;&#38480;&#29366;&#24907;&#12395;&#12363;&#12369;&#12427;&#12300;&#24847;&#21619;&#12434;&#35211;&#20986;&#12377;&#24847;&#24535;&#12301;&#12392;&#12399;&#20309;&#12363;&#12290;"></textarea>
             </div>
           </div>
         </div>
-
         <div class="section-card n4">
-          <div class="section-header">
-            <span class="section-icon">◆</span>
-            <span class="section-title">その他・自由メモ</span>
-          </div>
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">&#12381;&#12398;&#20182;&#12539;&#33258;&#30001;&#12513;&#12514;</span></div>
           <div class="section-body">
-            <div class="sub-field">
-              <div class="sub-label">気になった言葉、読後感、次に読みたいもの</div>
-              <textarea class="xtall" id="novelFree" placeholder="自由に。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#27671;&#12395;&#12394;&#12387;&#12383;&#35328;&#33865;&#12289;&#35501;&#24460;&#24863;&#12289;&#27425;&#12395;&#35501;&#12415;&#12383;&#12356;&#12418;&#12398;</div>
+              <textarea class="xtall" id="novelFree" placeholder="&#33258;&#30001;&#12395;&#12290;"></textarea>
             </div>
           </div>
         </div>
       </div>
 
       <div class="tags-row">
-        <div class="field-label">タグ（カンマ区切り）</div>
-        <input type="text" id="novelTags" placeholder="例：小説, 海外文学, 実存主義">
+        <div class="field-label">&#12479;&#12464;&#65288;&#12459;&#12531;&#12510;&#21010;&#12426;&#65289;</div>
+        <input type="text" id="novelTags" placeholder="&#20363;&#65306;&#23567;&#35500;, &#28023;&#22806;&#25miota;&#23398;, &#23455;&#23384;&#20027;&#32681;">
       </div>
-
-      <button class="generate-btn nv-btn" id="genBtnN" onclick="generate('novel')">
-        Claude で分析して確認する
-      </button>
+      <button class="generate-btn nv-btn" id="genBtnN" onclick="generate('novel')"></button>
       <div class="gen-status" id="genStN"></div>
       <div class="review-panel" id="reviewPanelN">
         <div class="review-header">
-          <span class="review-label">PREVIEW — 直接編集できます</span>
-          <span class="review-hint">確認・修正してからObsidianへ</span>
+          <span class="review-label" id="reviewLabelN"></span>
+          <span class="review-hint" id="reviewHintN"></span>
         </div>
         <textarea class="review-editor" id="reviewN" spellcheck="false"></textarea>
         <div class="review-actions">
-          <button class="btn-regen" id="regenN" onclick="generate('novel')">↺ 再生成</button>
-          <button class="btn-push nv" id="pushN" onclick="pushObsidian('novel')">↑ Obsidianに保存</button>
-          <button class="btn-dl" onclick="dlMd('novel')">↓ .md</button>
+          <button class="btn-regen" id="regenN" onclick="generate('novel')"></button>
+          <button class="btn-push nv" id="pushN" onclick="pushObsidian('novel')"></button>
+          <button class="btn-dl" onclick="dlMd('novel')" id="dlBtnN"></button>
         </div>
         <div class="push-feedback" id="pfN"></div>
       </div>
