@@ -1,16 +1,16 @@
 // BooksMemo app.js
 // ASCII-only. All Japanese text lives in index.html as data-* attributes on #i18n.
- 
+
 var DRAFT_DIR    = 'BooksMemo/fromMyApp/drafts';
 var OBSIDIAN_DIR = 'BooksMemo/fromMyApp';
- 
+
 var currentTab       = 'general';
 var currentDraftFile = null;
 var currentDraftSha  = null;
 var novelRating      = 0;
 var previewMd        = '';
 var previewFile      = '';
- 
+
 // Read all i18n strings from the #i18n meta element in HTML
 var T = {};
 function loadI18n() {
@@ -20,15 +20,13 @@ function loadI18n() {
   for (var i = 0; i < attrs.length; i++) {
     var name = attrs[i].name;
     if (name.indexOf('data-') === 0) {
-      var key = name.slice(5); // strip 'data-'
-      T[key] = attrs[i].value;
+      T[name.slice(5)] = attrs[i].value;
     }
   }
 }
- 
+
 function t(key) { return T[key] || key; }
- 
-// Apply i18n to static elements
+
 function applyI18n() {
   setText('libTitle',            t('app-title'));
   setText('libSub',              t('app-sub'));
@@ -68,18 +66,16 @@ function applyI18n() {
   setText('settingsBranchLabel', t('settings-branch-label'));
   setText('settingsFolderHint',  t('settings-folder-hint'));
   setText('settingsSaveBtn',     t('settings-save'));
-  // tab labels
-  setText('tab-general', t('general-tab'));
-  setText('tab-novel',   t('novel-tab'));
-  // initial badge
-  setText('editorBadge', t('general-badge'));
+  setText('tab-general',         t('general-tab'));
+  setText('tab-novel',           t('novel-tab'));
+  setText('editorBadge',         t('general-badge'));
 }
- 
+
 function setText(id, text) {
   var el = document.getElementById(id);
   if (el) el.textContent = text;
 }
- 
+
 // Config
 var cfg = {
   get key()    { return localStorage.getItem('rm_key')    || ''; },
@@ -87,7 +83,7 @@ var cfg = {
   get repo()   { return localStorage.getItem('rm_repo')   || ''; },
   get branch() { return localStorage.getItem('rm_branch') || 'main'; }
 };
- 
+
 function openSettings() {
   document.getElementById('cfg-key').value    = cfg.key;
   document.getElementById('cfg-token').value  = cfg.token;
@@ -98,6 +94,7 @@ function openSettings() {
 }
 function closeSettings()     { document.getElementById('settingsOverlay').classList.remove('open'); }
 function closeSettingsOut(e) { if (e.target === document.getElementById('settingsOverlay')) closeSettings(); }
+
 function saveSettings() {
   ['key','token','repo','branch'].forEach(function(k) {
     var val = document.getElementById('cfg-' + k).value.trim();
@@ -108,7 +105,7 @@ function saveSettings() {
   el.className = 'settings-st ok';
   setTimeout(function() { el.textContent = ''; el.className = 'settings-st'; }, 2000);
 }
- 
+
 // GitHub API
 function ghReq(method, path, body) {
   var url = 'https://api.github.com/repos/' + cfg.repo + '/contents/' + encodeURIComponent(path);
@@ -128,21 +125,29 @@ function ghReq(method, path, body) {
     });
   });
 }
+
 function ghGet(path) { return ghReq('GET', path); }
+
 function ghPut(path, content, sha, msg) {
-  var body = { message: msg, content: btoa(unescape(encodeURIComponent(content))), branch: cfg.branch };
+  var body = {
+    message: msg,
+    content: btoa(unescape(encodeURIComponent(content))),
+    branch: cfg.branch
+  };
   if (sha) body.sha = sha;
   return ghReq('PUT', path, body);
 }
+
 function ghDel(path, sha, msg) {
   return ghReq('DELETE', path, { message: msg, sha: sha, branch: cfg.branch });
 }
+
 function assertDir(dir) {
   return ghGet(dir).catch(function() {
-    throw new Error(t('folder-error') + ' (' + dir + ')');
+    throw new Error('Folder "' + dir + '" not found. Please create it in Obsidian first.');
   });
 }
- 
+
 // Library
 function loadLibrary() {
   if (!cfg.token || !cfg.repo) {
@@ -152,7 +157,7 @@ function loadLibrary() {
     document.getElementById('doneCount').textContent  = '0';
     return;
   }
- 
+
   document.getElementById('draftList').innerHTML = '<div class="list-loading">' + t('loading') + '</div>';
   ghGet(DRAFT_DIR).then(function(files) {
     var jsonFiles = files.filter(function(f) { return f.name.indexOf('.json') !== -1; });
@@ -177,7 +182,7 @@ function loadLibrary() {
   }).catch(function(e) {
     document.getElementById('draftList').innerHTML = '<div class="list-error">' + t('load-error') + e.message + '</div>';
   });
- 
+
   document.getElementById('doneList').innerHTML = '<div class="list-loading">' + t('loading') + '</div>';
   ghGet(OBSIDIAN_DIR).then(function(files) {
     var mdFiles = files.filter(function(f) { return f.name.slice(-3) === '.md'; });
@@ -192,15 +197,13 @@ function loadLibrary() {
     document.getElementById('doneList').innerHTML = '<div class="list-error">' + t('load-error') + e.message + '</div>';
   });
 }
- 
+
 function draftCard(d) {
   var nv  = d.mode === 'novel';
   var upd = d._updatedAt
     ? new Date(d._updatedAt).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
     : '';
-  var fn    = "'" + d._file.replace(/'/g, "\\'") + "'";
-  var sha   = "'" + (d._sha  || '').replace(/'/g, "\\'") + "'";
-  var title = "'" + (d.title || '').replace(/'/g, "\\'") + "'";
+  var fn = JSON.stringify(d._file);
   return '<div class="draft-card" onclick="openDraft(' + fn + ')">'
     + '<div class="card-bar ' + (nv ? 'novel' : 'general') + '"></div>'
     + '<div class="card-body">'
@@ -215,16 +218,13 @@ function draftCard(d) {
     + '</div></div>'
     + '<div class="card-actions" onclick="event.stopPropagation()">'
     + '<button class="card-btn edit" onclick="openDraft(' + fn + ')">&#x270E;</button>'
-    + '<button class="card-btn" onclick="confirmDel(' + fn + ',' + sha + ',' + title + ')">&#x2715;</button>'
+    + '<button class="card-btn" onclick="confirmDel(' + fn + ',' + JSON.stringify(d._sha || '') + ',' + JSON.stringify(d.title || '') + ')">&#x2715;</button>'
     + '</div></div>';
 }
- 
+
 function doneCard(f) {
-  var name     = f.name.replace(/\.md$/, '');
-  var fnStr    = "'" + f.name.replace(/'/g, "\\'") + "'";
-  var nameStr  = "'" + name.replace(/'/g, "\\'") + "'";
-  var shaStr   = "'" + (f.sha || '').replace(/'/g, "\\'") + "'";
-  return '<div class="draft-card" onclick="openPreview(' + fnStr + ',' + nameStr + ')">'
+  var name = f.name.replace(/\.md$/, '');
+  return '<div class="draft-card" onclick="openPreview(' + JSON.stringify(f.name) + ',' + JSON.stringify(name) + ')">'
     + '<div class="card-bar done"></div>'
     + '<div class="card-body">'
     + '<div class="card-top">'
@@ -232,11 +232,11 @@ function doneCard(f) {
     + '<div class="card-badge done">' + t('saved-label') + '</div>'
     + '</div></div>'
     + '<div class="card-actions" onclick="event.stopPropagation()">'
-    + '<button class="card-btn view" onclick="openPreview(' + fnStr + ',' + nameStr + ')">&#x1F441;</button>'
-    + '<button class="card-btn" onclick="confirmDelDone(' + fnStr + ',' + shaStr + ',' + nameStr + ')">&#x2715;</button>'
+    + '<button class="card-btn view" onclick="openPreview(' + JSON.stringify(f.name) + ',' + JSON.stringify(name) + ')">&#x1F441;</button>'
+    + '<button class="card-btn" onclick="confirmDelDone(' + JSON.stringify(f.name) + ',' + JSON.stringify(f.sha) + ',' + JSON.stringify(name) + ')">&#x2715;</button>'
     + '</div></div>';
 }
- 
+
 // Preview
 function openPreview(filename, title) {
   ghGet(OBSIDIAN_DIR + '/' + filename).then(function(d) {
@@ -250,7 +250,7 @@ function openPreview(filename, title) {
 function closePreview()     { document.getElementById('previewOverlay').classList.remove('open'); }
 function closePreviewOut(e) { if (e.target === document.getElementById('previewOverlay')) closePreview(); }
 function dlPreview()        { if (previewMd) dl(previewMd, previewFile); }
- 
+
 // Confirm
 function showConfirm(title, sub, cb) {
   document.getElementById('confirmTitle').textContent = title;
@@ -259,7 +259,7 @@ function showConfirm(title, sub, cb) {
   document.getElementById('confirmOverlay').classList.add('open');
 }
 function closeConfirm() { document.getElementById('confirmOverlay').classList.remove('open'); }
- 
+
 function confirmDel(file, sha, title) {
   showConfirm(
     t('confirm-draft-title'),
@@ -282,7 +282,7 @@ function confirmDelDone(file, sha, title) {
     }
   );
 }
- 
+
 // Navigation
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
@@ -290,7 +290,7 @@ function showScreen(id) {
   window.scrollTo(0, 0);
 }
 function goLibrary() { showScreen('library'); loadLibrary(); }
- 
+
 function newMemo() {
   currentDraftFile = null;
   currentDraftSha  = null;
@@ -301,7 +301,7 @@ function newMemo() {
   document.getElementById('novelDate').value = today;
   showScreen('editor');
 }
- 
+
 function openDraft(file) {
   ghGet(DRAFT_DIR + '/' + file).then(function(d) {
     var data = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\s/g, '')))));
@@ -312,7 +312,7 @@ function openDraft(file) {
     showScreen('editor');
   }).catch(function(e) { alert(t('load-error') + e.message); });
 }
- 
+
 // Editor
 function clearEditor() {
   ['bookTitle','bookAuthor','readDate','tags','hookWhy','hookWhere','imagination',
@@ -331,7 +331,7 @@ function clearEditor() {
     if (e) { e.textContent = ''; e.className = e.className.split(' ')[0]; }
   });
 }
- 
+
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
@@ -340,12 +340,12 @@ function switchTab(tab) {
   document.getElementById('tab-' + tab).classList.add(tab === 'general' ? 'active-general' : 'active-novel');
   setText('editorBadge', tab === 'general' ? t('general-badge') : t('novel-badge'));
 }
- 
+
 function setRating(n) {
   novelRating = n;
   document.querySelectorAll('.star-btn').forEach(function(b, i) { b.classList.toggle('lit', i < n); });
 }
- 
+
 function gatherForm(mode) {
   if (mode === 'general') {
     return {
@@ -366,7 +366,7 @@ function gatherForm(mode) {
     theme: V('novelTheme'), free: V('novelFree')
   };
 }
- 
+
 function fillForm(d) {
   switchTab(d.mode || 'general');
   function set(id, v) { var e = document.getElementById(id); if (e) e.value = v || ''; }
@@ -385,7 +385,7 @@ function fillForm(d) {
     setRating(d.rating || 0);
   }
 }
- 
+
 // Draft save
 function saveDraft() {
   if (!cfg.token || !cfg.repo) { alert(t('no-settings')); return; }
@@ -416,8 +416,8 @@ function saveDraft() {
     btn.disabled = false;
   });
 }
- 
-// Claude prompts
+
+// Claude prompt
 function buildPrompt(mode) {
   if (mode === 'general') {
     var m = gatherForm('general');
@@ -478,11 +478,11 @@ function buildPrompt(mode) {
     + '7. What to read next / related works\n\n'
     + 'Write in natural Japanese as a personal writer\'s notebook.';
 }
- 
+
+// Generate
 function generate(mode) {
   var tid = mode === 'general' ? 'bookTitle' : 'novelTitle';
   if (!V(tid)) { setGenSt(mode, t('no-title'), 'error'); return; }
-  if (!cfg.key) { setGenSt(mode, t('no-api-key'), 'error'); return; }
   var s    = mode === 'general' ? 'G' : 'N';
   var gBtn = document.getElementById('genBtn' + s);
   var rBtn = document.getElementById('regen' + s);
@@ -490,12 +490,10 @@ function generate(mode) {
   if (rBtn) rBtn.disabled = true;
   setGenSt(mode, t('claude-loading'), 'loading' + (mode === 'novel' ? ' nv' : ''));
   document.getElementById('reviewPanel' + s).classList.remove('visible');
- 
-fetch('https://books-memo-proxy.vercel.app/api/claude', {
+
+  fetch('https://books-memo-proxy.vercel.app/api/claude', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1500,
@@ -521,13 +519,13 @@ fetch('https://books-memo-proxy.vercel.app/api/claude', {
     if (rBtn) rBtn.disabled = false;
   });
 }
- 
+
 function setGenSt(mode, msg, cls) {
   var el = document.getElementById('genSt' + (mode === 'general' ? 'G' : 'N'));
   el.textContent = msg;
   el.className = 'gen-status ' + (cls || '');
 }
- 
+
 // Push to Obsidian
 function pushObsidian(mode) {
   var s     = mode === 'general' ? 'G' : 'N';
@@ -538,7 +536,7 @@ function pushObsidian(mode) {
   if (!md)                     { setPf(mode, t('no-md'), 'err'); return; }
   document.getElementById('push' + s).disabled = true;
   setPf(mode, t('checking-folder'), 'loading');
- 
+
   assertDir(OBSIDIAN_DIR).then(function() {
     var safe   = title.replace(/[\\/:*?"<>|]/g, '').slice(0, 60);
     var mdFile = date + '_' + safe + '.md';
@@ -564,13 +562,13 @@ function pushObsidian(mode) {
     document.getElementById('push' + s).disabled = false;
   });
 }
- 
+
 function setPf(mode, msg, cls) {
   var el = document.getElementById('pf' + (mode === 'general' ? 'G' : 'N'));
   el.textContent = msg;
   el.className = 'push-feedback ' + (cls || '');
 }
- 
+
 // Download
 function dlMd(mode) {
   var s  = mode === 'general' ? 'G' : 'N';
@@ -580,6 +578,7 @@ function dlMd(mode) {
   var date  = V(mode === 'general' ? 'readDate'  : 'novelDate')  || new Date().toISOString().slice(0, 10);
   dl(md, date + '_' + title.replace(/[\\/:*?"<>|]/g, '') + '.md');
 }
+
 function dl(content, filename) {
   var a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([content], { type: 'text/markdown;charset=utf-8' }));
@@ -587,13 +586,13 @@ function dl(content, filename) {
   a.click();
   URL.revokeObjectURL(a.href);
 }
- 
+
 // Utils
 function V(id) { var e = document.getElementById(id); return e ? e.value : ''; }
 function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
- 
+
 // Init
 document.addEventListener('DOMContentLoaded', function() {
   loadI18n();
@@ -603,4 +602,3 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('readDate').value  = today;
   document.getElementById('novelDate').value = today;
 });
- 
