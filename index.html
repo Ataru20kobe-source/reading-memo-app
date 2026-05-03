@@ -691,7 +691,6 @@ var cfg = {
 };
 
 function openSettings() {
-  document.getElementById('cfg-key').value    = cfg.key;
   document.getElementById('cfg-token').value  = cfg.token;
   document.getElementById('cfg-repo').value   = cfg.repo;
   document.getElementById('cfg-branch').value = cfg.branch;
@@ -702,7 +701,7 @@ function closeSettings()     { document.getElementById('settingsOverlay').classL
 function closeSettingsOut(e) { if (e.target === document.getElementById('settingsOverlay')) closeSettings(); }
 
 function saveSettings() {
-  ['key','token','repo','branch'].forEach(function(k) {
+  ['token','repo','branch'].forEach(function(k) {
     var val = document.getElementById('cfg-' + k).value.trim();
     localStorage.setItem('rm_' + k, k === 'branch' && !val ? 'main' : val);
   });
@@ -1237,17 +1236,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('click', function(e) {
     var target = e.target;
 
-    // open draft
-    var openEl = target.closest('.js-open-draft');
-    if (openEl) {
-      var actionEl = target.closest('.card-actions');
-      if (target.classList.contains('js-del-draft')) return;
-      e.stopPropagation();
-      openDraft(openEl.getAttribute('data-file'));
-      return;
-    }
-
-    // delete draft
+    // delete draft (must check before open-draft)
     var delEl = target.closest('.js-del-draft');
     if (delEl) {
       e.stopPropagation();
@@ -1259,17 +1248,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
 
-    // open done preview
-    var doneEl = target.closest('.js-open-done');
-    if (doneEl) {
-      var actionEl2 = target.closest('.card-actions');
-      if (actionEl2 && !target.classList.contains('js-open-done')) return;
-      e.stopPropagation();
-      openPreview(doneEl.getAttribute('data-file'), doneEl.getAttribute('data-name'));
-      return;
-    }
-
-    // delete done
+    // delete done (must check before open-done)
     var delDoneEl = target.closest('.js-del-done');
     if (delDoneEl) {
       e.stopPropagation();
@@ -1278,6 +1257,22 @@ document.addEventListener('DOMContentLoaded', function() {
         delDoneEl.getAttribute('data-sha'),
         delDoneEl.getAttribute('data-name')
       );
+      return;
+    }
+
+    // open draft
+    var openEl = target.closest('.js-open-draft');
+    if (openEl) {
+      e.stopPropagation();
+      openDraft(openEl.getAttribute('data-file'));
+      return;
+    }
+
+    // open done preview
+    var doneEl = target.closest('.js-open-done');
+    if (doneEl) {
+      e.stopPropagation();
+      openPreview(doneEl.getAttribute('data-file'), doneEl.getAttribute('data-name'));
       return;
     }
   });
