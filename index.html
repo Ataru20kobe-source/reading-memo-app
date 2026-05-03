@@ -32,8 +32,8 @@
   data-novel-tab="小説"
   data-general-badge="一般書・学術・ビジネス"
   data-novel-badge="小説"
-  data-generate-general="Claude で深掘りして確認する"
-  data-generate-novel="Claude で分析して確認する"
+  data-generate-general="Markdown を生成してプレビューする"
+  data-generate-novel="Markdown を生成してプレビューする"
   data-preview-label="PREVIEW — 直接編集できます"
   data-preview-hint="確認・修正してからObsidianへ"
   data-regenerate="↺ 再生成"
@@ -230,7 +230,8 @@ input[type="date"]{color-scheme:dark}
 .section-icon{font-size:11px;font-weight:800;width:14px;text-align:center;flex-shrink:0}
 .section-title{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:600;flex:1;color:var(--text)}
 .section-hint{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);background:var(--surface3);padding:2px 8px;border-radius:4px}
-.section-body{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+textarea{resize:vertical;line-height:1.8;min-height:120px}
+textarea.tall{min-height:220px}textarea.short{min-height:120px}textarea.xtall{min-height:280px}
 .sub-field{display:flex;flex-direction:column;gap:5px}
 .sub-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);letter-spacing:.07em}
 textarea{resize:vertical;line-height:1.65;min-height:72px}
@@ -258,7 +259,7 @@ textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min
 .gen-status.loading.nv{color:var(--novel)}
 .gen-status.error{color:var(--red)}.gen-status.ok{color:var(--green)}
 .review-panel{display:none;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:6px}
-.review-panel.visible{display:block;animation:fadein .25s ease}
+.review-editor{width:100%;background:var(--bg);border:none;border-bottom:1px solid var(--border);color:var(--text-2);font-family:'Noto Sans JP',sans-serif;font-size:14px;line-height:1.85;padding:20px 18px;resize:vertical;min-height:480px;outline:none}
 .review-header{padding:14px 18px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .review-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--text-2)}
 .review-hint{font-family:'Noto Sans JP',sans-serif;font-size:11px;color:var(--text-3)}
