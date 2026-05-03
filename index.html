@@ -411,85 +411,85 @@ textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min
     </div>
 
     <!-- GENERAL -->
-    <div class="field-label">書籍タイトル</div>
-      <input type="text" id="bookTitle" placeholder="例：中動態の世界　意志と責任の考古学">
+    <div class="panel active" id="panel-general">
+      <div class="row-2">
         <div class="field-group">
-          <div class="field-label">&#26360;&#31807;&#12479;&#12452;&#12488;&#12523;</div>
-          <input type="text" id="bookTitle" placeholder="&#20363;&#65306;&#20013;&#21205;&#24907;&#12398;&#19990;&#30028;">
+          <div class="field-label">書籍タイトル</div>
+          <input type="text" id="bookTitle" placeholder="例：中動態の世界">
         </div>
         <div class="field-group">
-          <div class="field-label">&#35501;&#12435;&#12384;&#26085;</div>
+          <div class="field-label">読んだ日</div>
           <input type="date" id="readDate">
         </div>
       </div>
       <div class="field-group mb2">
-        <div class="field-label">&#8470;&#8470; &#8204;&#33879;&#32773;</div>
-        <input type="text" id="bookAuthor" placeholder="&#20363;&#65306;&#22269;&#20998;&#21151;&#19968;&#37070;">
+        <div class="field-label">著者</div>
+        <input type="text" id="bookAuthor" placeholder="例：國分功一郎">
       </div>
 
       <div class="sections">
         <div class="section-card s1">
-          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#12501;&#12483;&#12463;</span></div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">フック</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">&#12394;&#12380;&#25163;&#12395;&#21462;&#12387;&#12383;&#12363;&#65288;&#19968;&#25991;&#65289;</div>
-              <textarea class="short" id="hookWhy" placeholder="&#20363;&#65306;&#31354;&#25163;&#12398;&#12300;&#22411;&#12301;&#12398;&#24863;&#35226;&#12392;&#35328;&#35486;&#21270;&#12391;&#12365;&#12394;&#12356;&#30693;&#12398;&#12388;&#12394;&#12364;&#12426;&#12364;&#27671;&#12395;&#12394;&#12387;&#12390;"></textarea>
+              <div class="sub-label">なぜ手に取ったか（一文）</div>
+              <textarea class="short" id="hookWhy" placeholder="例：空手の「型」の感覚と言語化できない知のつながりが気になって"></textarea>
             </div>
             <div class="sub-field">
-              <div class="sub-label">&#12393;&#12371;&#12391;&#24515;&#12364;&#21205;&#12356;&#12383;&#12363;&#65288;&#12506;&#12540;&#12472;&#12420;&#22580;&#38754;&#12434;&#19968;&#35328;&#65289;</div>
-              <textarea class="short" id="hookWhere" placeholder="&#20363;&#65306;p.42&#12288;&#12300;&#12377;&#12427;&#12301;&#12391;&#12418;&#12300;&#12373;&#12428;&#12427;&#12301;&#12391;&#12418;&#12394;&#12356;&#31532;&#19977;&#12398;&#21205;&#35421;&#24418;&#12392;&#12356;&#12358;&#27010;&#24565;"></textarea>
+              <div class="sub-label">どこで心が動いたか（ページや場面を一言）</div>
+              <textarea class="short" id="hookWhere" placeholder="例：p.42「する」でも「される」でもない第三の動詞形という概念"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card s2">
-          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#22884;&#24819;&#21596;&#12365;&#20986;&#12375;</span><span class="section-hint">4&#20998;</span></div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">妄想吐き出し</span><span class="section-hint">4分</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">&#33258;&#30001;&#35352;&#36848;&#12290;SE&#32147;&#39443;&#12289;&#31354;&#25163;&#12289;&#12394;&#12435;&#12391;&#12418;&#12290;</div>
-              <textarea class="tall" id="imagination" placeholder="&#24609;&#12387;&#12383;&#12371;&#12392;&#12289;&#36899;&#24819;&#12289;&#36949;&#21644;&#24863;&#12289;&#20849;&#40441;&#12289;&#20309;&#12391;&#12418;"></textarea>
+              <div class="sub-label">自由記述。SE経験、空手、なんでも。</div>
+              <textarea class="tall" id="imagination" placeholder="思ったこと、連想、違和感、共鳴、何でも"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card s3">
-          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#12525;&#12472;&#12483;&#12463;</span><span class="section-hint">2&#20998;</span></div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">ロジック</span><span class="section-hint">2分</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">&#8470;&#8204;&#33879;&#8204;&#32773;&#12399;X&#12392;&#35328;&#12387;&#12390;&#12356;&#12427;</div>
-              <textarea class="short" id="logicAuthor" placeholder="&#20363;&#65306;&#24847;&#24535;&#12392;&#12356;&#12358;&#27010;&#24565;&#12399;&#36817;&#20195;&#12395;&#27083;&#31689;&#12373;&#12428;&#12383;&#12418;&#12398;&#12384;"></textarea>
+              <div class="sub-label">著者はXと言っている</div>
+              <textarea class="short" id="logicAuthor" placeholder="例：意志という概念は近代に構築されたものだ"></textarea>
             </div>
             <div class="sub-field">
-              <div class="sub-label">&#33258;&#20998;&#12399;&#12381;&#12428;&#12434;&#12300;&#12288;&#12288;&#12288;&#12392;&#21516;&#12376;&#27083;&#36896;&#12301;&#12392;&#35501;&#12435;&#12384;</div>
-              <textarea class="short" id="logicSelf" placeholder="&#20363;&#65306;&#31354;&#25163;&#12398;&#31295;&#31320;&#12395;&#12362;&#12369;&#12427;&#12300;&#23432;&#30772;&#31163;&#12301;&#12392;&#21516;&#12376;&#27083;&#36896;"></textarea>
+              <div class="sub-label">自分はそれを「〇〇と同じ構造」と読んだ</div>
+              <textarea class="short" id="logicSelf" placeholder="例：空手の稽古における「守破離」と同じ構造"></textarea>
             </div>
             <div class="sub-field">
-              <div class="sub-label">&#12394;&#12380;&#12381;&#12358;&#35501;&#12435;&#12384;&#12363;&#65288;&#19968;&#25991;&#65289;</div>
-              <textarea class="short" id="logicWhy" placeholder="&#20363;&#65306;&#22411;&#12434;&#21453;&#35206;&#12377;&#12427;&#27573;&#38542;&#12391;&#12399;&#12300;&#12377;&#12427;&#12301;&#24847;&#22259;&#12364;&#28040;&#12360;&#12390;&#21205;&#12365;&#12364;&#36215;&#12371;&#12427;&#24863;&#35926;&#12364;&#12354;&#12427;&#12363;&#12425;"></textarea>
+              <div class="sub-label">なぜそう読んだか（一文）</div>
+              <textarea class="short" id="logicWhy" placeholder="例：型を反復する段階では「する」意図が消えて動きが起こる感覚があるから"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card s4">
-          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#12467;&#12531;&#12475;&#12503;&#12488;</span><span class="section-hint">1&#20998;</span></div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">コンセプト</span><span class="section-hint">1分</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">&#12300;&#35201;&#12377;&#12427;&#12395;&#12371;&#12398;&#26412;&#12399;&#12289;&#12288;&#12288;&#12288;&#12395;&#12388;&#12356;&#12390;&#12398;&#26412;&#12384;&#12301;</div>
-              <textarea class="short" id="concept" placeholder="&#20363;&#65306;&#24847;&#24535;&#12392;&#12356;&#12358;&#24187;&#24819;&#12398;&#27508;&#21490;&#30340;&#27083;&#31689;&#12392;&#12289;&#12381;&#12428;&#12434;&#25163;&#25918;&#12375;&#12383;&#20808;&#12395;&#12354;&#12427;&#36131;&#20219;&#12398;&#20877;&#23450;&#32681;&#12395;&#12388;&#12356;&#12390;&#12398;&#26412;&#12384;"></textarea>
+              <div class="sub-label">「要するにこの本は、＿＿についての本だ」</div>
+              <textarea class="short" id="concept" placeholder="例：意志という幻想の歴史的構築と、それを手放した先にある責任の再定義についての本だ"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card s5">
-          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#23376;&#20379;&#12408;&#12398;&#35500;&#26126;&#12496;&#12540;&#12472;&#12519;&#12531;</span></div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">子供への説明バージョン</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">&#12300;&#12388;&#12414;&#12426;&#12397;&#12289;&#12288;&#12288;&#12288;&#12387;&#12390;&#12371;&#12392;&#12301;&#65288;&#19968;&#25991;&#65289;</div>
-              <textarea class="short" id="childExplain" placeholder="&#20363;&#65306;&#33258;&#20998;&#12391;&#12420;&#12429;&#12358;&#12392;&#24605;&#12431;&#12394;&#12367;&#12390;&#12418;&#12289;&#12394;&#12435;&#12363;&#12420;&#12387;&#12390;&#12383;&#12289;&#12387;&#12390;&#12371;&#12392;&#12364;&#23455;&#12399;&#12377;&#12372;&#12367;&#22823;&#20107;&#12394;&#12435;&#12384;&#12424;"></textarea>
+              <div class="sub-label">「つまりね、＿＿ってこと」（一文）</div>
+              <textarea class="short" id="childExplain" placeholder="例：自分でやろうと思わなくても、なんかやってた、ってことが実はすごく大事なんだよ"></textarea>
             </div>
           </div>
         </div>
       </div>
 
       <div class="tags-row">
-        <div class="field-label">&#12479;&#12464;&#65288;&#12459;&#12531;&#12510;&#21010;&#12426;&#65289;</div>
-        <input type="text" id="tags" placeholder="&#20363;&#65306;&#21746;&#23398;, &#35328;&#35486;&#23398;, &#20013;&#21205;&#24907;, &#35501;&#26360;&#12513;&#12514;">
+        <div class="field-label">タグ（カンマ区切り）</div>
+        <input type="text" id="tags" placeholder="例：哲学, 言語学, 中動態, 読書メモ">
       </div>
       <button class="generate-btn" id="genBtnG" onclick="generate('general')"></button>
       <div class="gen-status" id="genStG"></div>
@@ -512,25 +512,25 @@ textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min
     <div class="panel novel-panel" id="panel-novel">
       <div class="row-3">
         <div class="field-group">
-          <div class="field-label">&#20316;&#21697;&#12479;&#12452;&#12488;&#12523;</div>
-          <input type="text" id="novelTitle" placeholder="&#20363;&#65306;&#22812;&#12392;&#38721;">
+          <div class="field-label">作品タイトル</div>
+          <input type="text" id="novelTitle" placeholder="例：夜と霧">
         </div>
         <div class="field-group">
-          <div class="field-label">&#8470;&#8204;&#33879;&#8204;&#32773;</div>
-          <input type="text" id="novelAuthor" placeholder="&#20363;&#65306;&#12532;&#12451;&#12463;&#12488;&#12540;&#12523;&#12539;&#12501;&#12521;&#12531;&#12463;&#12523;">
+          <div class="field-label">著者</div>
+          <input type="text" id="novelAuthor" placeholder="例：ヴィクトール・フランクル">
         </div>
         <div class="field-group">
-          <div class="field-label">&#35501;&#12435;&#12384;&#26085;</div>
+          <div class="field-label">読んだ日</div>
           <input type="date" id="novelDate">
         </div>
       </div>
       <div class="row-2 mb2">
         <div class="field-group">
-          <div class="field-label">&#12459;&#12486;&#12468;&#12522;&#8725;&#12472;&#12515;&#12531;&#12523;</div>
-          <input type="text" id="novelCategory" placeholder="&#20363;&#65306;&#32020;&#25991;&#23398;, SF, &#28023;&#22806;&#21476;&#20856;">
+          <div class="field-label">カテゴリ／ジャンル</div>
+          <input type="text" id="novelCategory" placeholder="例：純文学, SF, 海外古典">
         </div>
         <div class="field-group">
-          <div class="field-label">&#35413;&#20516;</div>
+          <div class="field-label">評価</div>
           <div class="star-row" id="starRow">
             <button class="star-btn" onclick="setRating(1)">&#x2605;</button>
             <button class="star-btn" onclick="setRating(2)">&#x2605;</button>
@@ -543,54 +543,54 @@ textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min
 
       <div class="sections">
         <div class="section-card n1">
-          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">&#27083;&#36896;&#65288;&#26360;&#12365;&#25163;&#12392;&#12375;&#12390;&#65289;</span></div>
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">構造（書き手として）</span></div>
           <div class="section-body">
-            <div class="sub-field"><div class="sub-label">&#35486;&#12426;&#12539;&#35222;&#28857;&#12398;&#35373;&#35336;</div>
-              <textarea class="short" id="novelNarration" placeholder="&#20363;&#65306;&#19968;&#20154;&#31, &#29694;&#22312;&#24418;&#12290;&#20449;&#38972;&#12391;&#12365;&#12394;&#35486;&#12426;&#25163;&#12290;&#35352;&#24564;&#12434;&#36741;&#12427;&#12501;&#12524;&#12540;&#12512;&#27083;&#36896;&#12290;"></textarea>
+            <div class="sub-field"><div class="sub-label">語り・視点の設計</div>
+              <textarea class="short" id="novelNarration" placeholder="例：一人称・現在形。信頼できない語り手。記憶を辿るフレーム構造。"></textarea>
             </div>
-            <div class="sub-field"><div class="sub-label">&#26178;&#38291;&#12539;&#27083;&#25104;&#12398;&#24037;&#22253;</div>
-              <textarea class="short" id="novelStructure" placeholder="&#20363;&#65306;&#38750;&#32218;&#24418;&#12290;&#20897;&#22836;&#12391;&#12458;&#12481;&#12434;&#31034;&#12375;&#12289;&#32076;&#32066;&#12434;&#22238;&#24819;&#12377;&#12427;&#24418;&#24335;&#12290;"></textarea>
+            <div class="sub-field"><div class="sub-label">時間・構成の工夫</div>
+              <textarea class="short" id="novelStructure" placeholder="例：非線形。冒頭でオチを示し、経緯を回想する形式。"></textarea>
             </div>
-            <div class="sub-field"><div class="sub-label">&#25991;&#20307;&#12539;&#12522;&#12474;&#12512;&#12539;&#21477;&#35501;&#28857;&#12398;&#20351;&#12356;&#26041;</div>
-              <textarea class="short" id="novelStyle" placeholder="&#20363;&#65306;&#30701;&#25991;&#36899;&#25171;&#12391;&#32153;&#36343;&#24863;&#12290;&#24515;&#29702;&#25miota;&#36848;&#12399;&#38263;&#25991;&#21270;&#12290;"></textarea>
+            <div class="sub-field"><div class="sub-label">文体・リズム・句読点の使い方</div>
+              <textarea class="short" id="novelStyle" placeholder="例：短文連打で緊迫感。心理描写は長文化。"></textarea>
             </div>
-            <div class="sub-field"><div class="sub-label">&#33258;&#20998;&#12398;&#26360;&#12365;&#12418;&#12398;&#12395;&#30435;&#12417;&#308B;&#25216;&#27861;</div>
-              <textarea class="short" id="novelTechnique" placeholder="&#20363;&#65306;&#24863;&#24773;&#12434;&#34892;&#21205;&#12391;&#31034;&#12377;&#12300;&#35211;&#12379;&#12427;&#12301;&#25216;&#27861;&#12290;&#24863;&#24773;&#12434;&#30452;&#25509;&#26360;&#12363;&#12394;&#12356;&#12290;"></textarea>
+            <div class="sub-field"><div class="sub-label">自分の書きものに盗める技法</div>
+              <textarea class="short" id="novelTechnique" placeholder="例：感情を行動で示す「見せる」技法。感情を直接書かない。"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card n2">
-          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">&#21360;&#35937;&#12395;&#27494;&#12387;&#12383;&#12371;&#12392;</span></div>
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">印象に残ったこと</span></div>
           <div class="section-body">
-            <div class="sub-field"><div class="sub-label">&#24515;&#12364;&#21205;&#12356;&#12383;&#22580;&#38754;&#12539;&#25miota;&#36848;</div>
-              <textarea class="tall" id="novelImpression" placeholder="&#20363;&#65306;p.112&#12288;&#20027;&#20154;&#20844;&#12364;&#29238;&#12398;&#24418;&#35211;&#12398;&#26178;&#35336;&#12434;&#24029;&#12395;&#25391;&#12427;&#22580;&#38754;&#12290;&#34892;&#28167;&#12398;&#35500;&#26126;&#12394;&#12375;&#12290;&#21954;&#12373;&#12364;&#24460;&#12363;&#12425;&#26469;&#12427;&#12290;"></textarea>
+            <div class="sub-field"><div class="sub-label">心が動いた場面・描写</div>
+              <textarea class="tall" id="novelImpression" placeholder="例：p.112 主人公が父の形見の時計を川に捨てる場面。行為の説明なし。喪失感が後から来る。"></textarea>
             </div>
-            <div class="sub-field"><div class="sub-label">&#12394;&#12380;&#21205;&#12356;&#12383;&#12363;&#65288;&#33258;&#20998;&#12398;&#25miota;&#31649;&#12391;&#65289;</div>
-              <textarea class="short" id="novelWhyMoved" placeholder="&#20363;&#65306;&#12300;&#25391;&#12427;&#12301;&#12392;&#12356;&#12358;&#33021;&#21205;&#30340;&#34892;&#28167;&#12395;&#35211;&#12360;&#12390;&#12289;&#23455;&#12399;&#20013;&#21205;&#24907;&#30340;&#12394;&#&#12426;&#20853;&#12395;&#35501;&#12417;&#12383;&#12290;"></textarea>
+            <div class="sub-field"><div class="sub-label">なぜ動いたか（自分の文脈で）</div>
+              <textarea class="short" id="novelWhyMoved" placeholder="例：「振る」という能動的行渇に見えて、実は中動態的な&#り脈に読めた。"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card n3">
-          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">&#12486;&#12540;&#12510;&#12392;&#21839;&#12356;</span></div>
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">テーマと問い</span></div>
           <div class="section-body">
-            <div class="sub-field"><div class="sub-label">&#12053;&#12398;&#20316;&#21697;&#12364;&#21839;&#12356;&#12363;&#12369;&#12390;&#12356;&#12427;&#12371;&#12392;</div>
-              <textarea class="short" id="novelTheme" placeholder="&#20363;&#65306;&#26997;&#38480;&#29366;&#24907;&#12395;&#12363;&#12369;&#12427;&#12300;&#24847;&#21619;&#12434;&#35211;&#20986;&#12377;&#24847;&#24535;&#12301;&#12392;&#12399;&#20309;&#12363;&#12290;"></textarea>
+            <div class="sub-field"><div class="sub-label">この作品が問いかけていること</div>
+              <textarea class="short" id="novelTheme" placeholder="例：極限状態における「意味を見出す意志」とは何か。"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card n4">
-          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">&#12381;&#12398;&#20182;&#12539;&#33258;&#30001;&#12513;&#12514;</span></div>
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">その他・自由メモ</span></div>
           <div class="section-body">
-            <div class="sub-field"><div class="sub-label">&#27671;&#12395;&#12394;&#12387;&#12383;&#35328;&#33865;&#12289;&#35501;&#24460;&#24863;&#12289;&#27425;&#12395;&#35501;&#12415;&#12383;&#12356;&#12418;&#12398;</div>
-              <textarea class="xtall" id="novelFree" placeholder="&#33258;&#30001;&#12395;&#12290;"></textarea>
+            <div class="sub-field"><div class="sub-label">気になった言葉、読後感、次に読みたいもの</div>
+              <textarea class="xtall" id="novelFree" placeholder="自由に。"></textarea>
             </div>
           </div>
         </div>
       </div>
 
       <div class="tags-row">
-        <div class="field-label">&#12479;&#12464;&#65288;&#12459;&#12531;&#12510;&#21010;&#12426;&#65289;</div>
-        <input type="text" id="novelTags" placeholder="&#20363;&#65306;&#23567;&#35500;, &#28023;&#22806;&#25miota;&#23398;, &#23455;&#23384;&#20027;&#32681;">
+        <div class="field-label">タグ（カンマ区切り）</div>
+        <input type="text" id="novelTags" placeholder="例：小説, 海外文学, 実存主義">
       </div>
       <button class="generate-btn nv-btn" id="genBtnN" onclick="generate('novel')"></button>
       <div class="gen-status" id="genStN"></div>
