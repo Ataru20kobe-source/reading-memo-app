@@ -10,72 +10,101 @@
 
 <!-- i18n: JS reads these data-* attributes so app.js stays ASCII-only -->
 <meta id="i18n"
-  data-app-title="&#35501;&#26360;&#12513;&#12514;"
-  data-app-sub="READING NOTES &#x2192; OBSIDIAN"
-  data-settings="&#x2699; &#35373;&#23450;"
-  data-new-memo="&#26032;&#12375;&#12356;&#12513;&#12514;&#12434;&#26360;&#12367;"
+  data-app-title="読書メモ"
+  data-app-sub="READING NOTES → OBSIDIAN"
+  data-settings="⚙ 設定"
+  data-new-memo="新しいメモを書く"
   data-new-memo-hint="NEW MEMO"
-  data-drafts="&#19979;&#26360;&#12365;"
-  data-saved="Obsidian &#20986;&#21147;&#28168;&#12415;"
-  data-loading="&#35501;&#12415;&#36796;&#12415;&#20013;..."
-  data-no-drafts="&#19979;&#26360;&#12365;&#12399;&#12354;&#12426;&#12414;&#12379;&#12435;"
-  data-no-saved="&#12414;&#12384;Obsidian&#12408;&#12398;&#20986;&#21147;&#12399;&#12354;&#12426;&#12414;&#12379;&#12435;"
-  data-no-settings="&#8987; &#35373;&#23450;&#12363;&#12425;GitHub&#12488;&#12540;&#12463;&#12531;&#12392;&#12522;&#12509;&#12472;&#12488;&#12522;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
-  data-load-error="&#35501;&#36796;&#12456;&#12521;&#12540;: "
-  data-delete-error="&#21066;&#38500;&#12456;&#12521;&#12540;: "
-  data-save-error="&#20445;&#23384;&#12456;&#12521;&#12540;: "
-  data-saved-ok="&#8730; &#20445;&#23384;&#12375;&#12414;&#12375;&#12383;"
-  data-settings-saved="&#20445;&#23384;&#12375;&#12414;&#12375;&#12383;"
-  data-back="&#8592; &#19968;&#35239;&#12395;&#25147;&#12427;"
-  data-save-draft="&#19979;&#26360;&#12365;&#20445;&#23577;"
-  data-general-tab="&#19968;&#33324;&#26360;&#12539;&#23398;&#34899;&#12539;&#12499;&#12472;&#12493;&#12473;"
-  data-novel-tab="&#23567;&#35500;"
-  data-general-badge="&#19968;&#33324;&#26360;&#12539;&#23398;&#34899;&#12539;&#12499;&#12472;&#12493;&#12473;"
-  data-novel-badge="&#23567;&#35500;"
-  data-generate-general="Claude &#12391;&#28145;&#25842;&#12426;&#12375;&#12390;&#30906;&#35469;&#12377;&#12427;"
-  data-generate-novel="Claude &#12391;&#20998;&#26512;&#12375;&#12390;&#30906;&#35469;&#12377;&#12427;"
-  data-preview-label="PREVIEW &#8212; &#30452;&#25509;&#32232;&#38598;&#12391;&#12365;&#12414;&#12377;"
-  data-preview-hint="&#30906;&#35469;&#12539;&#20462;&#27491;&#12375;&#12390;&#12363;&#12425;Obsidian&#12408;"
-  data-regenerate="&#8635; &#20877;&#29983;&#25104;"
-  data-push="&#8593; Obsidian&#12395;&#20445;&#23569;"
+  data-drafts="下書き"
+  data-saved="Obsidian 出力済み"
+  data-loading="読み込み中..."
+  data-no-drafts="下書きはありません"
+  data-no-saved="まだObsidianへの出力はありません"
+  data-no-settings="⌛ 設定からGitHubトークンとリポジトリを入力してください"
+  data-load-error="読込エラー: "
+  data-delete-error="削除エラー: "
+  data-save-error="保存エラー: "
+  data-saved-ok="√ 保存しました"
+  data-settings-saved="保存しました"
+  data-back="← 一覧に戻る"
+  data-save-draft="下書き保存"
+  data-general-tab="一般書・学術・ビジネス"
+  data-novel-tab="小説"
+  data-general-badge="一般書・学術・ビジネス"
+  data-novel-badge="小説"
+  data-generate-general="確認してプレビューする"
+  data-generate-novel="確認してプレビューする"
+  data-preview-label="PREVIEW — 直接編集できます"
+  data-preview-hint="確認・修正してからObsidianへ"
+  data-regenerate="↺ 再生成"
+  data-push="↑ Obsidianに出力"
   data-dl=".md"
-  data-no-title="&#12479;&#12452;&#12488;&#12523;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
-  data-no-api-key="&#8987; &#35373;&#23450;&#12391;Anthropic API&#12461;&#12540;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
-  data-claude-loading="Claude&#12364;&#35501;&#12435;&#12391;&#12356;&#12414;&#12377;..."
-  data-claude-done="&#29983;&#25104;&#23436;&#20102; &#8212; &#12503;&#12524;&#12499;&#12517;&#12540;&#12434;&#30906;&#35469;&#12539;&#32232;&#38598;&#12375;&#12390;&#12363;&#12425;Obsidian&#12408;"
-  data-claude-error="&#12456;&#12521;&#12540;: "
-  data-no-token="&#8987; &#35373;&#23450;&#12391;GitHub&#12488;&#12540;&#12463;&#12531;&#12392;&#12522;&#12509;&#12472;&#12488;&#12522;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
-  data-no-md="&#20808;&#12395;Claude&#12391;&#29983;&#25104;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
-  data-checking-folder="&#12501;&#12457;&#12523;&#12480;&#12434;&#30906;&#35469;&#20013;..."
-  data-sending="Obsidian&#12395;&#36865;&#20449;&#20013;..."
-  data-push-ok="&#10003; BooksMemo/fromMyApp/ &#12395;&#20445;&#23569;&#12375;&#12414;&#12375;&#12383;"
-  data-push-error="&#12456;&#12521;&#12540;: "
-  data-folder-error="&#12501;&#12457;&#12523;&#12480;&#12364;Vault&#12395;&#35211;&#12388;&#12363;&#12426;&#12414;&#12379;&#12435;&#12290;Obsidian&#12391;&#20808;&#12395;&#20316;&#25104;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;&#12290;"
-  data-confirm-draft-title="&#19979;&#26360;&#12365;&#12434;&#21066;&#38500;"
-  data-confirm-draft-sub="&#12434;&#21066;&#38500;&#12375;&#12414;&#12377;&#12290;&#20803;&#12395;&#25147;&#12475;&#12414;&#12379;&#12435;&#12290;"
-  data-confirm-done-title="&#20986;&#21147;&#28168;&#12415;&#12513;&#12514;&#12434;&#21066;&#38500;"
-  data-confirm-done-sub="&#12434;Vault&#12363;&#12425;&#21066;&#38500;&#12375;&#12414;&#12377;&#12290;&#20803;&#12395;&#25147;&#12475;&#12414;&#12379;&#12435;&#12290;"
-  data-confirm-cancel="&#12461;&#12515;&#12531;&#12475;&#12523;"
-  data-confirm-delete="&#21066;&#38500;"
-  data-general-label="&#19968;&#33324;&#26360;"
-  data-novel-label="&#23567;&#35500;"
-  data-saved-label="&#20986;&#21147;&#28168;&#12415;"
-  data-no-author="&#8470;&#33879;&#32773;&#26410;&#35352;&#20837;"
-  data-no-title-card="&#65288;&#12479;&#12452;&#12488;&#12523;&#12394;&#12375;&#65289;"
-  data-updated="&#26356;&#26032; "
-  data-reload="&#x21BA;"
-  data-settings-title="&#35373;&#23450;"
+  data-no-title="タイトルを入力してください"
+  data-no-api-key="⌛ 設定でAnthropic APIキーを入力してください"
+  data-claude-loading="生成中..."
+  data-claude-done="生成完了 — プレビューを確認・編集してからObsidianへ"
+  data-claude-error="エラー: "
+  data-no-token="⌛ 設定でGitHubトークンとリポジトリを入力してください"
+  data-no-md="先にメモを入力して確認してください"
+  data-checking-folder="フォルダを確認中..."
+  data-sending="Obsidianに送信中..."
+  data-push-ok="✓ BooksMemo/fromMyApp/ に保少しました"
+  data-push-error="エラー: "
+  data-folder-error="フォルダがVaultに見つかりません。Obsidianで先に作成してください。"
+  data-confirm-draft-title="下書きを削除"
+  data-confirm-draft-sub="を削除します。元に戻せません。"
+  data-confirm-done-title="出力済みメモを削除"
+  data-confirm-done-sub="をVaultから削除します。元に戻せません。"
+  data-confirm-cancel="キャンセル"
+  data-confirm-delete="削除"
+  data-general-label="一般書"
+  data-novel-label="小説"
+  data-saved-label="出力済み"
+  data-no-author="著者未記入"
+  data-no-title-card="（タイトルなし）"
+  data-updated="更新 "
+  data-reload="↺"
+  data-settings-title="設定"
   data-settings-api-section="Claude API"
   data-settings-gh-section="GitHub x Obsidian Vault"
   data-settings-key-label="Anthropic API Key"
-  data-settings-key-hint="&#21462;&#24471;: "
+  data-settings-key-hint="取得: "
   data-settings-token-label="Personal Access Token"
-  data-settings-token-hint="Settings &#x2192; Developer settings &#x2192; Fine-grained tokens&#10;&#27435;&#38480;: Contents &#x2192; Read and write &#12398;&#12415;&#12391;OK"
-  data-settings-repo-label="Vault &#12522;&#12509;&#12472;&#12488;&#12522;&#65288;owner/repo&#65289;"
-  data-settings-branch-label="&#12502;&#12521;&#12531;&#12481;&#65288;&#12487;&#12501;&#12457;&#12523;&#12488;: main&#65289;"
-  data-settings-folder-hint="&#19979;&#26360;&#12365;&#20445;&#23577;&#20808;: BooksMemo/fromMyApp/drafts/&#10;Obsidian&#20986;&#21147;&#20808;: BooksMemo/fromMyApp/&#10;&#8251; &#20001;&#12501;&#12457;&#12523;&#12480;&#12364;Vault&#12395;&#5B58;&#22312;&#12375;&#12394;&#12356;&#22580;&#21512;&#12456;&#12521;&#12540;&#12395;&#12394;&#12426;&#12414;&#12377;"
-  data-settings-save="&#20445;&#23557;"
-  data-preview-dl="&#x2193; .md &#12480;&#12454;&#12531;&#12525;&#12540;&#12489;"
+  data-settings-token-hint="Settings → Developer settings → Fine-grained tokens
+権限: Contents → Read and write のみでOK"
+  data-settings-repo-label="Vault リポジトリ（owner/repo）"
+  data-settings-branch-label="ブランチ（デフォルト: main）"
+  data-settings-folder-hint="下書き保存先: BooksMemo/fromMyApp/drafts/
+Obsidian出力先: BooksMemo/fromMyApp/
+※ 両フォルダがVaultに存在しない場合エラーになります"
+  data-settings-save="保存"
+  data-preview-dl="↓ .md ダウンロード"
+  data-md-type-general="読書メモ"
+  data-md-type-novel="小説メモ"
+  data-md-hook="フック"
+  data-md-hook-why="なぜ手に取ったか"
+  data-md-hook-where="どこで心が動いたか"
+  data-md-imagination="妄想吐き出し"
+  data-md-logic="ロジック"
+  data-md-logic-author="著者の主張"
+  data-md-logic-self="自分の読み"
+  data-md-logic-why="なぜそう読んだか"
+  data-md-concept="コンセプト"
+  data-md-child="子供への説明"
+  data-md-rating="評価"
+  data-md-structure="構造（書き手として）"
+  data-md-narration="語り・視点"
+  data-md-time="時間・構成"
+  data-md-style="文体・リズム"
+  data-md-technique="盗める技法"
+  data-md-impression="印象に残ったこと"
+  data-md-scene="心が動いた場面"
+  data-md-why-moved="なぜ動いたか"
+  data-md-theme="テーマと問い"
+  data-md-free="その他・自由メモ"
+  data-md-unrated="未評価"
+  data-md-default-tag-general="読書メモ"
+  data-md-default-tag-novel="小説"
 ></meta>
 
 <style>
@@ -1101,53 +1130,63 @@ function generate(mode) {
 function buildMarkdown(mode) {
   if (mode === 'general') {
     var m = gatherForm('general');
-    var tags = m.tags ? m.tags.split(',').map(function(t){ return '  - ' + t.trim(); }).join('\n') : '  - \u8aad\u66f8\u30e1\u30e2';
+    var defaultTag = t('md-default-tag-general');
+    var tags = m.tags
+      ? m.tags.split(',').map(function(s){ return '  - ' + s.trim(); }).join('\n')
+      : '  - ' + defaultTag;
     return '---\n'
-      + 'title: ' + (m.title || '') + '\n'
+      + 'title: '  + (m.title  || '') + '\n'
       + 'author: ' + (m.author || '') + '\n'
-      + 'date: ' + (m.date || '') + '\n'
-      + 'tags:\n' + tags + '\n'
-      + 'type: \u8aad\u66f8\u30e1\u30e2\n'
+      + 'date: '   + (m.date   || '') + '\n'
+      + 'tags:\n'  + tags + '\n'
+      + 'type: '   + t('md-type-general') + '\n'
       + '---\n\n'
-      + '## \u30d5\u30c3\u30af\n\n'
-      + '**\u306a\u305c\u624b\u306b\u53d6\u3063\u305f\u304b**: ' + (m.hookWhy || '') + '\n\n'
-      + '**\u3069\u3053\u3067\u5fc3\u304c\u52d5\u3044\u305f\u304b**: ' + (m.hookWhere || '') + '\n\n'
-      + '## \u59a6\u60f3\u5410\u304d\u51fa\u3057\n\n'
+      + '## ' + t('md-hook') + '\n\n'
+      + '**' + t('md-hook-why')   + '**: ' + (m.hookWhy   || '') + '\n\n'
+      + '**' + t('md-hook-where') + '**: ' + (m.hookWhere || '') + '\n\n'
+      + '## ' + t('md-imagination') + '\n\n'
       + (m.imagination || '') + '\n\n'
-      + '## \u30ed\u30b8\u30c3\u30af\n\n'
-      + '**\u8457\u8005\u306f\u4f55\u3068\u8a00\u3063\u3066\u3044\u308b\u304b**: ' + (m.logicAuthor || '') + '\n\n'
-      + '**\u81ea\u5206\u306e\u8aad\u307f**: ' + (m.logicSelf || '') + '\n\n'
-      + '**\u306a\u305c\u305d\u3046\u8aad\u3093\u3060\u304b**: ' + (m.logicWhy || '') + '\n\n'
-      + '## \u30b3\u30f3\u30bb\u30d7\u30c8\n\n'
+      + '## ' + t('md-logic') + '\n\n'
+      + '**' + t('md-logic-author') + '**: ' + (m.logicAuthor || '') + '\n\n'
+      + '**' + t('md-logic-self')   + '**: ' + (m.logicSelf   || '') + '\n\n'
+      + '**' + t('md-logic-why')    + '**: ' + (m.logicWhy    || '') + '\n\n'
+      + '## ' + t('md-concept') + '\n\n'
       + (m.concept || '') + '\n\n'
-      + '## \u5b50\u4f9b\u3078\u306e\u8aac\u660e\n\n'
+      + '## ' + t('md-child') + '\n\n'
       + (m.childExplain || '') + '\n';
   }
   var m = gatherForm('novel');
-  var stars = m.rating > 0 ? '\u2605'.repeat(m.rating) + '\u2606'.repeat(5 - m.rating) : '\u672a\u8a55\u4fa1';
-  var tags = m.tags ? m.tags.split(',').map(function(t){ return '  - ' + t.trim(); }).join('\n') : '  - \u5c0f\u8aac\u30e1\u30e2';
+  var unrated = t('md-unrated');
+  var star = '\u2605'; var nostar = '\u2606';
+  var stars = m.rating > 0
+    ? Array(m.rating + 1).join(star) + Array(6 - m.rating).join(nostar)
+    : unrated;
+  var defaultTag = t('md-default-tag-novel');
+  var tags = m.tags
+    ? m.tags.split(',').map(function(s){ return '  - ' + s.trim(); }).join('\n')
+    : '  - ' + defaultTag;
   return '---\n'
-    + 'title: ' + (m.title || '') + '\n'
-    + 'author: ' + (m.author || '') + '\n'
-    + 'date: ' + (m.date || '') + '\n'
+    + 'title: '    + (m.title    || '') + '\n'
+    + 'author: '   + (m.author   || '') + '\n'
+    + 'date: '     + (m.date     || '') + '\n'
     + 'category: ' + (m.category || '') + '\n'
-    + 'rating: ' + (m.rating || 0) + '\n'
-    + 'tags:\n' + tags + '\n'
-    + 'type: \u5c0f\u8aac\u30e1\u30e2\n'
+    + 'rating: '   + (m.rating   || 0)  + '\n'
+    + 'tags:\n'    + tags + '\n'
+    + 'type: '     + t('md-type-novel') + '\n'
     + '---\n\n'
-    + '## \u8a55\u4fa1: ' + stars + '\n\n'
-    + '## \u69cb\u9020\uff08\u66f8\u304d\u624b\u3068\u3057\u3066\uff09\n\n'
-    + '**\u8a9e\u308a\u30fb\u8996\u70b9**: ' + (m.narration || '') + '\n\n'
-    + '**\u6642\u9593\u30fb\u69cb\u6210**: ' + (m.structure || '') + '\n\n'
-    + '**\u6587\u4f53\u30fb\u30ea\u30ba\u30e0**: ' + (m.style || '') + '\n\n'
-    + '**\u76d7\u3081\u308b\u6280\u6cd5**: ' + (m.technique || '') + '\n\n'
-    + '## \u5370\u8c61\u306b\u6b8b\u3063\u305f\u3053\u3068\n\n'
-    + '**\u5fc3\u304c\u52d5\u3044\u305f\u5834\u9762**: ' + (m.impression || '') + '\n\n'
-    + '**\u306a\u305c\u52d5\u3044\u305f\u304b**: ' + (m.whyMoved || '') + '\n\n'
-    + '## \u30c6\u30fc\u30de\u3068\u554f\u3044\n\n'
+    + '## ' + t('md-rating') + ': ' + stars + '\n\n'
+    + '## ' + t('md-structure') + '\n\n'
+    + '**' + t('md-narration')  + '**: ' + (m.narration  || '') + '\n\n'
+    + '**' + t('md-time')       + '**: ' + (m.structure  || '') + '\n\n'
+    + '**' + t('md-style')      + '**: ' + (m.style      || '') + '\n\n'
+    + '**' + t('md-technique')  + '**: ' + (m.technique  || '') + '\n\n'
+    + '## ' + t('md-impression') + '\n\n'
+    + '**' + t('md-scene')      + '**: ' + (m.impression || '') + '\n\n'
+    + '**' + t('md-why-moved')  + '**: ' + (m.whyMoved   || '') + '\n\n'
+    + '## ' + t('md-theme') + '\n\n'
     + (m.theme || '') + '\n\n'
-    + '## \u305d\u306e\u4ed6\u30fb\u81ea\u7531\u30e1\u30e2\n\n'
-    + (m.free || '') + '\n';
+    + '## ' + t('md-free') + '\n\n'
+    + (m.free  || '') + '\n';
 }
 
 function setGenSt(mode, msg, cls) {
