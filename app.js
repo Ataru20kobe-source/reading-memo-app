@@ -491,7 +491,7 @@ function generate(mode) {
   setGenSt(mode, t('claude-loading'), 'loading' + (mode === 'novel' ? ' nv' : ''));
   document.getElementById('reviewPanel' + s).classList.remove('visible');
  
-  fetch('https://YOUR-PROJECT.vercel.app/api/claude', {
+fetch('https://books-memo-proxy.vercel.app/api/claude', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
