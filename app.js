@@ -1,606 +1,617 @@
-// BooksMemo app.js
-// ASCII-only. All Japanese text lives in index.html as data-* attributes on #i18n.
- 
-var DRAFT_DIR    = 'BooksMemo/fromMyApp/drafts';
-var OBSIDIAN_DIR = 'BooksMemo/fromMyApp';
- 
-var currentTab       = 'general';
-var currentDraftFile = null;
-var currentDraftSha  = null;
-var novelRating      = 0;
-var previewMd        = '';
-var previewFile      = '';
- 
-// Read all i18n strings from the #i18n meta element in HTML
-var T = {};
-function loadI18n() {
-  var el = document.getElementById('i18n');
-  if (!el) return;
-  var attrs = el.attributes;
-  for (var i = 0; i < attrs.length; i++) {
-    var name = attrs[i].name;
-    if (name.indexOf('data-') === 0) {
-      var key = name.slice(5); // strip 'data-'
-      T[key] = attrs[i].value;
-    }
-  }
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>読書メモ</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d0c0a'/%3E%3Crect x='7' y='8' width='11' height='16' rx='1' fill='%23c8a96e'/%3E%3Crect x='14' y='8' width='11' height='16' rx='1' fill='%238a7045'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=DM+Mono:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- i18n: JS reads these data-* attributes so app.js stays ASCII-only -->
+<meta id="i18n"
+  data-app-title="読書メモ"
+  data-app-sub="READING NOTES → OBSIDIAN"
+  data-settings="⚙ 設定"
+  data-new-memo="新しいメモを書く"
+  data-new-memo-hint="NEW MEMO"
+  data-drafts="下書き"
+  data-saved="Obsidian 出力済み"
+  data-loading="読み込み中..."
+  data-no-drafts="下書きはありません"
+  data-no-saved="まだObsidianへの出力はありません"
+  data-no-settings="⚙ 設定からGitHubトークンとリポジトリを入力してください"
+  data-load-error="読込エラー: "
+  data-delete-error="削除エラー: "
+  data-save-error="保存エラー: "
+  data-saved-ok="✓ 保存しました"
+  data-settings-saved="保存しました"
+  data-back="← 一覧に戻る"
+  data-save-draft="下書き保存"
+  data-general-tab="一般書・学術・ビジネス"
+  data-novel-tab="小説"
+  data-general-badge="一般書・学術・ビジネス"
+  data-novel-badge="小説"
+  data-generate-general="Claude で深掘りして確認する"
+  data-generate-novel="Claude で分析して確認する"
+  data-preview-label="PREVIEW — 直接編集できます"
+  data-preview-hint="確認・修正してからObsidianへ"
+  data-regenerate="↺ 再生成"
+  data-push="↑ Obsidianに保存"
+  data-dl=".md"
+  data-no-title="タイトルを入力してください"
+  data-no-api-key="⚙ 設定でAnthropicAPIキーを入力してください"
+  data-claude-loading="Claudeが読んでいます..."
+  data-claude-done="生成完了 — プレビューを確認・編集してからObsidianへ"
+  data-claude-error="エラー: "
+  data-no-token="⚙ 設定でGitHubトークンとリポジトリを入力してください"
+  data-no-md="先にClaudeで生成してください"
+  data-checking-folder="フォルダを確認中..."
+  data-sending="Obsidianに送信中..."
+  data-push-ok="✓ BooksMemo/fromMyApp/ に保存しました"
+  data-push-error="エラー: "
+  data-folder-error="フォルダがVaultに見つかりません。Obsidianで先に作成してください。"
+  data-confirm-draft-title="下書きを削除"
+  data-confirm-draft-sub="を削除します。元に戻せません。"
+  data-confirm-done-title="出力済みメモを削除"
+  data-confirm-done-sub="をVaultから削除します。元に戻せません。"
+  data-confirm-cancel="キャンセル"
+  data-confirm-delete="削除"
+  data-general-label="一般書"
+  data-novel-label="小説"
+  data-saved-label="出力済み"
+  data-no-author="著者未記入"
+  data-no-title-card="（タイトルなし）"
+  data-updated="更新 "
+  data-reload="↺"
+  data-settings-title="設定"
+  data-settings-api-section="Claude API"
+  data-settings-gh-section="GitHub × Obsidian Vault"
+  data-settings-key-label="Anthropic API Key"
+  data-settings-key-hint="取得: "
+  data-settings-token-label="Personal Access Token"
+  data-settings-token-hint="Settings → Developer settings → Fine-grained tokens
+権限: Contents → Read and write のみでOK"
+  data-settings-repo-label="Vault リポジトリ（owner/repo）"
+  data-settings-branch-label="ブランチ（デフォルト: main）"
+  data-settings-folder-hint="下書き保存先: BooksMemo/fromMyApp/drafts/
+Obsidian出力先: BooksMemo/fromMyApp/
+※ 両フォルダがVaultに存在しない場合エラーになります"
+  data-settings-save="保存"
+  data-preview-dl="↓ .md ダウンロード"
+></meta>
+
+<style>
+:root {
+  --bg:#0d0c0a; --surface:#141210; --surface2:#1c1916; --surface3:#222018;
+  --border:#2c2924; --border2:#3c3830;
+  --text:#ece4d4; --text-2:#a09080; --text-3:#5a5248;
+  --gold:#c8a96e; --gold-dim:#8a7045;
+  --gold-pale:rgba(200,169,110,.09); --gold-pale2:rgba(200,169,110,.05);
+  --novel:#a0b8c8; --novel-dim:#5a7888;
+  --blue-pale:rgba(126,184,216,.08);
+  --red:#c06050; --green:#6aaa80;
+  --s1:#c8a96e;--s2:#88b4c8;--s3:#b898c8;--s4:#88c8a0;--s5:#c89898;
+  --n1:#88b4c8;--n2:#c8b488;--n3:#98c888;--n4:#c888b4;
 }
- 
-function t(key) { return T[key] || key; }
- 
-// Apply i18n to static elements
-function applyI18n() {
-  setText('libTitle',            t('app-title'));
-  setText('libSub',              t('app-sub'));
-  setText('settingsOpenBtn',     t('settings'));
-  setText('newMemoLabel',        t('new-memo'));
-  setText('newMemoHint',         t('new-memo-hint'));
-  setText('draftsLabel',         t('drafts'));
-  setText('savedLabel',          t('saved'));
-  setText('reloadBtn',           t('reload'));
-  setText('backBtn',             t('back'));
-  setText('draftSaveBtn',        t('save-draft'));
-  setText('saveInd',             t('saved-ok'));
-  setText('editorHeading',       t('app-title'));
-  setText('genBtnG',             t('generate-general'));
-  setText('genBtnN',             t('generate-novel'));
-  setText('regenG',              t('regenerate'));
-  setText('regenN',              t('regenerate'));
-  setText('pushG',               t('push'));
-  setText('pushN',               t('push'));
-  setText('dlBtnG',              t('dl'));
-  setText('dlBtnN',              t('dl'));
-  setText('reviewLabelG',        t('preview-label'));
-  setText('reviewLabelN',        t('preview-label'));
-  setText('reviewHintG',         t('preview-hint'));
-  setText('reviewHintN',         t('preview-hint'));
-  setText('confirmCancelBtn',    t('confirm-cancel'));
-  setText('confirmOk',           t('confirm-delete'));
-  setText('previewDlBtn',        t('preview-dl'));
-  setText('settingsTitle',       t('settings-title'));
-  setText('settingsApiSection',  t('settings-api-section'));
-  setText('settingsGhSection',   t('settings-gh-section'));
-  setText('settingsKeyLabel',    t('settings-key-label'));
-  setText('settingsKeyHint',     t('settings-key-hint') + ' console.anthropic.com');
-  setText('settingsTokenLabel',  t('settings-token-label'));
-  setText('settingsTokenHint',   t('settings-token-hint'));
-  setText('settingsRepoLabel',   t('settings-repo-label'));
-  setText('settingsBranchLabel', t('settings-branch-label'));
-  setText('settingsFolderHint',  t('settings-folder-hint'));
-  setText('settingsSaveBtn',     t('settings-save'));
-  // tab labels
-  setText('tab-general', t('general-tab'));
-  setText('tab-novel',   t('novel-tab'));
-  // initial badge
-  setText('editorBadge', t('general-badge'));
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Noto Sans JP',sans-serif;font-weight:300;
+  min-height:100vh;line-height:1.75;
+  -webkit-font-smoothing:antialiased;
 }
- 
-function setText(id, text) {
-  var el = document.getElementById(id);
-  if (el) el.textContent = text;
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
 }
- 
-// Config
-var cfg = {
-  get key()    { return localStorage.getItem('rm_key')    || ''; },
-  get token()  { return localStorage.getItem('rm_token')  || ''; },
-  get repo()   { return localStorage.getItem('rm_repo')   || ''; },
-  get branch() { return localStorage.getItem('rm_branch') || 'main'; }
-};
- 
-function openSettings() {
-  document.getElementById('cfg-key').value    = cfg.key;
-  document.getElementById('cfg-token').value  = cfg.token;
-  document.getElementById('cfg-repo').value   = cfg.repo;
-  document.getElementById('cfg-branch').value = cfg.branch;
-  document.getElementById('settingsSt').textContent = '';
-  document.getElementById('settingsOverlay').classList.add('open');
+.screen{display:none;position:relative;z-index:1;min-height:100vh}
+.screen.active{display:block}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* LIBRARY */
+.lib-wrap{max-width:700px;margin:0 auto;padding:56px 24px 120px}
+.lib-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:44px;padding-bottom:24px;border-bottom:1px solid var(--border)}
+.lib-title{font-family:'Shippori Mincho',serif;font-size:30px;font-weight:800;letter-spacing:.04em;margin-bottom:4px}
+.lib-sub{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);letter-spacing:.22em}
+.settings-btn{background:none;border:1px solid var(--border2);color:var(--text-3);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;padding:8px 16px;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap;margin-top:4px}
+.settings-btn:hover{border-color:var(--gold-dim);color:var(--gold)}
+.new-btn{display:flex;align-items:center;gap:14px;padding:18px 24px;width:100%;margin-bottom:44px;background:var(--gold-pale2);border:1px solid var(--gold-dim);border-radius:8px;color:var(--gold);cursor:pointer;transition:all .25s}
+.new-btn:hover{background:var(--gold-pale);border-color:var(--gold)}
+.new-btn-icon{width:36px;height:36px;border-radius:50%;background:rgba(200,169,110,.12);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.new-btn-label{font-family:'Shippori Mincho',serif;font-size:17px;font-weight:600;letter-spacing:.08em;flex:1}
+.new-btn-hint{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3);letter-spacing:.12em}
+.list-section{margin-bottom:44px}
+.list-section-hd{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.list-section-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.22em;color:var(--text-3);text-transform:uppercase;white-space:nowrap}
+.list-count{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);background:var(--surface2);border:1px solid var(--border);padding:2px 9px;border-radius:12px}
+.list-line{flex:1;height:1px;background:var(--border)}
+.list-refresh{background:none;border:none;color:var(--text-3);font-size:14px;cursor:pointer;padding:4px 6px;transition:color .2s;border-radius:4px}
+.list-refresh:hover{color:var(--gold)}
+.list-loading{font-family:'DM Mono',monospace;font-size:13px;color:var(--text-3);padding:24px 0;text-align:center;animation:pulse 1.5s ease-in-out infinite}
+.list-empty{font-family:'DM Mono',monospace;font-size:13px;color:var(--text-3);padding:28px 0;text-align:center}
+.list-error{font-size:13px;color:var(--red);padding:16px;background:rgba(192,96,80,.06);border:1px solid rgba(192,96,80,.2);border-radius:6px;line-height:1.6}
+.card-list{display:flex;flex-direction:column;gap:4px}
+.draft-card{display:flex;align-items:stretch;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .2s,background .2s;animation:fadein .2s ease}
+.draft-card:hover{border-color:var(--border2);background:var(--surface2)}
+.card-bar{width:4px;flex-shrink:0}
+.card-bar.general{background:var(--gold)}
+.card-bar.novel{background:var(--novel)}
+.card-bar.done{background:var(--green)}
+.card-body{flex:1;padding:16px 18px;min-width:0}
+.card-top{display:flex;align-items:center;gap:10px;margin-bottom:5px;flex-wrap:wrap}
+.card-title{font-family:'Shippori Mincho',serif;font-size:16px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px}
+.card-badge{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;white-space:nowrap;padding:2px 8px;border-radius:4px;flex-shrink:0}
+.card-badge.general{color:var(--gold);background:rgba(200,169,110,.1);border:1px solid rgba(200,169,110,.25)}
+.card-badge.novel{color:var(--novel);background:rgba(160,184,200,.1);border:1px solid rgba(160,184,200,.25)}
+.card-badge.done{color:var(--green);background:rgba(106,170,128,.1);border:1px solid rgba(106,170,128,.25)}
+.card-meta{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-3);display:flex;gap:12px;flex-wrap:wrap}
+.card-author{color:var(--text-2)}
+.card-actions{display:flex;align-items:center;padding:0 12px;gap:4px;flex-shrink:0}
+.card-btn{background:none;border:none;color:var(--text-3);font-size:15px;cursor:pointer;padding:8px 9px;border-radius:6px;transition:all .15s}
+.card-btn:hover{background:var(--surface3);color:var(--red)}
+.card-btn.view:hover{color:var(--green)}
+.card-btn.edit:hover{color:var(--gold)}
+
+/* MODALS */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:10px;width:100%;max-width:740px;margin:auto;flex-shrink:0}
+.modal-sm{max-width:520px}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);gap:12px}
+.modal-title{font-family:'Shippori Mincho',serif;font-size:17px;font-weight:600;letter-spacing:.05em;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.modal-close{background:none;border:none;color:var(--text-3);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:4px;transition:color .2s;flex-shrink:0}
+.modal-close:hover{color:var(--text)}
+.modal-content{padding:24px;font-family:'DM Mono',monospace;font-size:12px;line-height:1.85;color:var(--text-2);white-space:pre-wrap;word-break:break-word;max-height:70vh;overflow-y:auto}
+.modal-content::-webkit-scrollbar{width:4px}
+.modal-content::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
+.modal-dl{padding:9px 20px;background:var(--green);color:var(--bg);border:none;border-radius:6px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:opacity .2s;letter-spacing:.08em}
+.modal-dl:hover{opacity:.85}
+.modal-body{padding:24px;display:flex;flex-direction:column;gap:16px}
+.modal-section-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;padding-bottom:10px;border-bottom:1px solid var(--border);margin-top:4px}
+.modal-hint{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);line-height:1.7;margin-top:-8px;white-space:pre-line}
+.modal-hint a{color:var(--gold-dim);text-decoration:none}
+.modal-hint strong{color:var(--gold)}
+.save-settings-btn{width:100%;padding:14px;background:var(--gold);color:var(--bg);border:none;border-radius:6px;font-family:'Shippori Mincho',serif;font-size:15px;font-weight:600;letter-spacing:.1em;cursor:pointer;transition:opacity .2s;margin-top:4px}
+.save-settings-btn:hover{opacity:.88}
+.settings-st{font-family:'DM Mono',monospace;font-size:12px;text-align:center;min-height:18px;color:var(--text-3)}
+.settings-st.ok{color:var(--green)}.settings-st.err{color:var(--red)}
+.confirm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;align-items:center;justify-content:center;padding:24px}
+.confirm-overlay.open{display:flex}
+.confirm-box{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:32px 28px;max-width:360px;width:100%;text-align:center}
+.confirm-title{font-family:'Shippori Mincho',serif;font-size:18px;font-weight:600;margin-bottom:10px}
+.confirm-sub{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-2);margin-bottom:28px;line-height:1.65}
+.confirm-actions{display:flex;gap:12px;justify-content:center}
+.btn-cancel{padding:10px 22px;background:transparent;border:1px solid var(--border2);color:var(--text-2);font-family:'Noto Sans JP',sans-serif;font-size:13px;cursor:pointer;border-radius:6px;transition:all .2s}
+.btn-cancel:hover{color:var(--text);border-color:var(--text-2)}
+.btn-danger{padding:10px 22px;background:var(--red);color:#fff;border:none;font-family:'Noto Sans JP',sans-serif;font-size:13px;cursor:pointer;border-radius:6px;transition:opacity .2s}
+.btn-danger:hover{opacity:.85}
+
+/* EDITOR */
+.editor-wrap{max-width:800px;margin:0 auto;padding:48px 24px 120px}
+.editor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border);gap:16px}
+.back-btn{display:flex;align-items:center;gap:8px;background:none;border:none;color:var(--text-3);font-family:'Noto Sans JP',sans-serif;font-size:13px;cursor:pointer;padding:8px 12px;border-radius:6px;transition:all .2s;white-space:nowrap}
+.back-btn:hover{color:var(--text-2);background:var(--surface2)}
+.editor-center{display:flex;flex-direction:column;align-items:center;gap:3px}
+.editor-heading{font-family:'Shippori Mincho',serif;font-size:18px;font-weight:800;letter-spacing:.06em}
+.editor-badge{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;color:var(--text-3)}
+.draft-save-row{display:flex;align-items:center;gap:10px}
+.save-indicator{font-family:'Noto Sans JP',sans-serif;font-size:11px;color:var(--green);opacity:0;transition:opacity .4s;white-space:nowrap}
+.save-indicator.show{opacity:1}
+.draft-save-btn{background:none;border:1px solid var(--border2);color:var(--text-3);font-family:'Noto Sans JP',sans-serif;font-size:12px;padding:8px 16px;border-radius:6px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.draft-save-btn:hover{border-color:var(--gold-dim);color:var(--gold)}
+.draft-save-btn:disabled{opacity:.4;cursor:not-allowed}
+.tab-bar{display:flex;margin-bottom:36px;border-bottom:1px solid var(--border)}
+.tab{padding:12px 26px;font-family:'Shippori Mincho',serif;font-size:15px;font-weight:600;letter-spacing:.08em;color:var(--text-3);cursor:pointer;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;transition:all .2s}
+.tab:hover{color:var(--text-2)}
+.tab.active-general{color:var(--gold);border-bottom-color:var(--gold)}
+.tab.active-novel{color:var(--novel);border-bottom-color:var(--novel)}
+.panel{display:none}.panel.active{display:block}
+.row-2{display:grid;grid-template-columns:1fr 172px;gap:14px;margin-bottom:16px}
+.row-3{display:grid;grid-template-columns:1fr 1fr 172px;gap:14px;margin-bottom:16px}
+.field-group{display:flex;flex-direction:column;gap:7px}
+.field-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--text-3);text-transform:uppercase}
+input[type="text"],input[type="date"],textarea{
+  background:var(--surface2);border:1px solid var(--border);color:var(--text);
+  font-family:'Noto Sans JP',sans-serif;font-weight:300;font-size:15px;
+  padding:11px 15px;border-radius:6px;outline:none;
+  transition:border-color .2s,background .2s;width:100%;-webkit-appearance:none;
 }
-function closeSettings()     { document.getElementById('settingsOverlay').classList.remove('open'); }
-function closeSettingsOut(e) { if (e.target === document.getElementById('settingsOverlay')) closeSettings(); }
-function saveSettings() {
-  ['key','token','repo','branch'].forEach(function(k) {
-    var val = document.getElementById('cfg-' + k).value.trim();
-    localStorage.setItem('rm_' + k, k === 'branch' && !val ? 'main' : val);
-  });
-  var el = document.getElementById('settingsSt');
-  el.textContent = t('settings-saved');
-  el.className = 'settings-st ok';
-  setTimeout(function() { el.textContent = ''; el.className = 'settings-st'; }, 2000);
+input:focus,textarea:focus{border-color:var(--gold-dim);background:var(--surface3)}
+.novel-panel input:focus,.novel-panel textarea:focus{border-color:var(--novel-dim)}
+input[type="date"]{color-scheme:dark}
+.mb{margin-bottom:16px}.mb2{margin-bottom:28px}
+.sections{display:flex;flex-direction:column;gap:20px;margin-bottom:28px}
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.section-header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--surface2);border-bottom:1px solid var(--border)}
+.section-icon{font-size:11px;font-weight:800;width:14px;text-align:center;flex-shrink:0}
+.section-title{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:600;flex:1;color:var(--text)}
+.section-hint{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);background:var(--surface3);padding:2px 8px;border-radius:4px}
+.section-body{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.sub-field{display:flex;flex-direction:column;gap:5px}
+.sub-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);letter-spacing:.07em}
+textarea{resize:vertical;line-height:1.65;min-height:72px}
+textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min-height:172px}
+.s1 .section-icon{color:var(--s1)}.s1 .section-header{border-left:3px solid var(--s1)}
+.s2 .section-icon{color:var(--s2)}.s2 .section-header{border-left:3px solid var(--s2)}
+.s3 .section-icon{color:var(--s3)}.s3 .section-header{border-left:3px solid var(--s3)}
+.s4 .section-icon{color:var(--s4)}.s4 .section-header{border-left:3px solid var(--s4)}
+.s5 .section-icon{color:var(--s5)}.s5 .section-header{border-left:3px solid var(--s5)}
+.n1 .section-icon{color:var(--n1)}.n1 .section-header{border-left:3px solid var(--n1)}
+.n2 .section-icon{color:var(--n2)}.n2 .section-header{border-left:3px solid var(--n2)}
+.n3 .section-icon{color:var(--n3)}.n3 .section-header{border-left:3px solid var(--n3)}
+.n4 .section-icon{color:var(--n4)}.n4 .section-header{border-left:3px solid var(--n4)}
+.star-row{display:flex;align-items:center;gap:3px;padding-top:6px}
+.star-btn{background:none;border:none;font-size:22px;cursor:pointer;color:var(--border2);transition:color .15s,transform .1s;line-height:1;padding:2px 4px}
+.star-btn.lit{color:var(--novel)}.star-btn:hover{transform:scale(1.2)}
+.tags-row{display:flex;flex-direction:column;gap:7px;margin-bottom:28px}
+.generate-btn{width:100%;padding:16px;background:var(--gold-pale2);border:1px solid var(--gold-dim);border-radius:8px;color:var(--gold);font-family:'Shippori Mincho',serif;font-size:16px;font-weight:600;letter-spacing:.12em;cursor:pointer;transition:all .2s}
+.generate-btn:hover:not(:disabled){background:var(--gold-pale);border-color:var(--gold)}
+.generate-btn.nv-btn{background:var(--blue-pale);border-color:var(--novel-dim);color:var(--novel)}
+.generate-btn.nv-btn:hover:not(:disabled){border-color:var(--novel)}
+.generate-btn:disabled{opacity:.35;cursor:not-allowed}
+.gen-status{font-family:'DM Mono',monospace;font-size:12px;text-align:center;padding:12px 0 8px;min-height:28px;color:var(--text-3)}
+.gen-status.loading{color:var(--gold);animation:pulse 1.5s ease-in-out infinite}
+.gen-status.loading.nv{color:var(--novel)}
+.gen-status.error{color:var(--red)}.gen-status.ok{color:var(--green)}
+.review-panel{display:none;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:6px}
+.review-panel.visible{display:block;animation:fadein .25s ease}
+.review-header{padding:14px 18px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.review-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--text-2)}
+.review-hint{font-family:'Noto Sans JP',sans-serif;font-size:11px;color:var(--text-3)}
+.review-editor{width:100%;background:var(--bg);border:none;border-bottom:1px solid var(--border);color:var(--text-2);font-family:'DM Mono',monospace;font-size:12px;line-height:1.85;padding:20px 18px;resize:vertical;min-height:320px;outline:none}
+.review-actions{display:flex;gap:10px;padding:14px 16px;flex-wrap:wrap;align-items:center;background:var(--surface2)}
+.btn-regen{flex:1;min-width:140px;padding:11px 16px;background:transparent;border:1px solid var(--border2);color:var(--text-2);font-family:'Shippori Mincho',serif;font-size:14px;font-weight:600;letter-spacing:.1em;cursor:pointer;border-radius:6px;transition:all .2s}
+.btn-regen:hover:not(:disabled){border-color:var(--gold-dim);color:var(--gold)}
+.btn-push{flex:2;min-width:190px;padding:11px 18px;background:var(--gold);color:var(--bg);border:none;font-family:'Shippori Mincho',serif;font-size:14px;font-weight:800;letter-spacing:.1em;cursor:pointer;border-radius:6px;transition:opacity .2s}
+.btn-push.nv{background:var(--novel)}
+.btn-push:hover:not(:disabled){opacity:.88}
+.btn-dl{padding:11px 14px;background:transparent;border:1px solid var(--border2);color:var(--text-3);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.08em;cursor:pointer;border-radius:6px;transition:all .2s;white-space:nowrap}
+.btn-dl:hover{border-color:var(--border2);color:var(--text-2)}
+.btn-regen:disabled,.btn-push:disabled{opacity:.35;cursor:not-allowed}
+.push-feedback{font-family:'Noto Sans JP',sans-serif;font-size:12px;padding:8px 16px 12px;min-height:20px;color:var(--text-3);line-height:1.6}
+.push-feedback.ok{color:var(--green)}.push-feedback.err{color:var(--red)}
+.push-feedback.loading{color:var(--gold);animation:pulse 1.5s ease-in-out infinite}
+
+@media(max-width:560px){
+  .row-3{grid-template-columns:1fr 1fr}
+  .row-3 .field-group:last-child{grid-column:1/-1}
+  .review-actions{flex-direction:column}
+  .btn-regen,.btn-push,.btn-dl{width:100%;min-width:unset;flex:unset}
+  .lib-header{flex-direction:column;gap:14px}
+  .editor-header{flex-wrap:wrap}
+  .card-title{max-width:220px}
+  .tab{padding:11px 16px;font-size:13px}
 }
- 
-// GitHub API
-function ghReq(method, path, body) {
-  var url = 'https://api.github.com/repos/' + cfg.repo + '/contents/' + encodeURIComponent(path);
-  if (method === 'GET') url += '?ref=' + cfg.branch;
-  return fetch(url, {
-    method: method,
-    headers: {
-      'Authorization': 'token ' + cfg.token,
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json'
-    },
-    body: body ? JSON.stringify(body) : undefined
-  }).then(function(res) {
-    return res.json().then(function(d) {
-      if (!res.ok) throw new Error(d.message || method + ' ' + path + ' failed');
-      return d;
-    });
-  });
-}
-function ghGet(path) { return ghReq('GET', path); }
-function ghPut(path, content, sha, msg) {
-  var body = { message: msg, content: btoa(unescape(encodeURIComponent(content))), branch: cfg.branch };
-  if (sha) body.sha = sha;
-  return ghReq('PUT', path, body);
-}
-function ghDel(path, sha, msg) {
-  return ghReq('DELETE', path, { message: msg, sha: sha, branch: cfg.branch });
-}
-function assertDir(dir) {
-  return ghGet(dir).catch(function() {
-    throw new Error(t('folder-error') + ' (' + dir + ')');
-  });
-}
- 
-// Library
-function loadLibrary() {
-  if (!cfg.token || !cfg.repo) {
-    document.getElementById('draftList').innerHTML = '<div class="list-error">' + t('no-settings') + '</div>';
-    document.getElementById('doneList').innerHTML  = '<div class="list-empty"></div>';
-    document.getElementById('draftCount').textContent = '0';
-    document.getElementById('doneCount').textContent  = '0';
-    return;
-  }
- 
-  document.getElementById('draftList').innerHTML = '<div class="list-loading">' + t('loading') + '</div>';
-  ghGet(DRAFT_DIR).then(function(files) {
-    var jsonFiles = files.filter(function(f) { return f.name.indexOf('.json') !== -1; });
-    document.getElementById('draftCount').textContent = jsonFiles.length;
-    if (!jsonFiles.length) {
-      document.getElementById('draftList').innerHTML = '<div class="list-empty">' + t('no-drafts') + '</div>';
-      return;
-    }
-    return Promise.all(jsonFiles.map(function(f) {
-      return ghGet(DRAFT_DIR + '/' + f.name).then(function(d) {
-        var data = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\s/g, '')))));
-        data._file = f.name;
-        data._sha  = d.sha;
-        return data;
-      }).catch(function() {
-        return { _file: f.name, _sha: null, title: t('no-title-card'), mode: 'general' };
-      });
-    })).then(function(items) {
-      document.getElementById('draftList').innerHTML =
-        '<div class="card-list">' + items.map(draftCard).join('') + '</div>';
-    });
-  }).catch(function(e) {
-    document.getElementById('draftList').innerHTML = '<div class="list-error">' + t('load-error') + e.message + '</div>';
-  });
- 
-  document.getElementById('doneList').innerHTML = '<div class="list-loading">' + t('loading') + '</div>';
-  ghGet(OBSIDIAN_DIR).then(function(files) {
-    var mdFiles = files.filter(function(f) { return f.name.slice(-3) === '.md'; });
-    document.getElementById('doneCount').textContent = mdFiles.length;
-    if (!mdFiles.length) {
-      document.getElementById('doneList').innerHTML = '<div class="list-empty">' + t('no-saved') + '</div>';
-      return;
-    }
-    document.getElementById('doneList').innerHTML =
-      '<div class="card-list">' + mdFiles.map(doneCard).join('') + '</div>';
-  }).catch(function(e) {
-    document.getElementById('doneList').innerHTML = '<div class="list-error">' + t('load-error') + e.message + '</div>';
-  });
-}
- 
-function draftCard(d) {
-  var nv  = d.mode === 'novel';
-  var upd = d._updatedAt
-    ? new Date(d._updatedAt).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
-    : '';
-  var fn    = "'" + d._file.replace(/'/g, "\\'") + "'";
-  var sha   = "'" + (d._sha  || '').replace(/'/g, "\\'") + "'";
-  var title = "'" + (d.title || '').replace(/'/g, "\\'") + "'";
-  return '<div class="draft-card" onclick="openDraft(' + fn + ')">'
-    + '<div class="card-bar ' + (nv ? 'novel' : 'general') + '"></div>'
-    + '<div class="card-body">'
-    + '<div class="card-top">'
-    + '<div class="card-title">' + esc(d.title || t('no-title-card')) + '</div>'
-    + '<div class="card-badge ' + (nv ? 'novel' : 'general') + '">' + (nv ? t('novel-label') : t('general-label')) + '</div>'
-    + '</div>'
-    + '<div class="card-meta">'
-    + '<span class="card-author">' + esc(d.author || t('no-author')) + '</span>'
-    + (d.date ? '<span>' + d.date.slice(0, 10) + '</span>' : '')
-    + (upd ? '<span>' + t('updated') + upd + '</span>' : '')
-    + '</div></div>'
-    + '<div class="card-actions" onclick="event.stopPropagation()">'
-    + '<button class="card-btn edit" onclick="openDraft(' + fn + ')">&#x270E;</button>'
-    + '<button class="card-btn" onclick="confirmDel(' + fn + ',' + sha + ',' + title + ')">&#x2715;</button>'
-    + '</div></div>';
-}
- 
-function doneCard(f) {
-  var name     = f.name.replace(/\.md$/, '');
-  var fnStr    = "'" + f.name.replace(/'/g, "\\'") + "'";
-  var nameStr  = "'" + name.replace(/'/g, "\\'") + "'";
-  var shaStr   = "'" + (f.sha || '').replace(/'/g, "\\'") + "'";
-  return '<div class="draft-card" onclick="openPreview(' + fnStr + ',' + nameStr + ')">'
-    + '<div class="card-bar done"></div>'
-    + '<div class="card-body">'
-    + '<div class="card-top">'
-    + '<div class="card-title">' + esc(name) + '</div>'
-    + '<div class="card-badge done">' + t('saved-label') + '</div>'
-    + '</div></div>'
-    + '<div class="card-actions" onclick="event.stopPropagation()">'
-    + '<button class="card-btn view" onclick="openPreview(' + fnStr + ',' + nameStr + ')">&#x1F441;</button>'
-    + '<button class="card-btn" onclick="confirmDelDone(' + fnStr + ',' + shaStr + ',' + nameStr + ')">&#x2715;</button>'
-    + '</div></div>';
-}
- 
-// Preview
-function openPreview(filename, title) {
-  ghGet(OBSIDIAN_DIR + '/' + filename).then(function(d) {
-    previewMd   = decodeURIComponent(escape(atob(d.content.replace(/\n/g, ''))));
-    previewFile = filename;
-    document.getElementById('previewTitle').textContent   = title;
-    document.getElementById('previewContent').textContent = previewMd;
-    document.getElementById('previewOverlay').classList.add('open');
-  }).catch(function(e) { alert(t('load-error') + e.message); });
-}
-function closePreview()     { document.getElementById('previewOverlay').classList.remove('open'); }
-function closePreviewOut(e) { if (e.target === document.getElementById('previewOverlay')) closePreview(); }
-function dlPreview()        { if (previewMd) dl(previewMd, previewFile); }
- 
-// Confirm
-function showConfirm(title, sub, cb) {
-  document.getElementById('confirmTitle').textContent = title;
-  document.getElementById('confirmSub').textContent   = sub;
-  document.getElementById('confirmOk').onclick = function() { closeConfirm(); cb(); };
-  document.getElementById('confirmOverlay').classList.add('open');
-}
-function closeConfirm() { document.getElementById('confirmOverlay').classList.remove('open'); }
- 
-function confirmDel(file, sha, title) {
-  showConfirm(
-    t('confirm-draft-title'),
-    '\u300c' + (title || t('no-title-card')) + '\u300d' + t('confirm-draft-sub'),
-    function() {
-      ghDel(DRAFT_DIR + '/' + file, sha, 'Delete draft: ' + title)
-        .then(loadLibrary)
-        .catch(function(e) { alert(t('delete-error') + e.message); });
-    }
-  );
-}
-function confirmDelDone(file, sha, title) {
-  showConfirm(
-    t('confirm-done-title'),
-    '\u300c' + (title || '') + '\u300d' + t('confirm-done-sub'),
-    function() {
-      ghDel(OBSIDIAN_DIR + '/' + file, sha, 'Delete note: ' + title)
-        .then(loadLibrary)
-        .catch(function(e) { alert(t('delete-error') + e.message); });
-    }
-  );
-}
- 
-// Navigation
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
-  document.getElementById('screen-' + id).classList.add('active');
-  window.scrollTo(0, 0);
-}
-function goLibrary() { showScreen('library'); loadLibrary(); }
- 
-function newMemo() {
-  currentDraftFile = null;
-  currentDraftSha  = null;
-  clearEditor();
-  switchTab('general');
-  var today = new Date().toISOString().slice(0, 10);
-  document.getElementById('readDate').value  = today;
-  document.getElementById('novelDate').value = today;
-  showScreen('editor');
-}
- 
-function openDraft(file) {
-  ghGet(DRAFT_DIR + '/' + file).then(function(d) {
-    var data = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\s/g, '')))));
-    currentDraftFile = file;
-    currentDraftSha  = d.sha;
-    clearEditor();
-    fillForm(data);
-    showScreen('editor');
-  }).catch(function(e) { alert(t('load-error') + e.message); });
-}
- 
-// Editor
-function clearEditor() {
-  ['bookTitle','bookAuthor','readDate','tags','hookWhy','hookWhere','imagination',
-   'logicAuthor','logicSelf','logicWhy','concept','childExplain',
-   'novelTitle','novelAuthor','novelDate','novelCategory','novelTags',
-   'novelNarration','novelStructure','novelStyle','novelTechnique',
-   'novelImpression','novelWhyMoved','novelTheme','novelFree'
-  ].forEach(function(id) { var e = document.getElementById(id); if (e) e.value = ''; });
-  setRating(0);
-  ['reviewG','reviewN'].forEach(function(id) { var e = document.getElementById(id); if (e) e.value = ''; });
-  ['reviewPanelG','reviewPanelN'].forEach(function(id) {
-    var e = document.getElementById(id); if (e) e.classList.remove('visible');
-  });
-  ['genStG','genStN','pfG','pfN'].forEach(function(id) {
-    var e = document.getElementById(id);
-    if (e) { e.textContent = ''; e.className = e.className.split(' ')[0]; }
-  });
-}
- 
-function switchTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
-  document.querySelectorAll('.tab').forEach(function(tb) { tb.className = 'tab'; });
-  document.getElementById('panel-' + tab).classList.add('active');
-  document.getElementById('tab-' + tab).classList.add(tab === 'general' ? 'active-general' : 'active-novel');
-  setText('editorBadge', tab === 'general' ? t('general-badge') : t('novel-badge'));
-}
- 
-function setRating(n) {
-  novelRating = n;
-  document.querySelectorAll('.star-btn').forEach(function(b, i) { b.classList.toggle('lit', i < n); });
-}
- 
-function gatherForm(mode) {
-  if (mode === 'general') {
-    return {
-      mode: 'general',
-      title: V('bookTitle'), author: V('bookAuthor'), date: V('readDate'), tags: V('tags'),
-      hookWhy: V('hookWhy'), hookWhere: V('hookWhere'), imagination: V('imagination'),
-      logicAuthor: V('logicAuthor'), logicSelf: V('logicSelf'), logicWhy: V('logicWhy'),
-      concept: V('concept'), childExplain: V('childExplain')
-    };
-  }
-  return {
-    mode: 'novel',
-    title: V('novelTitle'), author: V('novelAuthor'), date: V('novelDate'),
-    category: V('novelCategory'), tags: V('novelTags'), rating: novelRating,
-    narration: V('novelNarration'), structure: V('novelStructure'),
-    style: V('novelStyle'), technique: V('novelTechnique'),
-    impression: V('novelImpression'), whyMoved: V('novelWhyMoved'),
-    theme: V('novelTheme'), free: V('novelFree')
-  };
-}
- 
-function fillForm(d) {
-  switchTab(d.mode || 'general');
-  function set(id, v) { var e = document.getElementById(id); if (e) e.value = v || ''; }
-  if ((d.mode || 'general') === 'general') {
-    set('bookTitle', d.title); set('bookAuthor', d.author); set('readDate', d.date); set('tags', d.tags);
-    set('hookWhy', d.hookWhy); set('hookWhere', d.hookWhere); set('imagination', d.imagination);
-    set('logicAuthor', d.logicAuthor); set('logicSelf', d.logicSelf); set('logicWhy', d.logicWhy);
-    set('concept', d.concept); set('childExplain', d.childExplain);
-  } else {
-    set('novelTitle', d.title); set('novelAuthor', d.author); set('novelDate', d.date);
-    set('novelCategory', d.category); set('novelTags', d.tags);
-    set('novelNarration', d.narration); set('novelStructure', d.structure);
-    set('novelStyle', d.style); set('novelTechnique', d.technique);
-    set('novelImpression', d.impression); set('novelWhyMoved', d.whyMoved);
-    set('novelTheme', d.theme); set('novelFree', d.free);
-    setRating(d.rating || 0);
-  }
-}
- 
-// Draft save
-function saveDraft() {
-  if (!cfg.token || !cfg.repo) { alert(t('no-settings')); return; }
-  var btn = document.getElementById('draftSaveBtn');
-  btn.disabled = true;
-  assertDir(DRAFT_DIR).then(function() {
-    var data = gatherForm(currentTab);
-    data._updatedAt = new Date().toISOString();
-    var json = JSON.stringify(data, null, 2);
-    if (!currentDraftFile) {
-      var safe = (data.title || 'draft').replace(/[\\/:*?"<>|]/g, '').slice(0, 40) || 'draft';
-      currentDraftFile = Date.now() + '_' + safe + '.json';
-    }
-    var path = DRAFT_DIR + '/' + currentDraftFile;
-    return ghGet(path).then(function(cur) {
-      currentDraftSha = cur.sha;
-    }).catch(function() {}).then(function() {
-      return ghPut(path, json, currentDraftSha, 'Draft: ' + (data.title || 'untitled'));
-    }).then(function(res) {
-      currentDraftSha = res.content && res.content.sha ? res.content.sha : null;
-      var ind = document.getElementById('saveInd');
-      ind.classList.add('show');
-      setTimeout(function() { ind.classList.remove('show'); }, 2200);
-    });
-  }).catch(function(e) {
-    alert(t('save-error') + e.message);
-  }).then(function() {
-    btn.disabled = false;
-  });
-}
- 
-// Claude prompts
-function buildPrompt(mode) {
-  if (mode === 'general') {
-    var m = gatherForm('general');
-    return 'You are an assistant supporting deep intellectual reading.\n'
-      + 'Generate Obsidian-ready Markdown from the reading notes below.\n\n'
-      + '**Title**: ' + m.title + '\n'
-      + '**Author**: ' + (m.author || 'Unknown') + '\n'
-      + '**Date read**: ' + (m.date || 'Not recorded') + '\n\n'
-      + '### Hook\n'
-      + '- Why picked up: ' + (m.hookWhy || '(blank)') + '\n'
-      + '- Where heart moved: ' + (m.hookWhere || '(blank)') + '\n\n'
-      + '### Free association\n' + (m.imagination || '(blank)') + '\n\n'
-      + '### Logic\n'
-      + '- Author argues: ' + (m.logicAuthor || '(blank)') + '\n'
-      + '- I read it as same structure as: ' + (m.logicSelf || '(blank)') + '\n'
-      + '- Because: ' + (m.logicWhy || '(blank)') + '\n\n'
-      + '### Concept\n' + (m.concept || '(blank)') + '\n\n'
-      + '### Child explanation\n' + (m.childExplain || '(blank)') + '\n\n'
-      + '---\n'
-      + 'Return complete Markdown ONLY. Start with YAML front matter. No code fences or extra text.\n\n'
-      + 'Sections:\n'
-      + '1. YAML front matter (title, author, date, tags array, type: \u8aad\u66f8\u30e1\u30e2)\n'
-      + '2. Intellectual positioning (~150 chars in Japanese)\n'
-      + '3. Themes and questions (3-5 bullets)\n'
-      + '4. Structured notes (hook / free assoc / logic / concept / child explanation with headings)\n'
-      + '5. Deeper questions (3-5) -- weave in SE experience, karate, intrinsic motivation if relevant\n'
-      + '6. Related concepts and references\n\n'
-      + 'Write in natural Japanese as a personal intellectual notebook.';
-  }
-  var m = gatherForm('novel');
-  var stars = m.rating > 0
-    ? '\u2605\u2605\u2605\u2605\u2605'.slice(0, m.rating) + '\u2606\u2606\u2606\u2606\u2606'.slice(0, 5 - m.rating)
-    : 'Not rated';
-  return 'You are an assistant supporting literary analysis and craft study.\n'
-    + 'The reader is also a writer. Prioritise the craft perspective.\n\n'
-    + '**Title**: ' + m.title + '\n'
-    + '**Author**: ' + (m.author || 'Unknown') + '  **Rating**: ' + stars + '\n'
-    + '**Category**: ' + (m.category || 'Not recorded') + '  **Date**: ' + (m.date || 'Not recorded') + '\n\n'
-    + '### Structure (as a writer)\n'
-    + '- Narration/POV: ' + (m.narration || '(blank)') + '\n'
-    + '- Time/structure: ' + (m.structure || '(blank)') + '\n'
-    + '- Prose rhythm: ' + (m.style || '(blank)') + '\n'
-    + '- Techniques to steal: ' + (m.technique || '(blank)') + '\n\n'
-    + '### What stayed with me\n'
-    + '- Scene: ' + (m.impression || '(blank)') + '\n'
-    + '- Why it moved me: ' + (m.whyMoved || '(blank)') + '\n\n'
-    + '### Theme\n' + (m.theme || '(blank)') + '\n\n'
-    + '### Other notes\n' + (m.free || '(blank)') + '\n\n'
-    + '---\n'
-    + 'Return complete Markdown ONLY. Start with YAML front matter. No code fences or extra text.\n\n'
-    + 'Sections:\n'
-    + '1. YAML front matter (title, author, date, category, rating as number, tags array, type: \u5c0f\u8aac\u30e1\u30e2)\n'
-    + '2. Literary positioning (~120 chars in Japanese)\n'
-    + '3. Craft analysis -- expand techniques to steal concretely\n'
-    + '4. What stayed with me -- develop scene and why it moved\n'
-    + '5. Theme and questions (3 points)\n'
-    + '6. Other notes\n'
-    + '7. What to read next / related works\n\n'
-    + 'Write in natural Japanese as a personal writer\'s notebook.';
-}
- 
-function generate(mode) {
-  var tid = mode === 'general' ? 'bookTitle' : 'novelTitle';
-  if (!V(tid)) { setGenSt(mode, t('no-title'), 'error'); return; }
-  if (!cfg.key) { setGenSt(mode, t('no-api-key'), 'error'); return; }
-  var s    = mode === 'general' ? 'G' : 'N';
-  var gBtn = document.getElementById('genBtn' + s);
-  var rBtn = document.getElementById('regen' + s);
-  if (gBtn) gBtn.disabled = true;
-  if (rBtn) rBtn.disabled = true;
-  setGenSt(mode, t('claude-loading'), 'loading' + (mode === 'novel' ? ' nv' : ''));
-  document.getElementById('reviewPanel' + s).classList.remove('visible');
- 
-fetch('https://books-memo-proxy.vercel.app/api/claude', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1500,
-      messages: [{ role: 'user', content: buildPrompt(mode) }]
-    })
-  }).then(function(res) {
-    return res.json().then(function(data) {
-      if (!res.ok) throw new Error((data.error && data.error.message) || 'API error');
-      return data;
-    });
-  }).then(function(data) {
-    var md = data.content.map(function(b) { return b.text || ''; }).join('').trim();
-    document.getElementById('review' + s).value = md;
-    document.getElementById('reviewPanel' + s).classList.add('visible');
-    setGenSt(mode, t('claude-done'), 'ok');
-    setTimeout(function() {
-      document.getElementById('reviewPanel' + s).scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
-  }).catch(function(e) {
-    setGenSt(mode, t('claude-error') + e.message, 'error');
-  }).then(function() {
-    if (gBtn) gBtn.disabled = false;
-    if (rBtn) rBtn.disabled = false;
-  });
-}
- 
-function setGenSt(mode, msg, cls) {
-  var el = document.getElementById('genSt' + (mode === 'general' ? 'G' : 'N'));
-  el.textContent = msg;
-  el.className = 'gen-status ' + (cls || '');
-}
- 
-// Push to Obsidian
-function pushObsidian(mode) {
-  var s     = mode === 'general' ? 'G' : 'N';
-  var md    = document.getElementById('review' + s).value.trim();
-  var title = V(mode === 'general' ? 'bookTitle' : 'novelTitle') || 'memo';
-  var date  = V(mode === 'general' ? 'readDate'  : 'novelDate')  || new Date().toISOString().slice(0, 10);
-  if (!cfg.token || !cfg.repo) { setPf(mode, t('no-token'), 'err'); return; }
-  if (!md)                     { setPf(mode, t('no-md'), 'err'); return; }
-  document.getElementById('push' + s).disabled = true;
-  setPf(mode, t('checking-folder'), 'loading');
- 
-  assertDir(OBSIDIAN_DIR).then(function() {
-    var safe   = title.replace(/[\\/:*?"<>|]/g, '').slice(0, 60);
-    var mdFile = date + '_' + safe + '.md';
-    var mdPath = OBSIDIAN_DIR + '/' + mdFile;
-    setPf(mode, t('sending'), 'loading');
-    return ghGet(mdPath).then(function(d) { return d.sha; }).catch(function() { return null; })
-      .then(function(sha) {
-        return ghPut(mdPath, md, sha, 'Note: ' + title + ' (' + date + ')');
-      }).then(function() {
-        setPf(mode, t('push-ok'), 'ok');
-        if (currentDraftFile) {
-          return ghGet(DRAFT_DIR + '/' + currentDraftFile).then(function(cur) {
-            return ghDel(DRAFT_DIR + '/' + currentDraftFile, cur.sha, 'Done: ' + title);
-          }).then(function() {
-            currentDraftFile = null;
-            currentDraftSha  = null;
-          }).catch(function() {});
-        }
-      });
-  }).catch(function(e) {
-    setPf(mode, t('push-error') + e.message, 'err');
-  }).then(function() {
-    document.getElementById('push' + s).disabled = false;
-  });
-}
- 
-function setPf(mode, msg, cls) {
-  var el = document.getElementById('pf' + (mode === 'general' ? 'G' : 'N'));
-  el.textContent = msg;
-  el.className = 'push-feedback ' + (cls || '');
-}
- 
-// Download
-function dlMd(mode) {
-  var s  = mode === 'general' ? 'G' : 'N';
-  var md = document.getElementById('review' + s).value.trim();
-  if (!md) return;
-  var title = V(mode === 'general' ? 'bookTitle' : 'novelTitle') || 'memo';
-  var date  = V(mode === 'general' ? 'readDate'  : 'novelDate')  || new Date().toISOString().slice(0, 10);
-  dl(md, date + '_' + title.replace(/[\\/:*?"<>|]/g, '') + '.md');
-}
-function dl(content, filename) {
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([content], { type: 'text/markdown;charset=utf-8' }));
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
- 
-// Utils
-function V(id) { var e = document.getElementById(id); return e ? e.value : ''; }
-function esc(s) {
-  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
- 
-// Init
-document.addEventListener('DOMContentLoaded', function() {
-  loadI18n();
-  applyI18n();
-  loadLibrary();
-  var today = new Date().toISOString().slice(0, 10);
-  document.getElementById('readDate').value  = today;
-  document.getElementById('novelDate').value = today;
-});
- 
+</style>
+</head>
+<body>
+
+<!-- CONFIRM -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="confirm-title" id="confirmTitle"></div>
+    <div class="confirm-sub" id="confirmSub"></div>
+    <div class="confirm-actions">
+      <button class="btn-cancel" id="confirmCancelBtn" onclick="closeConfirm()"></button>
+      <button class="btn-danger" id="confirmOk"></button>
+    </div>
+  </div>
+</div>
+
+<!-- PREVIEW MODAL -->
+<div class="modal-overlay" id="previewOverlay" onclick="closePreviewOut(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="previewTitle"></div>
+      <button class="modal-close" onclick="closePreview()">&#x2715;</button>
+    </div>
+    <div class="modal-content" id="previewContent"></div>
+    <div class="modal-footer">
+      <button class="modal-dl" id="previewDlBtn" onclick="dlPreview()"></button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-overlay" id="settingsOverlay" onclick="closeSettingsOut(event)">
+  <div class="modal modal-sm">
+    <div class="modal-header">
+      <div class="modal-title" id="settingsTitle"></div>
+      <button class="modal-close" onclick="closeSettings()">&#x2715;</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section-title" id="settingsApiSection"></div>
+      <div class="field-group">
+        <div class="field-label" id="settingsKeyLabel"></div>
+        <input type="text" id="cfg-key" placeholder="sk-ant-...">
+      </div>
+      <div class="modal-hint" id="settingsKeyHint"></div>
+
+      <div class="modal-section-title" id="settingsGhSection"></div>
+      <div class="field-group">
+        <div class="field-label" id="settingsTokenLabel"></div>
+        <input type="text" id="cfg-token" placeholder="ghp_...">
+      </div>
+      <div class="modal-hint" id="settingsTokenHint"></div>
+      <div class="field-group">
+        <div class="field-label" id="settingsRepoLabel"></div>
+        <input type="text" id="cfg-repo" placeholder="yourname/obsidian-vault">
+      </div>
+      <div class="field-group">
+        <div class="field-label" id="settingsBranchLabel"></div>
+        <input type="text" id="cfg-branch" placeholder="main">
+      </div>
+      <div class="modal-hint" id="settingsFolderHint"></div>
+      <button class="save-settings-btn" id="settingsSaveBtn" onclick="saveSettings()"></button>
+      <div class="settings-st" id="settingsSt"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LIBRARY -->
+<div class="screen active" id="screen-library">
+  <div class="lib-wrap">
+    <div class="lib-header">
+      <div>
+        <div class="lib-title" id="libTitle"></div>
+        <div class="lib-sub" id="libSub"></div>
+      </div>
+      <button class="settings-btn" id="settingsOpenBtn" onclick="openSettings()"></button>
+    </div>
+
+    <button class="new-btn" onclick="newMemo()">
+      <div class="new-btn-icon">&#xFF0B;</div>
+      <div class="new-btn-label" id="newMemoLabel"></div>
+      <div class="new-btn-hint" id="newMemoHint"></div>
+    </button>
+
+    <div class="list-section">
+      <div class="list-section-hd">
+        <div class="list-section-label" id="draftsLabel"></div>
+        <div class="list-count" id="draftCount">&#x2014;</div>
+        <div class="list-line"></div>
+        <button class="list-refresh" id="reloadBtn" onclick="loadLibrary()"></button>
+      </div>
+      <div id="draftList"><div class="list-loading" id="draftLoadingText"></div></div>
+    </div>
+
+    <div class="list-section">
+      <div class="list-section-hd">
+        <div class="list-section-label" id="savedLabel"></div>
+        <div class="list-count" id="doneCount">&#x2014;</div>
+        <div class="list-line"></div>
+      </div>
+      <div id="doneList"><div class="list-loading" id="doneLoadingText"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EDITOR -->
+<div class="screen" id="screen-editor">
+  <div class="editor-wrap">
+    <div class="editor-header">
+      <button class="back-btn" id="backBtn" onclick="goLibrary()"></button>
+      <div class="editor-center">
+        <div class="editor-heading" id="editorHeading"></div>
+        <div class="editor-badge" id="editorBadge"></div>
+      </div>
+      <div class="draft-save-row">
+        <span class="save-indicator" id="saveInd"></span>
+        <button class="draft-save-btn" id="draftSaveBtn" onclick="saveDraft()"></button>
+      </div>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab active-general" id="tab-general" onclick="switchTab('general')"></button>
+      <button class="tab" id="tab-novel" onclick="switchTab('novel')"></button>
+    </div>
+
+    <!-- GENERAL -->
+    <div class="panel active" id="panel-general">
+      <div class="row-2">
+        <div class="field-group">
+          <div class="field-label">書籍タイトル</div>
+          <input type="text" id="bookTitle" placeholder="例：中動態の世界">
+        </div>
+        <div class="field-group">
+          <div class="field-label">読んだ日</div>
+          <input type="date" id="readDate">
+        </div>
+      </div>
+      <div class="field-group mb2">
+        <div class="field-label">著者</div>
+        <input type="text" id="bookAuthor" placeholder="例：國分功一郎">
+      </div>
+
+      <div class="sections">
+        <div class="section-card s1">
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">フック</span></div>
+          <div class="section-body">
+            <div class="sub-field">
+              <div class="sub-label">なぜ手に取ったか（一文）</div>
+              <textarea class="short" id="hookWhy" placeholder="例：空手の「型」の感覚と言語化できない知のつながりが気になって"></textarea>
+            </div>
+            <div class="sub-field">
+              <div class="sub-label">どこで心が動いたか（ページや場面を一言）</div>
+              <textarea class="short" id="hookWhere" placeholder="例：p.42「する」でも「される」でもない第三の動詞形という概念"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="section-card s2">
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">妄想吐き出し</span><span class="section-hint">4分</span></div>
+          <div class="section-body">
+            <div class="sub-field">
+              <div class="sub-label">自由記述。SE経験、空手、なんでも。</div>
+              <textarea class="tall" id="imagination" placeholder="思ったこと、連想、違和感、共鳴、何でも"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="section-card s3">
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">ロジック</span><span class="section-hint">2分</span></div>
+          <div class="section-body">
+            <div class="sub-field">
+              <div class="sub-label">著者はXと言っている</div>
+              <textarea class="short" id="logicAuthor" placeholder="例：意志という概念は近代に構築されたものだ"></textarea>
+            </div>
+            <div class="sub-field">
+              <div class="sub-label">自分はそれを「〇〇と同じ構造」と読んだ</div>
+              <textarea class="short" id="logicSelf" placeholder="例：空手の稽古における「守破離」と同じ構造"></textarea>
+            </div>
+            <div class="sub-field">
+              <div class="sub-label">なぜそう読んだか（一文）</div>
+              <textarea class="short" id="logicWhy" placeholder="例：型を反復する段階では「する」意図が消えて動きが起こる感覚があるから"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="section-card s4">
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">コンセプト</span><span class="section-hint">1分</span></div>
+          <div class="section-body">
+            <div class="sub-field">
+              <div class="sub-label">「要するにこの本は、＿＿についての本だ」</div>
+              <textarea class="short" id="concept" placeholder="例：意志という幻想の歴史的構築と、それを手放した先にある責任の再定義についての本だ"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="section-card s5">
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">子供への説明バージョン</span></div>
+          <div class="section-body">
+            <div class="sub-field">
+              <div class="sub-label">「つまりね、＿＿ってこと」（一文）</div>
+              <textarea class="short" id="childExplain" placeholder="例：自分でやろうと思わなくても、なんかやってた、ってことが実はすごく大事なんだよ"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tags-row">
+        <div class="field-label">タグ（カンマ区切り）</div>
+        <input type="text" id="tags" placeholder="例：哲学, 言語学, 中動態, 読書メモ">
+      </div>
+      <button class="generate-btn" id="genBtnG" onclick="generate('general')"></button>
+      <div class="gen-status" id="genStG"></div>
+      <div class="review-panel" id="reviewPanelG">
+        <div class="review-header">
+          <span class="review-label" id="reviewLabelG"></span>
+          <span class="review-hint" id="reviewHintG"></span>
+        </div>
+        <textarea class="review-editor" id="reviewG" spellcheck="false"></textarea>
+        <div class="review-actions">
+          <button class="btn-regen" id="regenG" onclick="generate('general')"></button>
+          <button class="btn-push" id="pushG" onclick="pushObsidian('general')"></button>
+          <button class="btn-dl" onclick="dlMd('general')" id="dlBtnG"></button>
+        </div>
+        <div class="push-feedback" id="pfG"></div>
+      </div>
+    </div>
+
+    <!-- NOVEL -->
+    <div class="panel novel-panel" id="panel-novel">
+      <div class="row-3">
+        <div class="field-group">
+          <div class="field-label">作品タイトル</div>
+          <input type="text" id="novelTitle" placeholder="例：夜と霧">
+        </div>
+        <div class="field-group">
+          <div class="field-label">著者</div>
+          <input type="text" id="novelAuthor" placeholder="例：ヴィクトール・フランクル">
+        </div>
+        <div class="field-group">
+          <div class="field-label">読んだ日</div>
+          <input type="date" id="novelDate">
+        </div>
+      </div>
+      <div class="row-2 mb2">
+        <div class="field-group">
+          <div class="field-label">カテゴリ／ジャンル</div>
+          <input type="text" id="novelCategory" placeholder="例：純文学, SF, 海外古典">
+        </div>
+        <div class="field-group">
+          <div class="field-label">評価</div>
+          <div class="star-row" id="starRow">
+            <button class="star-btn" onclick="setRating(1)">&#x2605;</button>
+            <button class="star-btn" onclick="setRating(2)">&#x2605;</button>
+            <button class="star-btn" onclick="setRating(3)">&#x2605;</button>
+            <button class="star-btn" onclick="setRating(4)">&#x2605;</button>
+            <button class="star-btn" onclick="setRating(5)">&#x2605;</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sections">
+        <div class="section-card n1">
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">構造（書き手として）</span></div>
+          <div class="section-body">
+            <div class="sub-field"><div class="sub-label">語り・視点の設計</div>
+              <textarea class="short" id="novelNarration" placeholder="例：一人称・現在形。信頼できない語り手。記憶を辿るフレーム構造。"></textarea>
+            </div>
+            <div class="sub-field"><div class="sub-label">時間・構成の工夫</div>
+              <textarea class="short" id="novelStructure" placeholder="例：非線形。冒頭でオチを示し、経緯を回想する形式。"></textarea>
+            </div>
+            <div class="sub-field"><div class="sub-label">文体・リズム・句読点の使い方</div>
+              <textarea class="short" id="novelStyle" placeholder="例：短文連打で緊迫感。心理描写は長文化。"></textarea>
+            </div>
+            <div class="sub-field"><div class="sub-label">自分の書きものに盗める技法</div>
+              <textarea class="short" id="novelTechnique" placeholder="例：感情を行動で示す「見せる」技法。感情を直接書かない。"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="section-card n2">
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">印象に残ったこと</span></div>
+          <div class="section-body">
+            <div class="sub-field"><div class="sub-label">心が動いた場面・描写</div>
+              <textarea class="tall" id="novelImpression" placeholder="例：p.112 主人公が父の形見の時計を川に捨てる場面。行為の説明なし。喪失感が後から来る。"></textarea>
+            </div>
+            <div class="sub-field"><div class="sub-label">なぜ動いたか（自分の文脈で）</div>
+              <textarea class="short" id="novelWhyMoved" placeholder="例：「振る」という能動的行渇に見えて、実は中動態的な&#り脈に読めた。"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="section-card n3">
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">テーマと問い</span></div>
+          <div class="section-body">
+            <div class="sub-field"><div class="sub-label">この作品が問いかけていること</div>
+              <textarea class="short" id="novelTheme" placeholder="例：極限状態における「意味を見出す意志」とは何か。"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="section-card n4">
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">その他・自由メモ</span></div>
+          <div class="section-body">
+            <div class="sub-field"><div class="sub-label">気になった言葉、読後感、次に読みたいもの</div>
+              <textarea class="xtall" id="novelFree" placeholder="自由に。"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tags-row">
+        <div class="field-label">タグ（カンマ区切り）</div>
+        <input type="text" id="novelTags" placeholder="例：小説, 海外文学, 実存主義">
+      </div>
+      <button class="generate-btn nv-btn" id="genBtnN" onclick="generate('novel')"></button>
+      <div class="gen-status" id="genStN"></div>
+      <div class="review-panel" id="reviewPanelN">
+        <div class="review-header">
+          <span class="review-label" id="reviewLabelN"></span>
+          <span class="review-hint" id="reviewHintN"></span>
+        </div>
+        <textarea class="review-editor" id="reviewN" spellcheck="false"></textarea>
+        <div class="review-actions">
+          <button class="btn-regen" id="regenN" onclick="generate('novel')"></button>
+          <button class="btn-push nv" id="pushN" onclick="pushObsidian('novel')"></button>
+          <button class="btn-dl" onclick="dlMd('novel')" id="dlBtnN"></button>
+        </div>
+        <div class="push-feedback" id="pfN"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
