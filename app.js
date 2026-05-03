@@ -491,12 +491,10 @@ function generate(mode) {
   setGenSt(mode, t('claude-loading'), 'loading' + (mode === 'novel' ? ' nv' : ''));
   document.getElementById('reviewPanel' + s).classList.remove('visible');
  
-  fetch('https://api.anthropic.com/v1/messages', {
+  fetch('https://YOUR-PROJECT.vercel.app/api/claude', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': cfg.key,
-      'anthropic-version': '2023-06-01'
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
