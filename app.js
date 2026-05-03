@@ -483,41 +483,67 @@ function buildPrompt(mode) {
 function generate(mode) {
   var tid = mode === 'general' ? 'bookTitle' : 'novelTitle';
   if (!V(tid)) { setGenSt(mode, t('no-title'), 'error'); return; }
-  var s    = mode === 'general' ? 'G' : 'N';
-  var gBtn = document.getElementById('genBtn' + s);
-  var rBtn = document.getElementById('regen' + s);
-  if (gBtn) gBtn.disabled = true;
-  if (rBtn) rBtn.disabled = true;
-  setGenSt(mode, t('claude-loading'), 'loading' + (mode === 'novel' ? ' nv' : ''));
+  var s = mode === 'general' ? 'G' : 'N';
   document.getElementById('reviewPanel' + s).classList.remove('visible');
+  var md = buildMarkdown(mode);
+  document.getElementById('review' + s).value = md;
+  document.getElementById('reviewPanel' + s).classList.add('visible');
+  setGenSt(mode, t('claude-done'), 'ok');
+  setTimeout(function() {
+    document.getElementById('reviewPanel' + s).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
 
-  fetch('https://books-memo-proxy.vercel.app/api/claude', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1500,
-      messages: [{ role: 'user', content: buildPrompt(mode) }]
-    })
-  }).then(function(res) {
-    return res.json().then(function(data) {
-      if (!res.ok) throw new Error((data.error && data.error.message) || 'API error');
-      return data;
-    });
-  }).then(function(data) {
-    var md = data.content.map(function(b) { return b.text || ''; }).join('').trim();
-    document.getElementById('review' + s).value = md;
-    document.getElementById('reviewPanel' + s).classList.add('visible');
-    setGenSt(mode, t('claude-done'), 'ok');
-    setTimeout(function() {
-      document.getElementById('reviewPanel' + s).scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
-  }).catch(function(e) {
-    setGenSt(mode, t('claude-error') + e.message, 'error');
-  }).then(function() {
-    if (gBtn) gBtn.disabled = false;
-    if (rBtn) rBtn.disabled = false;
-  });
+function buildMarkdown(mode) {
+  if (mode === 'general') {
+    var m = gatherForm('general');
+    var tags = m.tags ? m.tags.split(',').map(function(t){ return '  - ' + t.trim(); }).join('\n') : '  - \u8aad\u66f8\u30e1\u30e2';
+    return '---\n'
+      + 'title: ' + (m.title || '') + '\n'
+      + 'author: ' + (m.author || '') + '\n'
+      + 'date: ' + (m.date || '') + '\n'
+      + 'tags:\n' + tags + '\n'
+      + 'type: \u8aad\u66f8\u30e1\u30e2\n'
+      + '---\n\n'
+      + '## \u30d5\u30c3\u30af\n\n'
+      + '**\u306a\u305c\u624b\u306b\u53d6\u3063\u305f\u304b**: ' + (m.hookWhy || '') + '\n\n'
+      + '**\u3069\u3053\u3067\u5fc3\u304c\u52d5\u3044\u305f\u304b**: ' + (m.hookWhere || '') + '\n\n'
+      + '## \u59a6\u60f3\u5410\u304d\u51fa\u3057\n\n'
+      + (m.imagination || '') + '\n\n'
+      + '## \u30ed\u30b8\u30c3\u30af\n\n'
+      + '**\u8457\u8005\u306f\u4f55\u3068\u8a00\u3063\u3066\u3044\u308b\u304b**: ' + (m.logicAuthor || '') + '\n\n'
+      + '**\u81ea\u5206\u306e\u8aad\u307f**: ' + (m.logicSelf || '') + '\n\n'
+      + '**\u306a\u305c\u305d\u3046\u8aad\u3093\u3060\u304b**: ' + (m.logicWhy || '') + '\n\n'
+      + '## \u30b3\u30f3\u30bb\u30d7\u30c8\n\n'
+      + (m.concept || '') + '\n\n'
+      + '## \u5b50\u4f9b\u3078\u306e\u8aac\u660e\n\n'
+      + (m.childExplain || '') + '\n';
+  }
+  var m = gatherForm('novel');
+  var stars = m.rating > 0 ? '\u2605'.repeat(m.rating) + '\u2606'.repeat(5 - m.rating) : '\u672a\u8a55\u4fa1';
+  var tags = m.tags ? m.tags.split(',').map(function(t){ return '  - ' + t.trim(); }).join('\n') : '  - \u5c0f\u8aac\u30e1\u30e2';
+  return '---\n'
+    + 'title: ' + (m.title || '') + '\n'
+    + 'author: ' + (m.author || '') + '\n'
+    + 'date: ' + (m.date || '') + '\n'
+    + 'category: ' + (m.category || '') + '\n'
+    + 'rating: ' + (m.rating || 0) + '\n'
+    + 'tags:\n' + tags + '\n'
+    + 'type: \u5c0f\u8aac\u30e1\u30e2\n'
+    + '---\n\n'
+    + '## \u8a55\u4fa1: ' + stars + '\n\n'
+    + '## \u69cb\u9020\uff08\u66f8\u304d\u624b\u3068\u3057\u3066\uff09\n\n'
+    + '**\u8a9e\u308a\u30fb\u8996\u70b9**: ' + (m.narration || '') + '\n\n'
+    + '**\u6642\u9593\u30fb\u69cb\u6210**: ' + (m.structure || '') + '\n\n'
+    + '**\u6587\u4f53\u30fb\u30ea\u30ba\u30e0**: ' + (m.style || '') + '\n\n'
+    + '**\u76d7\u3081\u308b\u6280\u6cd5**: ' + (m.technique || '') + '\n\n'
+    + '## \u5370\u8c61\u306b\u6b8b\u3063\u305f\u3053\u3068\n\n'
+    + '**\u5fc3\u304c\u52d5\u3044\u305f\u5834\u9762**: ' + (m.impression || '') + '\n\n'
+    + '**\u306a\u305c\u52d5\u3044\u305f\u304b**: ' + (m.whyMoved || '') + '\n\n'
+    + '## \u30c6\u30fc\u30de\u3068\u554f\u3044\n\n'
+    + (m.theme || '') + '\n\n'
+    + '## \u305d\u306e\u4ed6\u30fb\u81ea\u7531\u30e1\u30e2\n\n'
+    + (m.free || '') + '\n';
 }
 
 function setGenSt(mode, msg, cls) {
