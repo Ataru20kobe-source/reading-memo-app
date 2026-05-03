@@ -609,6 +609,7 @@ textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min
   </div>
 </div>
 
+
 <script>
 // BooksMemo app.js
 // ASCII-only. All Japanese text lives in index.html as data-* attributes on #i18n.
@@ -815,8 +816,7 @@ function draftCard(d) {
   var upd = d._updatedAt
     ? new Date(d._updatedAt).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
     : '';
-  var fn = JSON.stringify(d._file);
-  return '<div class="draft-card" onclick="openDraft(' + fn + ')">'
+  return '<div class="draft-card js-open-draft" data-file="' + esc(d._file) + '">'
     + '<div class="card-bar ' + (nv ? 'novel' : 'general') + '"></div>'
     + '<div class="card-body">'
     + '<div class="card-top">'
@@ -828,24 +828,24 @@ function draftCard(d) {
     + (d.date ? '<span>' + d.date.slice(0, 10) + '</span>' : '')
     + (upd ? '<span>' + t('updated') + upd + '</span>' : '')
     + '</div></div>'
-    + '<div class="card-actions" onclick="event.stopPropagation()">'
-    + '<button class="card-btn edit" onclick="openDraft(' + fn + ')">&#x270E;</button>'
-    + '<button class="card-btn" onclick="confirmDel(' + fn + ',' + JSON.stringify(d._sha || '') + ',' + JSON.stringify(d.title || '') + ')">&#x2715;</button>'
+    + '<div class="card-actions">'
+    + '<button class="card-btn edit js-open-draft" data-file="' + esc(d._file) + '">&#x270E;</button>'
+    + '<button class="card-btn js-del-draft" data-file="' + esc(d._file) + '" data-sha="' + esc(d._sha || '') + '" data-title="' + esc(d.title || '') + '">&#x2715;</button>'
     + '</div></div>';
 }
 
 function doneCard(f) {
   var name = f.name.replace(/\.md$/, '');
-  return '<div class="draft-card" onclick="openPreview(' + JSON.stringify(f.name) + ',' + JSON.stringify(name) + ')">'
+  return '<div class="draft-card js-open-done" data-file="' + esc(f.name) + '" data-name="' + esc(name) + '">'
     + '<div class="card-bar done"></div>'
     + '<div class="card-body">'
     + '<div class="card-top">'
     + '<div class="card-title">' + esc(name) + '</div>'
     + '<div class="card-badge done">' + t('saved-label') + '</div>'
     + '</div></div>'
-    + '<div class="card-actions" onclick="event.stopPropagation()">'
-    + '<button class="card-btn view" onclick="openPreview(' + JSON.stringify(f.name) + ',' + JSON.stringify(name) + ')">&#x1F441;</button>'
-    + '<button class="card-btn" onclick="confirmDelDone(' + JSON.stringify(f.name) + ',' + JSON.stringify(f.sha) + ',' + JSON.stringify(name) + ')">&#x2715;</button>'
+    + '<div class="card-actions">'
+    + '<button class="card-btn view js-open-done" data-file="' + esc(f.name) + '" data-name="' + esc(name) + '">&#x1F441;</button>'
+    + '<button class="card-btn js-del-done" data-file="' + esc(f.name) + '" data-sha="' + esc(f.sha) + '" data-name="' + esc(name) + '">&#x2715;</button>'
     + '</div></div>';
 }
 
@@ -1239,6 +1239,55 @@ document.addEventListener('DOMContentLoaded', function() {
   var today = new Date().toISOString().slice(0, 10);
   document.getElementById('readDate').value  = today;
   document.getElementById('novelDate').value = today;
+
+  // Event delegation for dynamically generated cards
+  document.addEventListener('click', function(e) {
+    var target = e.target;
+
+    // open draft
+    var openEl = target.closest('.js-open-draft');
+    if (openEl) {
+      var actionEl = target.closest('.card-actions');
+      if (actionEl && !target.classList.contains('js-open-draft')) return;
+      e.stopPropagation();
+      openDraft(openEl.getAttribute('data-file'));
+      return;
+    }
+
+    // delete draft
+    var delEl = target.closest('.js-del-draft');
+    if (delEl) {
+      e.stopPropagation();
+      confirmDel(
+        delEl.getAttribute('data-file'),
+        delEl.getAttribute('data-sha'),
+        delEl.getAttribute('data-title')
+      );
+      return;
+    }
+
+    // open done preview
+    var doneEl = target.closest('.js-open-done');
+    if (doneEl) {
+      var actionEl2 = target.closest('.card-actions');
+      if (actionEl2 && !target.classList.contains('js-open-done')) return;
+      e.stopPropagation();
+      openPreview(doneEl.getAttribute('data-file'), doneEl.getAttribute('data-name'));
+      return;
+    }
+
+    // delete done
+    var delDoneEl = target.closest('.js-del-done');
+    if (delDoneEl) {
+      e.stopPropagation();
+      confirmDelDone(
+        delDoneEl.getAttribute('data-file'),
+        delDoneEl.getAttribute('data-sha'),
+        delDoneEl.getAttribute('data-name')
+      );
+      return;
+    }
+  });
 });
 
 </script>
