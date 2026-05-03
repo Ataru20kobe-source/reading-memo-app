@@ -321,13 +321,6 @@ textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min
       <button class="modal-close" onclick="closeSettings()">&#x2715;</button>
     </div>
     <div class="modal-body">
-      <div class="modal-section-title" id="settingsApiSection"></div>
-      <div class="field-group">
-        <div class="field-label" id="settingsKeyLabel"></div>
-        <input type="text" id="cfg-key" placeholder="sk-ant-...">
-      </div>
-      <div class="modal-hint" id="settingsKeyHint"></div>
-
       <div class="modal-section-title" id="settingsGhSection"></div>
       <div class="field-group">
         <div class="field-label" id="settingsTokenLabel"></div>
@@ -1248,7 +1241,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var openEl = target.closest('.js-open-draft');
     if (openEl) {
       var actionEl = target.closest('.card-actions');
-      if (actionEl && !target.classList.contains('js-open-draft')) return;
+      if (target.classList.contains('js-del-draft')) return;
       e.stopPropagation();
       openDraft(openEl.getAttribute('data-file'));
       return;
