@@ -3,82 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>読書メモ</title>
+<title>&#35501;&#26360;&#12513;&#12514;</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d0c0a'/%3E%3Crect x='7' y='8' width='11' height='16' rx='1' fill='%23c8a96e'/%3E%3Crect x='14' y='8' width='11' height='16' rx='1' fill='%238a7045'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=DM+Mono:wght@300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 
 <!-- i18n: JS reads these data-* attributes so app.js stays ASCII-only -->
 <meta id="i18n"
-  data-app-title="読書メモ"
-  data-app-sub="READING NOTES → OBSIDIAN"
-  data-settings="⚙ 設定"
-  data-new-memo="新しいメモを書く"
+  data-app-title="&#35501;&#26360;&#12513;&#12514;"
+  data-app-sub="READING NOTES &#x2192; OBSIDIAN"
+  data-settings="&#x2699; &#35373;&#23450;"
+  data-new-memo="&#26032;&#12375;&#12356;&#12513;&#12514;&#12434;&#26360;&#12367;"
   data-new-memo-hint="NEW MEMO"
-  data-drafts="下書き"
-  data-saved="Obsidian 出力済み"
-  data-loading="読み込み中..."
-  data-no-drafts="下書きはありません"
-  data-no-saved="まだObsidianへの出力はありません"
-  data-no-settings="⚙ 設定からGitHubトークンとリポジトリを入力してください"
-  data-load-error="読込エラー: "
-  data-delete-error="削除エラー: "
-  data-save-error="保存エラー: "
-  data-saved-ok="✓ 保存しました"
-  data-settings-saved="保存しました"
-  data-back="← 一覧に戻る"
-  data-save-draft="下書き保存"
-  data-general-tab="一般書・学術・ビジネス"
-  data-novel-tab="小説"
-  data-general-badge="一般書・学術・ビジネス"
-  data-novel-badge="小説"
-  data-generate-general="Markdown を生成してプレビューする"
-  data-generate-novel="Markdown を生成してプレビューする"
-  data-preview-label="PREVIEW — 直接編集できます"
-  data-preview-hint="確認・修正してからObsidianへ"
-  data-regenerate="↺ 再生成"
-  data-push="↑ Obsidianに保存"
+  data-drafts="&#19979;&#26360;&#12365;"
+  data-saved="Obsidian &#20986;&#21147;&#28168;&#12415;"
+  data-loading="&#35501;&#12415;&#36796;&#12415;&#20013;..."
+  data-no-drafts="&#19979;&#26360;&#12365;&#12399;&#12354;&#12426;&#12414;&#12379;&#12435;"
+  data-no-saved="&#12414;&#12384;Obsidian&#12408;&#12398;&#20986;&#21147;&#12399;&#12354;&#12426;&#12414;&#12379;&#12435;"
+  data-no-settings="&#8987; &#35373;&#23450;&#12363;&#12425;GitHub&#12488;&#12540;&#12463;&#12531;&#12392;&#12522;&#12509;&#12472;&#12488;&#12522;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
+  data-load-error="&#35501;&#36796;&#12456;&#12521;&#12540;: "
+  data-delete-error="&#21066;&#38500;&#12456;&#12521;&#12540;: "
+  data-save-error="&#20445;&#23384;&#12456;&#12521;&#12540;: "
+  data-saved-ok="&#8730; &#20445;&#23384;&#12375;&#12414;&#12375;&#12383;"
+  data-settings-saved="&#20445;&#23384;&#12375;&#12414;&#12375;&#12383;"
+  data-back="&#8592; &#19968;&#35239;&#12395;&#25147;&#12427;"
+  data-save-draft="&#19979;&#26360;&#12365;&#20445;&#23577;"
+  data-general-tab="&#19968;&#33324;&#26360;&#12539;&#23398;&#34899;&#12539;&#12499;&#12472;&#12493;&#12473;"
+  data-novel-tab="&#23567;&#35500;"
+  data-general-badge="&#19968;&#33324;&#26360;&#12539;&#23398;&#34899;&#12539;&#12499;&#12472;&#12493;&#12473;"
+  data-novel-badge="&#23567;&#35500;"
+  data-generate-general="Claude &#12391;&#28145;&#25842;&#12426;&#12375;&#12390;&#30906;&#35469;&#12377;&#12427;"
+  data-generate-novel="Claude &#12391;&#20998;&#26512;&#12375;&#12390;&#30906;&#35469;&#12377;&#12427;"
+  data-preview-label="PREVIEW &#8212; &#30452;&#25509;&#32232;&#38598;&#12391;&#12365;&#12414;&#12377;"
+  data-preview-hint="&#30906;&#35469;&#12539;&#20462;&#27491;&#12375;&#12390;&#12363;&#12425;Obsidian&#12408;"
+  data-regenerate="&#8635; &#20877;&#29983;&#25104;"
+  data-push="&#8593; Obsidian&#12395;&#20445;&#23569;"
   data-dl=".md"
-  data-no-title="タイトルを入力してください"
-  data-no-api-key="⚙ 設定でAnthropicAPIキーを入力してください"
-  data-claude-loading="Claudeが読んでいます..."
-  data-claude-done="生成完了 — プレビューを確認・編集してからObsidianへ"
-  data-claude-error="エラー: "
-  data-no-token="⚙ 設定でGitHubトークンとリポジトリを入力してください"
-  data-no-md="先にClaudeで生成してください"
-  data-checking-folder="フォルダを確認中..."
-  data-sending="Obsidianに送信中..."
-  data-push-ok="✓ BooksMemo/fromMyApp/ に保存しました"
-  data-push-error="エラー: "
-  data-folder-error="フォルダがVaultに見つかりません。Obsidianで先に作成してください。"
-  data-confirm-draft-title="下書きを削除"
-  data-confirm-draft-sub="を削除します。元に戻せません。"
-  data-confirm-done-title="出力済みメモを削除"
-  data-confirm-done-sub="をVaultから削除します。元に戻せません。"
-  data-confirm-cancel="キャンセル"
-  data-confirm-delete="削除"
-  data-general-label="一般書"
-  data-novel-label="小説"
-  data-saved-label="出力済み"
-  data-no-author="著者未記入"
-  data-no-title-card="（タイトルなし）"
-  data-updated="更新 "
-  data-reload="↺"
-  data-settings-title="設定"
+  data-no-title="&#12479;&#12452;&#12488;&#12523;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
+  data-no-api-key="&#8987; &#35373;&#23450;&#12391;Anthropic API&#12461;&#12540;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
+  data-claude-loading="Claude&#12364;&#35501;&#12435;&#12391;&#12356;&#12414;&#12377;..."
+  data-claude-done="&#29983;&#25104;&#23436;&#20102; &#8212; &#12503;&#12524;&#12499;&#12517;&#12540;&#12434;&#30906;&#35469;&#12539;&#32232;&#38598;&#12375;&#12390;&#12363;&#12425;Obsidian&#12408;"
+  data-claude-error="&#12456;&#12521;&#12540;: "
+  data-no-token="&#8987; &#35373;&#23450;&#12391;GitHub&#12488;&#12540;&#12463;&#12531;&#12392;&#12522;&#12509;&#12472;&#12488;&#12522;&#12434;&#20837;&#21147;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
+  data-no-md="&#20808;&#12395;Claude&#12391;&#29983;&#25104;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;"
+  data-checking-folder="&#12501;&#12457;&#12523;&#12480;&#12434;&#30906;&#35469;&#20013;..."
+  data-sending="Obsidian&#12395;&#36865;&#20449;&#20013;..."
+  data-push-ok="&#10003; BooksMemo/fromMyApp/ &#12395;&#20445;&#23569;&#12375;&#12414;&#12375;&#12383;"
+  data-push-error="&#12456;&#12521;&#12540;: "
+  data-folder-error="&#12501;&#12457;&#12523;&#12480;&#12364;Vault&#12395;&#35211;&#12388;&#12363;&#12426;&#12414;&#12379;&#12435;&#12290;Obsidian&#12391;&#20808;&#12395;&#20316;&#25104;&#12375;&#12390;&#12367;&#12384;&#12373;&#12356;&#12290;"
+  data-confirm-draft-title="&#19979;&#26360;&#12365;&#12434;&#21066;&#38500;"
+  data-confirm-draft-sub="&#12434;&#21066;&#38500;&#12375;&#12414;&#12377;&#12290;&#20803;&#12395;&#25147;&#12475;&#12414;&#12379;&#12435;&#12290;"
+  data-confirm-done-title="&#20986;&#21147;&#28168;&#12415;&#12513;&#12514;&#12434;&#21066;&#38500;"
+  data-confirm-done-sub="&#12434;Vault&#12363;&#12425;&#21066;&#38500;&#12375;&#12414;&#12377;&#12290;&#20803;&#12395;&#25147;&#12475;&#12414;&#12379;&#12435;&#12290;"
+  data-confirm-cancel="&#12461;&#12515;&#12531;&#12475;&#12523;"
+  data-confirm-delete="&#21066;&#38500;"
+  data-general-label="&#19968;&#33324;&#26360;"
+  data-novel-label="&#23567;&#35500;"
+  data-saved-label="&#20986;&#21147;&#28168;&#12415;"
+  data-no-author="&#8470;&#33879;&#32773;&#26410;&#35352;&#20837;"
+  data-no-title-card="&#65288;&#12479;&#12452;&#12488;&#12523;&#12394;&#12375;&#65289;"
+  data-updated="&#26356;&#26032; "
+  data-reload="&#x21BA;"
+  data-settings-title="&#35373;&#23450;"
   data-settings-api-section="Claude API"
-  data-settings-gh-section="GitHub × Obsidian Vault"
+  data-settings-gh-section="GitHub x Obsidian Vault"
   data-settings-key-label="Anthropic API Key"
-  data-settings-key-hint="取得: "
+  data-settings-key-hint="&#21462;&#24471;: "
   data-settings-token-label="Personal Access Token"
-  data-settings-token-hint="Settings → Developer settings → Fine-grained tokens
-権限: Contents → Read and write のみでOK"
-  data-settings-repo-label="Vault リポジトリ（owner/repo）"
-  data-settings-branch-label="ブランチ（デフォルト: main）"
-  data-settings-folder-hint="下書き保存先: BooksMemo/fromMyApp/drafts/
-Obsidian出力先: BooksMemo/fromMyApp/
-※ 両フォルダがVaultに存在しない場合エラーになります"
-  data-settings-save="保存"
-  data-preview-dl="↓ .md ダウンロード"
+  data-settings-token-hint="Settings &#x2192; Developer settings &#x2192; Fine-grained tokens&#10;&#27435;&#38480;: Contents &#x2192; Read and write &#12398;&#12415;&#12391;OK"
+  data-settings-repo-label="Vault &#12522;&#12509;&#12472;&#12488;&#12522;&#65288;owner/repo&#65289;"
+  data-settings-branch-label="&#12502;&#12521;&#12531;&#12481;&#65288;&#12487;&#12501;&#12457;&#12523;&#12488;: main&#65289;"
+  data-settings-folder-hint="&#19979;&#26360;&#12365;&#20445;&#23577;&#20808;: BooksMemo/fromMyApp/drafts/&#10;Obsidian&#20986;&#21147;&#20808;: BooksMemo/fromMyApp/&#10;&#8251; &#20001;&#12501;&#12457;&#12523;&#12480;&#12364;Vault&#12395;&#5B58;&#22312;&#12375;&#12394;&#12356;&#22580;&#21512;&#12456;&#12521;&#12540;&#12395;&#12394;&#12426;&#12414;&#12377;"
+  data-settings-save="&#20445;&#23557;"
+  data-preview-dl="&#x2193; .md &#12480;&#12454;&#12531;&#12525;&#12540;&#12489;"
 ></meta>
 
 <style>
@@ -230,8 +227,7 @@ input[type="date"]{color-scheme:dark}
 .section-icon{font-size:11px;font-weight:800;width:14px;text-align:center;flex-shrink:0}
 .section-title{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:600;flex:1;color:var(--text)}
 .section-hint{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);background:var(--surface3);padding:2px 8px;border-radius:4px}
-textarea{resize:vertical;line-height:1.8;min-height:120px}
-textarea.tall{min-height:220px}textarea.short{min-height:120px}textarea.xtall{min-height:280px}
+.section-body{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
 .sub-field{display:flex;flex-direction:column;gap:5px}
 .sub-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);letter-spacing:.07em}
 textarea{resize:vertical;line-height:1.65;min-height:72px}
@@ -259,7 +255,7 @@ textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min
 .gen-status.loading.nv{color:var(--novel)}
 .gen-status.error{color:var(--red)}.gen-status.ok{color:var(--green)}
 .review-panel{display:none;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:6px}
-.review-editor{width:100%;background:var(--bg);border:none;border-bottom:1px solid var(--border);color:var(--text-2);font-family:'Noto Sans JP',sans-serif;font-size:14px;line-height:1.85;padding:20px 18px;resize:vertical;min-height:480px;outline:none}
+.review-panel.visible{display:block;animation:fadein .25s ease}
 .review-header{padding:14px 18px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .review-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--text-2)}
 .review-hint{font-family:'Noto Sans JP',sans-serif;font-size:11px;color:var(--text-3)}
@@ -415,82 +411,82 @@ textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min
     <div class="panel active" id="panel-general">
       <div class="row-2">
         <div class="field-group">
-          <div class="field-label">書籍タイトル</div>
-          <input type="text" id="bookTitle" placeholder="例：中動態の世界">
+          <div class="field-label">&#26360;&#31807;&#12479;&#12452;&#12488;&#12523;</div>
+          <input type="text" id="bookTitle" placeholder="&#20363;&#65306;&#20013;&#21205;&#24907;&#12398;&#19990;&#30028;">
         </div>
         <div class="field-group">
-          <div class="field-label">読んだ日</div>
+          <div class="field-label">&#35501;&#12435;&#12384;&#26085;</div>
           <input type="date" id="readDate">
         </div>
       </div>
       <div class="field-group mb2">
-        <div class="field-label">著者</div>
-        <input type="text" id="bookAuthor" placeholder="例：國分功一郎">
+        <div class="field-label">&#8470;&#8470; &#8204;&#33879;&#32773;</div>
+        <input type="text" id="bookAuthor" placeholder="&#20363;&#65306;&#22269;&#20998;&#21151;&#19968;&#37070;">
       </div>
 
       <div class="sections">
         <div class="section-card s1">
-          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">フック</span></div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#12501;&#12483;&#12463;</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">なぜ手に取ったか（一文）</div>
-              <textarea class="short" id="hookWhy" placeholder="例：空手の「型」の感覚と言語化できない知のつながりが気になって"></textarea>
+              <div class="sub-label">&#12394;&#12380;&#25163;&#12395;&#21462;&#12387;&#12383;&#12363;&#65288;&#19968;&#25991;&#65289;</div>
+              <textarea class="short" id="hookWhy" placeholder="&#20363;&#65306;&#31354;&#25163;&#12398;&#12300;&#22411;&#12301;&#12398;&#24863;&#35226;&#12392;&#35328;&#35486;&#21270;&#12391;&#12365;&#12394;&#12356;&#30693;&#12398;&#12388;&#12394;&#12364;&#12426;&#12364;&#27671;&#12395;&#12394;&#12387;&#12390;"></textarea>
             </div>
             <div class="sub-field">
-              <div class="sub-label">どこで心が動いたか（ページや場面を一言）</div>
-              <textarea class="short" id="hookWhere" placeholder="例：p.42「する」でも「される」でもない第三の動詞形という概念"></textarea>
+              <div class="sub-label">&#12393;&#12371;&#12391;&#24515;&#12364;&#21205;&#12356;&#12383;&#12363;&#65288;&#12506;&#12540;&#12472;&#12420;&#22580;&#38754;&#12434;&#19968;&#35328;&#65289;</div>
+              <textarea class="short" id="hookWhere" placeholder="&#20363;&#65306;p.42&#12288;&#12300;&#12377;&#12427;&#12301;&#12391;&#12418;&#12300;&#12373;&#12428;&#12427;&#12301;&#12391;&#12418;&#12394;&#12356;&#31532;&#19977;&#12398;&#21205;&#35421;&#24418;&#12392;&#12356;&#12358;&#27010;&#24565;"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card s2">
-          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">妄想吐き出し</span><span class="section-hint">4分</span></div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#22884;&#24819;&#21596;&#12365;&#20986;&#12375;</span><span class="section-hint">4&#20998;</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">自由記述。SE経験、空手、なんでも。</div>
-              <textarea class="tall" id="imagination" placeholder="思ったこと、連想、違和感、共鳴、何でも"></textarea>
+              <div class="sub-label">&#33258;&#30001;&#35352;&#36848;&#12290;SE&#32147;&#39443;&#12289;&#31354;&#25163;&#12289;&#12394;&#12435;&#12391;&#12418;&#12290;</div>
+              <textarea class="tall" id="imagination" placeholder="&#24609;&#12387;&#12383;&#12371;&#12392;&#12289;&#36899;&#24819;&#12289;&#36949;&#21644;&#24863;&#12289;&#20849;&#40441;&#12289;&#20309;&#12391;&#12418;"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card s3">
-          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">ロジック</span><span class="section-hint">2分</span></div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#12525;&#12472;&#12483;&#12463;</span><span class="section-hint">2&#20998;</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">著者はXと言っている</div>
-              <textarea class="short" id="logicAuthor" placeholder="例：意志という概念は近代に構築されたものだ"></textarea>
+              <div class="sub-label">&#8470;&#8204;&#33879;&#8204;&#32773;&#12399;X&#12392;&#35328;&#12387;&#12390;&#12356;&#12427;</div>
+              <textarea class="short" id="logicAuthor" placeholder="&#20363;&#65306;&#24847;&#24535;&#12392;&#12356;&#12358;&#27010;&#24565;&#12399;&#36817;&#20195;&#12395;&#27083;&#31689;&#12373;&#12428;&#12383;&#12418;&#12398;&#12384;"></textarea>
             </div>
             <div class="sub-field">
-              <div class="sub-label">自分はそれを「〇〇と同じ構造」と読んだ</div>
-              <textarea class="short" id="logicSelf" placeholder="例：空手の稽古における「守破離」と同じ構造"></textarea>
+              <div class="sub-label">&#33258;&#20998;&#12399;&#12381;&#12428;&#12434;&#12300;&#12288;&#12288;&#12288;&#12392;&#21516;&#12376;&#27083;&#36896;&#12301;&#12392;&#35501;&#12435;&#12384;</div>
+              <textarea class="short" id="logicSelf" placeholder="&#20363;&#65306;&#31354;&#25163;&#12398;&#31295;&#31320;&#12395;&#12362;&#12369;&#12427;&#12300;&#23432;&#30772;&#31163;&#12301;&#12392;&#21516;&#12376;&#27083;&#36896;"></textarea>
             </div>
             <div class="sub-field">
-              <div class="sub-label">なぜそう読んだか（一文）</div>
-              <textarea class="short" id="logicWhy" placeholder="例：型を反復する段階では「する」意図が消えて動きが起こる感覚があるから"></textarea>
+              <div class="sub-label">&#12394;&#12380;&#12381;&#12358;&#35501;&#12435;&#12384;&#12363;&#65288;&#19968;&#25991;&#65289;</div>
+              <textarea class="short" id="logicWhy" placeholder="&#20363;&#65306;&#22411;&#12434;&#21453;&#35206;&#12377;&#12427;&#27573;&#38542;&#12391;&#12399;&#12300;&#12377;&#12427;&#12301;&#24847;&#22259;&#12364;&#28040;&#12360;&#12390;&#21205;&#12365;&#12364;&#36215;&#12371;&#12427;&#24863;&#35926;&#12364;&#12354;&#12427;&#12363;&#12425;"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card s4">
-          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">コンセプト</span><span class="section-hint">1分</span></div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#12467;&#12531;&#12475;&#12503;&#12488;</span><span class="section-hint">1&#20998;</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">「要するにこの本は、＿＿についての本だ」</div>
-              <textarea class="short" id="concept" placeholder="例：意志という幻想の歴史的構築と、それを手放した先にある責任の再定義についての本だ"></textarea>
+              <div class="sub-label">&#12300;&#35201;&#12377;&#12427;&#12395;&#12371;&#12398;&#26412;&#12399;&#12289;&#12288;&#12288;&#12288;&#12395;&#12388;&#12356;&#12390;&#12398;&#26412;&#12384;&#12301;</div>
+              <textarea class="short" id="concept" placeholder="&#20363;&#65306;&#24847;&#24535;&#12392;&#12356;&#12358;&#24187;&#24819;&#12398;&#27508;&#21490;&#30340;&#27083;&#31689;&#12392;&#12289;&#12381;&#12428;&#12434;&#25163;&#25918;&#12375;&#12383;&#20808;&#12395;&#12354;&#12427;&#36131;&#20219;&#12398;&#20877;&#23450;&#32681;&#12395;&#12388;&#12356;&#12390;&#12398;&#26412;&#12384;"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card s5">
-          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">子供への説明バージョン</span></div>
+          <div class="section-header"><span class="section-icon">&#x2605;</span><span class="section-title">&#23376;&#20379;&#12408;&#12398;&#35500;&#26126;&#12496;&#12540;&#12472;&#12519;&#12531;</span></div>
           <div class="section-body">
             <div class="sub-field">
-              <div class="sub-label">「つまりね、＿＿ってこと」（一文）</div>
-              <textarea class="short" id="childExplain" placeholder="例：自分でやろうと思わなくても、なんかやってた、ってことが実はすごく大事なんだよ"></textarea>
+              <div class="sub-label">&#12300;&#12388;&#12414;&#12426;&#12397;&#12289;&#12288;&#12288;&#12288;&#12387;&#12390;&#12371;&#12392;&#12301;&#65288;&#19968;&#25991;&#65289;</div>
+              <textarea class="short" id="childExplain" placeholder="&#20363;&#65306;&#33258;&#20998;&#12391;&#12420;&#12429;&#12358;&#12392;&#24605;&#12431;&#12394;&#12367;&#12390;&#12418;&#12289;&#12394;&#12435;&#12363;&#12420;&#12387;&#12390;&#12383;&#12289;&#12387;&#12390;&#12371;&#12392;&#12364;&#23455;&#12399;&#12377;&#12372;&#12367;&#22823;&#20107;&#12394;&#12435;&#12384;&#12424;"></textarea>
             </div>
           </div>
         </div>
       </div>
 
       <div class="tags-row">
-        <div class="field-label">タグ（カンマ区切り）</div>
-        <input type="text" id="tags" placeholder="例：哲学, 言語学, 中動態, 読書メモ">
+        <div class="field-label">&#12479;&#12464;&#65288;&#12459;&#12531;&#12510;&#21010;&#12426;&#65289;</div>
+        <input type="text" id="tags" placeholder="&#20363;&#65306;&#21746;&#23398;, &#35328;&#35486;&#23398;, &#20013;&#21205;&#24907;, &#35501;&#26360;&#12513;&#12514;">
       </div>
       <button class="generate-btn" id="genBtnG" onclick="generate('general')"></button>
       <div class="gen-status" id="genStG"></div>
@@ -513,25 +509,25 @@ textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min
     <div class="panel novel-panel" id="panel-novel">
       <div class="row-3">
         <div class="field-group">
-          <div class="field-label">作品タイトル</div>
-          <input type="text" id="novelTitle" placeholder="例：夜と霧">
+          <div class="field-label">&#20316;&#21697;&#12479;&#12452;&#12488;&#12523;</div>
+          <input type="text" id="novelTitle" placeholder="&#20363;&#65306;&#22812;&#12392;&#38721;">
         </div>
         <div class="field-group">
-          <div class="field-label">著者</div>
-          <input type="text" id="novelAuthor" placeholder="例：ヴィクトール・フランクル">
+          <div class="field-label">&#8470;&#8204;&#33879;&#8204;&#32773;</div>
+          <input type="text" id="novelAuthor" placeholder="&#20363;&#65306;&#12532;&#12451;&#12463;&#12488;&#12540;&#12523;&#12539;&#12501;&#12521;&#12531;&#12463;&#12523;">
         </div>
         <div class="field-group">
-          <div class="field-label">読んだ日</div>
+          <div class="field-label">&#35501;&#12435;&#12384;&#26085;</div>
           <input type="date" id="novelDate">
         </div>
       </div>
       <div class="row-2 mb2">
         <div class="field-group">
-          <div class="field-label">カテゴリ／ジャンル</div>
-          <input type="text" id="novelCategory" placeholder="例：純文学, SF, 海外古典">
+          <div class="field-label">&#12459;&#12486;&#12468;&#12522;&#8725;&#12472;&#12515;&#12531;&#12523;</div>
+          <input type="text" id="novelCategory" placeholder="&#20363;&#65306;&#32020;&#25991;&#23398;, SF, &#28023;&#22806;&#21476;&#20856;">
         </div>
         <div class="field-group">
-          <div class="field-label">評価</div>
+          <div class="field-label">&#35413;&#20516;</div>
           <div class="star-row" id="starRow">
             <button class="star-btn" onclick="setRating(1)">&#x2605;</button>
             <button class="star-btn" onclick="setRating(2)">&#x2605;</button>
@@ -544,54 +540,54 @@ textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min
 
       <div class="sections">
         <div class="section-card n1">
-          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">構造（書き手として）</span></div>
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">&#27083;&#36896;&#65288;&#26360;&#12365;&#25163;&#12392;&#12375;&#12390;&#65289;</span></div>
           <div class="section-body">
-            <div class="sub-field"><div class="sub-label">語り・視点の設計</div>
-              <textarea class="short" id="novelNarration" placeholder="例：一人称・現在形。信頼できない語り手。記憶を辿るフレーム構造。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#35486;&#12426;&#12539;&#35222;&#28857;&#12398;&#35373;&#35336;</div>
+              <textarea class="short" id="novelNarration" placeholder="&#20363;&#65306;&#19968;&#20154;&#31, &#29694;&#22312;&#24418;&#12290;&#20449;&#38972;&#12391;&#12365;&#12394;&#35486;&#12426;&#25163;&#12290;&#35352;&#24564;&#12434;&#36741;&#12427;&#12501;&#12524;&#12540;&#12512;&#27083;&#36896;&#12290;"></textarea>
             </div>
-            <div class="sub-field"><div class="sub-label">時間・構成の工夫</div>
-              <textarea class="short" id="novelStructure" placeholder="例：非線形。冒頭でオチを示し、経緯を回想する形式。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#26178;&#38291;&#12539;&#27083;&#25104;&#12398;&#24037;&#22253;</div>
+              <textarea class="short" id="novelStructure" placeholder="&#20363;&#65306;&#38750;&#32218;&#24418;&#12290;&#20897;&#22836;&#12391;&#12458;&#12481;&#12434;&#31034;&#12375;&#12289;&#32076;&#32066;&#12434;&#22238;&#24819;&#12377;&#12427;&#24418;&#24335;&#12290;"></textarea>
             </div>
-            <div class="sub-field"><div class="sub-label">文体・リズム・句読点の使い方</div>
-              <textarea class="short" id="novelStyle" placeholder="例：短文連打で緊迫感。心理描写は長文化。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#25991;&#20307;&#12539;&#12522;&#12474;&#12512;&#12539;&#21477;&#35501;&#28857;&#12398;&#20351;&#12356;&#26041;</div>
+              <textarea class="short" id="novelStyle" placeholder="&#20363;&#65306;&#30701;&#25991;&#36899;&#25171;&#12391;&#32153;&#36343;&#24863;&#12290;&#24515;&#29702;&#25miota;&#36848;&#12399;&#38263;&#25991;&#21270;&#12290;"></textarea>
             </div>
-            <div class="sub-field"><div class="sub-label">自分の書きものに盗める技法</div>
-              <textarea class="short" id="novelTechnique" placeholder="例：感情を行動で示す「見せる」技法。感情を直接書かない。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#33258;&#20998;&#12398;&#26360;&#12365;&#12418;&#12398;&#12395;&#30435;&#12417;&#308B;&#25216;&#27861;</div>
+              <textarea class="short" id="novelTechnique" placeholder="&#20363;&#65306;&#24863;&#24773;&#12434;&#34892;&#21205;&#12391;&#31034;&#12377;&#12300;&#35211;&#12379;&#12427;&#12301;&#25216;&#27861;&#12290;&#24863;&#24773;&#12434;&#30452;&#25509;&#26360;&#12363;&#12394;&#12356;&#12290;"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card n2">
-          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">印象に残ったこと</span></div>
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">&#21360;&#35937;&#12395;&#27494;&#12387;&#12383;&#12371;&#12392;</span></div>
           <div class="section-body">
-            <div class="sub-field"><div class="sub-label">心が動いた場面・描写</div>
-              <textarea class="tall" id="novelImpression" placeholder="例：p.112 主人公が父の形見の時計を川に捨てる場面。行為の説明なし。喪失感が後から来る。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#24515;&#12364;&#21205;&#12356;&#12383;&#22580;&#38754;&#12539;&#25miota;&#36848;</div>
+              <textarea class="tall" id="novelImpression" placeholder="&#20363;&#65306;p.112&#12288;&#20027;&#20154;&#20844;&#12364;&#29238;&#12398;&#24418;&#35211;&#12398;&#26178;&#35336;&#12434;&#24029;&#12395;&#25391;&#12427;&#22580;&#38754;&#12290;&#34892;&#28167;&#12398;&#35500;&#26126;&#12394;&#12375;&#12290;&#21954;&#12373;&#12364;&#24460;&#12363;&#12425;&#26469;&#12427;&#12290;"></textarea>
             </div>
-            <div class="sub-field"><div class="sub-label">なぜ動いたか（自分の文脈で）</div>
-              <textarea class="short" id="novelWhyMoved" placeholder="例：「振る」という能動的行渇に見えて、実は中動態的な&#り脈に読めた。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#12394;&#12380;&#21205;&#12356;&#12383;&#12363;&#65288;&#33258;&#20998;&#12398;&#25miota;&#31649;&#12391;&#65289;</div>
+              <textarea class="short" id="novelWhyMoved" placeholder="&#20363;&#65306;&#12300;&#25391;&#12427;&#12301;&#12392;&#12356;&#12358;&#33021;&#21205;&#30340;&#34892;&#28167;&#12395;&#35211;&#12360;&#12390;&#12289;&#23455;&#12399;&#20013;&#21205;&#24907;&#30340;&#12394;&#&#12426;&#20853;&#12395;&#35501;&#12417;&#12383;&#12290;"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card n3">
-          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">テーマと問い</span></div>
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">&#12486;&#12540;&#12510;&#12392;&#21839;&#12356;</span></div>
           <div class="section-body">
-            <div class="sub-field"><div class="sub-label">この作品が問いかけていること</div>
-              <textarea class="short" id="novelTheme" placeholder="例：極限状態における「意味を見出す意志」とは何か。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#12053;&#12398;&#20316;&#21697;&#12364;&#21839;&#12356;&#12363;&#12369;&#12390;&#12356;&#12427;&#12371;&#12392;</div>
+              <textarea class="short" id="novelTheme" placeholder="&#20363;&#65306;&#26997;&#38480;&#29366;&#24907;&#12395;&#12363;&#12369;&#12427;&#12300;&#24847;&#21619;&#12434;&#35211;&#20986;&#12377;&#24847;&#24535;&#12301;&#12392;&#12399;&#20309;&#12363;&#12290;"></textarea>
             </div>
           </div>
         </div>
         <div class="section-card n4">
-          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">その他・自由メモ</span></div>
+          <div class="section-header"><span class="section-icon">&#x25C6;</span><span class="section-title">&#12381;&#12398;&#20182;&#12539;&#33258;&#30001;&#12513;&#12514;</span></div>
           <div class="section-body">
-            <div class="sub-field"><div class="sub-label">気になった言葉、読後感、次に読みたいもの</div>
-              <textarea class="xtall" id="novelFree" placeholder="自由に。"></textarea>
+            <div class="sub-field"><div class="sub-label">&#27671;&#12395;&#12394;&#12387;&#12383;&#35328;&#33865;&#12289;&#35501;&#24460;&#24863;&#12289;&#27425;&#12395;&#35501;&#12415;&#12383;&#12356;&#12418;&#12398;</div>
+              <textarea class="xtall" id="novelFree" placeholder="&#33258;&#30001;&#12395;&#12290;"></textarea>
             </div>
           </div>
         </div>
       </div>
 
       <div class="tags-row">
-        <div class="field-label">タグ（カンマ区切り）</div>
-        <input type="text" id="novelTags" placeholder="例：小説, 海外文学, 実存主義">
+        <div class="field-label">&#12479;&#12464;&#65288;&#12459;&#12531;&#12510;&#21010;&#12426;&#65289;</div>
+        <input type="text" id="novelTags" placeholder="&#20363;&#65306;&#23567;&#35500;, &#28023;&#22806;&#25miota;&#23398;, &#23455;&#23384;&#20027;&#32681;">
       </div>
       <button class="generate-btn nv-btn" id="genBtnN" onclick="generate('novel')"></button>
       <div class="gen-status" id="genStN"></div>
@@ -613,6 +609,638 @@ textarea.tall{min-height:136px}textarea.short{min-height:56px}textarea.xtall{min
   </div>
 </div>
 
-<script src="app.js"></script>
+<script>
+// BooksMemo app.js
+// ASCII-only. All Japanese text lives in index.html as data-* attributes on #i18n.
+
+var DRAFT_DIR    = 'BooksMemo/fromMyApp/drafts';
+var OBSIDIAN_DIR = 'BooksMemo/fromMyApp';
+
+var currentTab       = 'general';
+var currentDraftFile = null;
+var currentDraftSha  = null;
+var novelRating      = 0;
+var previewMd        = '';
+var previewFile      = '';
+
+// Read all i18n strings from the #i18n meta element in HTML
+var T = {};
+function loadI18n() {
+  var el = document.getElementById('i18n');
+  if (!el) return;
+  var attrs = el.attributes;
+  for (var i = 0; i < attrs.length; i++) {
+    var name = attrs[i].name;
+    if (name.indexOf('data-') === 0) {
+      T[name.slice(5)] = attrs[i].value;
+    }
+  }
+}
+
+function t(key) { return T[key] || key; }
+
+function applyI18n() {
+  setText('libTitle',            t('app-title'));
+  setText('libSub',              t('app-sub'));
+  setText('settingsOpenBtn',     t('settings'));
+  setText('newMemoLabel',        t('new-memo'));
+  setText('newMemoHint',         t('new-memo-hint'));
+  setText('draftsLabel',         t('drafts'));
+  setText('savedLabel',          t('saved'));
+  setText('reloadBtn',           t('reload'));
+  setText('backBtn',             t('back'));
+  setText('draftSaveBtn',        t('save-draft'));
+  setText('saveInd',             t('saved-ok'));
+  setText('editorHeading',       t('app-title'));
+  setText('genBtnG',             t('generate-general'));
+  setText('genBtnN',             t('generate-novel'));
+  setText('regenG',              t('regenerate'));
+  setText('regenN',              t('regenerate'));
+  setText('pushG',               t('push'));
+  setText('pushN',               t('push'));
+  setText('dlBtnG',              t('dl'));
+  setText('dlBtnN',              t('dl'));
+  setText('reviewLabelG',        t('preview-label'));
+  setText('reviewLabelN',        t('preview-label'));
+  setText('reviewHintG',         t('preview-hint'));
+  setText('reviewHintN',         t('preview-hint'));
+  setText('confirmCancelBtn',    t('confirm-cancel'));
+  setText('confirmOk',           t('confirm-delete'));
+  setText('previewDlBtn',        t('preview-dl'));
+  setText('settingsTitle',       t('settings-title'));
+  setText('settingsApiSection',  t('settings-api-section'));
+  setText('settingsGhSection',   t('settings-gh-section'));
+  setText('settingsKeyLabel',    t('settings-key-label'));
+  setText('settingsKeyHint',     t('settings-key-hint') + ' console.anthropic.com');
+  setText('settingsTokenLabel',  t('settings-token-label'));
+  setText('settingsTokenHint',   t('settings-token-hint'));
+  setText('settingsRepoLabel',   t('settings-repo-label'));
+  setText('settingsBranchLabel', t('settings-branch-label'));
+  setText('settingsFolderHint',  t('settings-folder-hint'));
+  setText('settingsSaveBtn',     t('settings-save'));
+  setText('tab-general',         t('general-tab'));
+  setText('tab-novel',           t('novel-tab'));
+  setText('editorBadge',         t('general-badge'));
+}
+
+function setText(id, text) {
+  var el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+
+// Config
+var cfg = {
+  get key()    { return localStorage.getItem('rm_key')    || ''; },
+  get token()  { return localStorage.getItem('rm_token')  || ''; },
+  get repo()   { return localStorage.getItem('rm_repo')   || ''; },
+  get branch() { return localStorage.getItem('rm_branch') || 'main'; }
+};
+
+function openSettings() {
+  document.getElementById('cfg-key').value    = cfg.key;
+  document.getElementById('cfg-token').value  = cfg.token;
+  document.getElementById('cfg-repo').value   = cfg.repo;
+  document.getElementById('cfg-branch').value = cfg.branch;
+  document.getElementById('settingsSt').textContent = '';
+  document.getElementById('settingsOverlay').classList.add('open');
+}
+function closeSettings()     { document.getElementById('settingsOverlay').classList.remove('open'); }
+function closeSettingsOut(e) { if (e.target === document.getElementById('settingsOverlay')) closeSettings(); }
+
+function saveSettings() {
+  ['key','token','repo','branch'].forEach(function(k) {
+    var val = document.getElementById('cfg-' + k).value.trim();
+    localStorage.setItem('rm_' + k, k === 'branch' && !val ? 'main' : val);
+  });
+  var el = document.getElementById('settingsSt');
+  el.textContent = t('settings-saved');
+  el.className = 'settings-st ok';
+  setTimeout(function() { el.textContent = ''; el.className = 'settings-st'; }, 2000);
+}
+
+// GitHub API
+function ghReq(method, path, body) {
+  var url = 'https://api.github.com/repos/' + cfg.repo + '/contents/' + encodeURIComponent(path);
+  if (method === 'GET') url += '?ref=' + cfg.branch;
+  return fetch(url, {
+    method: method,
+    headers: {
+      'Authorization': 'token ' + cfg.token,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    },
+    body: body ? JSON.stringify(body) : undefined
+  }).then(function(res) {
+    return res.json().then(function(d) {
+      if (!res.ok) throw new Error(d.message || method + ' ' + path + ' failed');
+      return d;
+    });
+  });
+}
+
+function ghGet(path) { return ghReq('GET', path); }
+
+function ghPut(path, content, sha, msg) {
+  var body = {
+    message: msg,
+    content: btoa(unescape(encodeURIComponent(content))),
+    branch: cfg.branch
+  };
+  if (sha) body.sha = sha;
+  return ghReq('PUT', path, body);
+}
+
+function ghDel(path, sha, msg) {
+  return ghReq('DELETE', path, { message: msg, sha: sha, branch: cfg.branch });
+}
+
+function assertDir(dir) {
+  return ghGet(dir).catch(function() {
+    throw new Error('Folder "' + dir + '" not found. Please create it in Obsidian first.');
+  });
+}
+
+// Library
+function loadLibrary() {
+  if (!cfg.token || !cfg.repo) {
+    document.getElementById('draftList').innerHTML = '<div class="list-error">' + t('no-settings') + '</div>';
+    document.getElementById('doneList').innerHTML  = '<div class="list-empty"></div>';
+    document.getElementById('draftCount').textContent = '0';
+    document.getElementById('doneCount').textContent  = '0';
+    return;
+  }
+
+  document.getElementById('draftList').innerHTML = '<div class="list-loading">' + t('loading') + '</div>';
+  ghGet(DRAFT_DIR).then(function(files) {
+    var jsonFiles = files.filter(function(f) { return f.name.indexOf('.json') !== -1; });
+    document.getElementById('draftCount').textContent = jsonFiles.length;
+    if (!jsonFiles.length) {
+      document.getElementById('draftList').innerHTML = '<div class="list-empty">' + t('no-drafts') + '</div>';
+      return;
+    }
+    return Promise.all(jsonFiles.map(function(f) {
+      return ghGet(DRAFT_DIR + '/' + f.name).then(function(d) {
+        var data = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\s/g, '')))));
+        data._file = f.name;
+        data._sha  = d.sha;
+        return data;
+      }).catch(function() {
+        return { _file: f.name, _sha: null, title: t('no-title-card'), mode: 'general' };
+      });
+    })).then(function(items) {
+      document.getElementById('draftList').innerHTML =
+        '<div class="card-list">' + items.map(draftCard).join('') + '</div>';
+    });
+  }).catch(function(e) {
+    document.getElementById('draftList').innerHTML = '<div class="list-error">' + t('load-error') + e.message + '</div>';
+  });
+
+  document.getElementById('doneList').innerHTML = '<div class="list-loading">' + t('loading') + '</div>';
+  ghGet(OBSIDIAN_DIR).then(function(files) {
+    var mdFiles = files.filter(function(f) { return f.name.slice(-3) === '.md'; });
+    document.getElementById('doneCount').textContent = mdFiles.length;
+    if (!mdFiles.length) {
+      document.getElementById('doneList').innerHTML = '<div class="list-empty">' + t('no-saved') + '</div>';
+      return;
+    }
+    document.getElementById('doneList').innerHTML =
+      '<div class="card-list">' + mdFiles.map(doneCard).join('') + '</div>';
+  }).catch(function(e) {
+    document.getElementById('doneList').innerHTML = '<div class="list-error">' + t('load-error') + e.message + '</div>';
+  });
+}
+
+function draftCard(d) {
+  var nv  = d.mode === 'novel';
+  var upd = d._updatedAt
+    ? new Date(d._updatedAt).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+    : '';
+  var fn = JSON.stringify(d._file);
+  return '<div class="draft-card" onclick="openDraft(' + fn + ')">'
+    + '<div class="card-bar ' + (nv ? 'novel' : 'general') + '"></div>'
+    + '<div class="card-body">'
+    + '<div class="card-top">'
+    + '<div class="card-title">' + esc(d.title || t('no-title-card')) + '</div>'
+    + '<div class="card-badge ' + (nv ? 'novel' : 'general') + '">' + (nv ? t('novel-label') : t('general-label')) + '</div>'
+    + '</div>'
+    + '<div class="card-meta">'
+    + '<span class="card-author">' + esc(d.author || t('no-author')) + '</span>'
+    + (d.date ? '<span>' + d.date.slice(0, 10) + '</span>' : '')
+    + (upd ? '<span>' + t('updated') + upd + '</span>' : '')
+    + '</div></div>'
+    + '<div class="card-actions" onclick="event.stopPropagation()">'
+    + '<button class="card-btn edit" onclick="openDraft(' + fn + ')">&#x270E;</button>'
+    + '<button class="card-btn" onclick="confirmDel(' + fn + ',' + JSON.stringify(d._sha || '') + ',' + JSON.stringify(d.title || '') + ')">&#x2715;</button>'
+    + '</div></div>';
+}
+
+function doneCard(f) {
+  var name = f.name.replace(/\.md$/, '');
+  return '<div class="draft-card" onclick="openPreview(' + JSON.stringify(f.name) + ',' + JSON.stringify(name) + ')">'
+    + '<div class="card-bar done"></div>'
+    + '<div class="card-body">'
+    + '<div class="card-top">'
+    + '<div class="card-title">' + esc(name) + '</div>'
+    + '<div class="card-badge done">' + t('saved-label') + '</div>'
+    + '</div></div>'
+    + '<div class="card-actions" onclick="event.stopPropagation()">'
+    + '<button class="card-btn view" onclick="openPreview(' + JSON.stringify(f.name) + ',' + JSON.stringify(name) + ')">&#x1F441;</button>'
+    + '<button class="card-btn" onclick="confirmDelDone(' + JSON.stringify(f.name) + ',' + JSON.stringify(f.sha) + ',' + JSON.stringify(name) + ')">&#x2715;</button>'
+    + '</div></div>';
+}
+
+// Preview
+function openPreview(filename, title) {
+  ghGet(OBSIDIAN_DIR + '/' + filename).then(function(d) {
+    previewMd   = decodeURIComponent(escape(atob(d.content.replace(/\n/g, ''))));
+    previewFile = filename;
+    document.getElementById('previewTitle').textContent   = title;
+    document.getElementById('previewContent').textContent = previewMd;
+    document.getElementById('previewOverlay').classList.add('open');
+  }).catch(function(e) { alert(t('load-error') + e.message); });
+}
+function closePreview()     { document.getElementById('previewOverlay').classList.remove('open'); }
+function closePreviewOut(e) { if (e.target === document.getElementById('previewOverlay')) closePreview(); }
+function dlPreview()        { if (previewMd) dl(previewMd, previewFile); }
+
+// Confirm
+function showConfirm(title, sub, cb) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmSub').textContent   = sub;
+  document.getElementById('confirmOk').onclick = function() { closeConfirm(); cb(); };
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+function closeConfirm() { document.getElementById('confirmOverlay').classList.remove('open'); }
+
+function confirmDel(file, sha, title) {
+  showConfirm(
+    t('confirm-draft-title'),
+    '\u300c' + (title || t('no-title-card')) + '\u300d' + t('confirm-draft-sub'),
+    function() {
+      ghDel(DRAFT_DIR + '/' + file, sha, 'Delete draft: ' + title)
+        .then(loadLibrary)
+        .catch(function(e) { alert(t('delete-error') + e.message); });
+    }
+  );
+}
+function confirmDelDone(file, sha, title) {
+  showConfirm(
+    t('confirm-done-title'),
+    '\u300c' + (title || '') + '\u300d' + t('confirm-done-sub'),
+    function() {
+      ghDel(OBSIDIAN_DIR + '/' + file, sha, 'Delete note: ' + title)
+        .then(loadLibrary)
+        .catch(function(e) { alert(t('delete-error') + e.message); });
+    }
+  );
+}
+
+// Navigation
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+  document.getElementById('screen-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+function goLibrary() { showScreen('library'); loadLibrary(); }
+
+function newMemo() {
+  currentDraftFile = null;
+  currentDraftSha  = null;
+  clearEditor();
+  switchTab('general');
+  var today = new Date().toISOString().slice(0, 10);
+  document.getElementById('readDate').value  = today;
+  document.getElementById('novelDate').value = today;
+  showScreen('editor');
+}
+
+function openDraft(file) {
+  ghGet(DRAFT_DIR + '/' + file).then(function(d) {
+    var data = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\s/g, '')))));
+    currentDraftFile = file;
+    currentDraftSha  = d.sha;
+    clearEditor();
+    fillForm(data);
+    showScreen('editor');
+  }).catch(function(e) { alert(t('load-error') + e.message); });
+}
+
+// Editor
+function clearEditor() {
+  ['bookTitle','bookAuthor','readDate','tags','hookWhy','hookWhere','imagination',
+   'logicAuthor','logicSelf','logicWhy','concept','childExplain',
+   'novelTitle','novelAuthor','novelDate','novelCategory','novelTags',
+   'novelNarration','novelStructure','novelStyle','novelTechnique',
+   'novelImpression','novelWhyMoved','novelTheme','novelFree'
+  ].forEach(function(id) { var e = document.getElementById(id); if (e) e.value = ''; });
+  setRating(0);
+  ['reviewG','reviewN'].forEach(function(id) { var e = document.getElementById(id); if (e) e.value = ''; });
+  ['reviewPanelG','reviewPanelN'].forEach(function(id) {
+    var e = document.getElementById(id); if (e) e.classList.remove('visible');
+  });
+  ['genStG','genStN','pfG','pfN'].forEach(function(id) {
+    var e = document.getElementById(id);
+    if (e) { e.textContent = ''; e.className = e.className.split(' ')[0]; }
+  });
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(tb) { tb.className = 'tab'; });
+  document.getElementById('panel-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add(tab === 'general' ? 'active-general' : 'active-novel');
+  setText('editorBadge', tab === 'general' ? t('general-badge') : t('novel-badge'));
+}
+
+function setRating(n) {
+  novelRating = n;
+  document.querySelectorAll('.star-btn').forEach(function(b, i) { b.classList.toggle('lit', i < n); });
+}
+
+function gatherForm(mode) {
+  if (mode === 'general') {
+    return {
+      mode: 'general',
+      title: V('bookTitle'), author: V('bookAuthor'), date: V('readDate'), tags: V('tags'),
+      hookWhy: V('hookWhy'), hookWhere: V('hookWhere'), imagination: V('imagination'),
+      logicAuthor: V('logicAuthor'), logicSelf: V('logicSelf'), logicWhy: V('logicWhy'),
+      concept: V('concept'), childExplain: V('childExplain')
+    };
+  }
+  return {
+    mode: 'novel',
+    title: V('novelTitle'), author: V('novelAuthor'), date: V('novelDate'),
+    category: V('novelCategory'), tags: V('novelTags'), rating: novelRating,
+    narration: V('novelNarration'), structure: V('novelStructure'),
+    style: V('novelStyle'), technique: V('novelTechnique'),
+    impression: V('novelImpression'), whyMoved: V('novelWhyMoved'),
+    theme: V('novelTheme'), free: V('novelFree')
+  };
+}
+
+function fillForm(d) {
+  switchTab(d.mode || 'general');
+  function set(id, v) { var e = document.getElementById(id); if (e) e.value = v || ''; }
+  if ((d.mode || 'general') === 'general') {
+    set('bookTitle', d.title); set('bookAuthor', d.author); set('readDate', d.date); set('tags', d.tags);
+    set('hookWhy', d.hookWhy); set('hookWhere', d.hookWhere); set('imagination', d.imagination);
+    set('logicAuthor', d.logicAuthor); set('logicSelf', d.logicSelf); set('logicWhy', d.logicWhy);
+    set('concept', d.concept); set('childExplain', d.childExplain);
+  } else {
+    set('novelTitle', d.title); set('novelAuthor', d.author); set('novelDate', d.date);
+    set('novelCategory', d.category); set('novelTags', d.tags);
+    set('novelNarration', d.narration); set('novelStructure', d.structure);
+    set('novelStyle', d.style); set('novelTechnique', d.technique);
+    set('novelImpression', d.impression); set('novelWhyMoved', d.whyMoved);
+    set('novelTheme', d.theme); set('novelFree', d.free);
+    setRating(d.rating || 0);
+  }
+}
+
+// Draft save
+function saveDraft() {
+  if (!cfg.token || !cfg.repo) { alert(t('no-settings')); return; }
+  var btn = document.getElementById('draftSaveBtn');
+  btn.disabled = true;
+  assertDir(DRAFT_DIR).then(function() {
+    var data = gatherForm(currentTab);
+    data._updatedAt = new Date().toISOString();
+    var json = JSON.stringify(data, null, 2);
+    if (!currentDraftFile) {
+      var safe = (data.title || 'draft').replace(/[\\/:*?"<>|]/g, '').slice(0, 40) || 'draft';
+      currentDraftFile = Date.now() + '_' + safe + '.json';
+    }
+    var path = DRAFT_DIR + '/' + currentDraftFile;
+    return ghGet(path).then(function(cur) {
+      currentDraftSha = cur.sha;
+    }).catch(function() {}).then(function() {
+      return ghPut(path, json, currentDraftSha, 'Draft: ' + (data.title || 'untitled'));
+    }).then(function(res) {
+      currentDraftSha = res.content && res.content.sha ? res.content.sha : null;
+      var ind = document.getElementById('saveInd');
+      ind.classList.add('show');
+      setTimeout(function() { ind.classList.remove('show'); }, 2200);
+    });
+  }).catch(function(e) {
+    alert(t('save-error') + e.message);
+  }).then(function() {
+    btn.disabled = false;
+  });
+}
+
+// Claude prompt
+function buildPrompt(mode) {
+  if (mode === 'general') {
+    var m = gatherForm('general');
+    return 'You are an assistant supporting deep intellectual reading.\n'
+      + 'Generate Obsidian-ready Markdown from the reading notes below.\n\n'
+      + '**Title**: ' + m.title + '\n'
+      + '**Author**: ' + (m.author || 'Unknown') + '\n'
+      + '**Date read**: ' + (m.date || 'Not recorded') + '\n\n'
+      + '### Hook\n'
+      + '- Why picked up: ' + (m.hookWhy || '(blank)') + '\n'
+      + '- Where heart moved: ' + (m.hookWhere || '(blank)') + '\n\n'
+      + '### Free association\n' + (m.imagination || '(blank)') + '\n\n'
+      + '### Logic\n'
+      + '- Author argues: ' + (m.logicAuthor || '(blank)') + '\n'
+      + '- I read it as same structure as: ' + (m.logicSelf || '(blank)') + '\n'
+      + '- Because: ' + (m.logicWhy || '(blank)') + '\n\n'
+      + '### Concept\n' + (m.concept || '(blank)') + '\n\n'
+      + '### Child explanation\n' + (m.childExplain || '(blank)') + '\n\n'
+      + '---\n'
+      + 'Return complete Markdown ONLY. Start with YAML front matter. No code fences or extra text.\n\n'
+      + 'Sections:\n'
+      + '1. YAML front matter (title, author, date, tags array, type: \u8aad\u66f8\u30e1\u30e2)\n'
+      + '2. Intellectual positioning (~150 chars in Japanese)\n'
+      + '3. Themes and questions (3-5 bullets)\n'
+      + '4. Structured notes (hook / free assoc / logic / concept / child explanation with headings)\n'
+      + '5. Deeper questions (3-5) -- weave in SE experience, karate, intrinsic motivation if relevant\n'
+      + '6. Related concepts and references\n\n'
+      + 'Write in natural Japanese as a personal intellectual notebook.';
+  }
+  var m = gatherForm('novel');
+  var stars = m.rating > 0
+    ? '\u2605\u2605\u2605\u2605\u2605'.slice(0, m.rating) + '\u2606\u2606\u2606\u2606\u2606'.slice(0, 5 - m.rating)
+    : 'Not rated';
+  return 'You are an assistant supporting literary analysis and craft study.\n'
+    + 'The reader is also a writer. Prioritise the craft perspective.\n\n'
+    + '**Title**: ' + m.title + '\n'
+    + '**Author**: ' + (m.author || 'Unknown') + '  **Rating**: ' + stars + '\n'
+    + '**Category**: ' + (m.category || 'Not recorded') + '  **Date**: ' + (m.date || 'Not recorded') + '\n\n'
+    + '### Structure (as a writer)\n'
+    + '- Narration/POV: ' + (m.narration || '(blank)') + '\n'
+    + '- Time/structure: ' + (m.structure || '(blank)') + '\n'
+    + '- Prose rhythm: ' + (m.style || '(blank)') + '\n'
+    + '- Techniques to steal: ' + (m.technique || '(blank)') + '\n\n'
+    + '### What stayed with me\n'
+    + '- Scene: ' + (m.impression || '(blank)') + '\n'
+    + '- Why it moved me: ' + (m.whyMoved || '(blank)') + '\n\n'
+    + '### Theme\n' + (m.theme || '(blank)') + '\n\n'
+    + '### Other notes\n' + (m.free || '(blank)') + '\n\n'
+    + '---\n'
+    + 'Return complete Markdown ONLY. Start with YAML front matter. No code fences or extra text.\n\n'
+    + 'Sections:\n'
+    + '1. YAML front matter (title, author, date, category, rating as number, tags array, type: \u5c0f\u8aac\u30e1\u30e2)\n'
+    + '2. Literary positioning (~120 chars in Japanese)\n'
+    + '3. Craft analysis -- expand techniques to steal concretely\n'
+    + '4. What stayed with me -- develop scene and why it moved\n'
+    + '5. Theme and questions (3 points)\n'
+    + '6. Other notes\n'
+    + '7. What to read next / related works\n\n'
+    + 'Write in natural Japanese as a personal writer\'s notebook.';
+}
+
+// Generate
+function generate(mode) {
+  var tid = mode === 'general' ? 'bookTitle' : 'novelTitle';
+  if (!V(tid)) { setGenSt(mode, t('no-title'), 'error'); return; }
+  var s = mode === 'general' ? 'G' : 'N';
+  document.getElementById('reviewPanel' + s).classList.remove('visible');
+  var md = buildMarkdown(mode);
+  document.getElementById('review' + s).value = md;
+  document.getElementById('reviewPanel' + s).classList.add('visible');
+  setGenSt(mode, t('claude-done'), 'ok');
+  setTimeout(function() {
+    document.getElementById('reviewPanel' + s).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+function buildMarkdown(mode) {
+  if (mode === 'general') {
+    var m = gatherForm('general');
+    var tags = m.tags ? m.tags.split(',').map(function(t){ return '  - ' + t.trim(); }).join('\n') : '  - \u8aad\u66f8\u30e1\u30e2';
+    return '---\n'
+      + 'title: ' + (m.title || '') + '\n'
+      + 'author: ' + (m.author || '') + '\n'
+      + 'date: ' + (m.date || '') + '\n'
+      + 'tags:\n' + tags + '\n'
+      + 'type: \u8aad\u66f8\u30e1\u30e2\n'
+      + '---\n\n'
+      + '## \u30d5\u30c3\u30af\n\n'
+      + '**\u306a\u305c\u624b\u306b\u53d6\u3063\u305f\u304b**: ' + (m.hookWhy || '') + '\n\n'
+      + '**\u3069\u3053\u3067\u5fc3\u304c\u52d5\u3044\u305f\u304b**: ' + (m.hookWhere || '') + '\n\n'
+      + '## \u59a6\u60f3\u5410\u304d\u51fa\u3057\n\n'
+      + (m.imagination || '') + '\n\n'
+      + '## \u30ed\u30b8\u30c3\u30af\n\n'
+      + '**\u8457\u8005\u306f\u4f55\u3068\u8a00\u3063\u3066\u3044\u308b\u304b**: ' + (m.logicAuthor || '') + '\n\n'
+      + '**\u81ea\u5206\u306e\u8aad\u307f**: ' + (m.logicSelf || '') + '\n\n'
+      + '**\u306a\u305c\u305d\u3046\u8aad\u3093\u3060\u304b**: ' + (m.logicWhy || '') + '\n\n'
+      + '## \u30b3\u30f3\u30bb\u30d7\u30c8\n\n'
+      + (m.concept || '') + '\n\n'
+      + '## \u5b50\u4f9b\u3078\u306e\u8aac\u660e\n\n'
+      + (m.childExplain || '') + '\n';
+  }
+  var m = gatherForm('novel');
+  var stars = m.rating > 0 ? '\u2605'.repeat(m.rating) + '\u2606'.repeat(5 - m.rating) : '\u672a\u8a55\u4fa1';
+  var tags = m.tags ? m.tags.split(',').map(function(t){ return '  - ' + t.trim(); }).join('\n') : '  - \u5c0f\u8aac\u30e1\u30e2';
+  return '---\n'
+    + 'title: ' + (m.title || '') + '\n'
+    + 'author: ' + (m.author || '') + '\n'
+    + 'date: ' + (m.date || '') + '\n'
+    + 'category: ' + (m.category || '') + '\n'
+    + 'rating: ' + (m.rating || 0) + '\n'
+    + 'tags:\n' + tags + '\n'
+    + 'type: \u5c0f\u8aac\u30e1\u30e2\n'
+    + '---\n\n'
+    + '## \u8a55\u4fa1: ' + stars + '\n\n'
+    + '## \u69cb\u9020\uff08\u66f8\u304d\u624b\u3068\u3057\u3066\uff09\n\n'
+    + '**\u8a9e\u308a\u30fb\u8996\u70b9**: ' + (m.narration || '') + '\n\n'
+    + '**\u6642\u9593\u30fb\u69cb\u6210**: ' + (m.structure || '') + '\n\n'
+    + '**\u6587\u4f53\u30fb\u30ea\u30ba\u30e0**: ' + (m.style || '') + '\n\n'
+    + '**\u76d7\u3081\u308b\u6280\u6cd5**: ' + (m.technique || '') + '\n\n'
+    + '## \u5370\u8c61\u306b\u6b8b\u3063\u305f\u3053\u3068\n\n'
+    + '**\u5fc3\u304c\u52d5\u3044\u305f\u5834\u9762**: ' + (m.impression || '') + '\n\n'
+    + '**\u306a\u305c\u52d5\u3044\u305f\u304b**: ' + (m.whyMoved || '') + '\n\n'
+    + '## \u30c6\u30fc\u30de\u3068\u554f\u3044\n\n'
+    + (m.theme || '') + '\n\n'
+    + '## \u305d\u306e\u4ed6\u30fb\u81ea\u7531\u30e1\u30e2\n\n'
+    + (m.free || '') + '\n';
+}
+
+function setGenSt(mode, msg, cls) {
+  var el = document.getElementById('genSt' + (mode === 'general' ? 'G' : 'N'));
+  el.textContent = msg;
+  el.className = 'gen-status ' + (cls || '');
+}
+
+// Push to Obsidian
+function pushObsidian(mode) {
+  var s     = mode === 'general' ? 'G' : 'N';
+  var md    = document.getElementById('review' + s).value.trim();
+  var title = V(mode === 'general' ? 'bookTitle' : 'novelTitle') || 'memo';
+  var date  = V(mode === 'general' ? 'readDate'  : 'novelDate')  || new Date().toISOString().slice(0, 10);
+  if (!cfg.token || !cfg.repo) { setPf(mode, t('no-token'), 'err'); return; }
+  if (!md)                     { setPf(mode, t('no-md'), 'err'); return; }
+  document.getElementById('push' + s).disabled = true;
+  setPf(mode, t('checking-folder'), 'loading');
+
+  assertDir(OBSIDIAN_DIR).then(function() {
+    var safe   = title.replace(/[\\/:*?"<>|]/g, '').slice(0, 60);
+    var mdFile = date + '_' + safe + '.md';
+    var mdPath = OBSIDIAN_DIR + '/' + mdFile;
+    setPf(mode, t('sending'), 'loading');
+    return ghGet(mdPath).then(function(d) { return d.sha; }).catch(function() { return null; })
+      .then(function(sha) {
+        return ghPut(mdPath, md, sha, 'Note: ' + title + ' (' + date + ')');
+      }).then(function() {
+        setPf(mode, t('push-ok'), 'ok');
+        if (currentDraftFile) {
+          return ghGet(DRAFT_DIR + '/' + currentDraftFile).then(function(cur) {
+            return ghDel(DRAFT_DIR + '/' + currentDraftFile, cur.sha, 'Done: ' + title);
+          }).then(function() {
+            currentDraftFile = null;
+            currentDraftSha  = null;
+          }).catch(function() {});
+        }
+      });
+  }).catch(function(e) {
+    setPf(mode, t('push-error') + e.message, 'err');
+  }).then(function() {
+    document.getElementById('push' + s).disabled = false;
+  });
+}
+
+function setPf(mode, msg, cls) {
+  var el = document.getElementById('pf' + (mode === 'general' ? 'G' : 'N'));
+  el.textContent = msg;
+  el.className = 'push-feedback ' + (cls || '');
+}
+
+// Download
+function dlMd(mode) {
+  var s  = mode === 'general' ? 'G' : 'N';
+  var md = document.getElementById('review' + s).value.trim();
+  if (!md) return;
+  var title = V(mode === 'general' ? 'bookTitle' : 'novelTitle') || 'memo';
+  var date  = V(mode === 'general' ? 'readDate'  : 'novelDate')  || new Date().toISOString().slice(0, 10);
+  dl(md, date + '_' + title.replace(/[\\/:*?"<>|]/g, '') + '.md');
+}
+
+function dl(content, filename) {
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type: 'text/markdown;charset=utf-8' }));
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// Utils
+function V(id) { var e = document.getElementById(id); return e ? e.value : ''; }
+function esc(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', function() {
+  loadI18n();
+  applyI18n();
+  loadLibrary();
+  var today = new Date().toISOString().slice(0, 10);
+  document.getElementById('readDate').value  = today;
+  document.getElementById('novelDate').value = today;
+});
+
+</script>
 </body>
 </html>
